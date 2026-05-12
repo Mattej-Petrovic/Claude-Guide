@@ -1,0 +1,138 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="Reusable prompt templates that work for specific situations. The structured prompt, examples, role framing, plan-then-execute, critique-then-revise, the interrogator, anti-sycophancy, the reset, and the smaller moves that earn their place."><meta property="og:title" content="Prompting patterns — Claude Guide"><meta property="og:description" content="Reusable prompt templates that work for specific situations. The structured prompt, examples, role framing, plan-then-execute, critique-then-revise, the interrogator, anti-sycophancy, the reset, and the smaller moves that earn their place."><meta property="og:type" content="website"><meta property="og:url" content="https://claude-guide.dev/workflows/prompting-patterns/"><link rel="canonical" href="https://claude-guide.dev/workflows/prompting-patterns/"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><title>Prompting patterns — Claude Guide</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="/_assets/_slug_.20oY6Rwk.css"><script type="module" src="/_assets/hoisted.C95cCMEA.js"></script></head> <body> <a href="#main-content" class="skip-link">Skip to content</a> <div class="site-shell"> <nav class="topnav" aria-label="Site navigation"> <div class="topnav__inner"> <a href="/" class="topnav__logo">Claude Guide</a> <div class="topnav__nav" role="menubar"> <a href="/foundations/ecosystem" class="topnav__link" role="menuitem"> Foundations </a><a href="/products/claude-ai" class="topnav__link" role="menuitem"> Products </a><a href="/concepts/prompting" class="topnav__link" role="menuitem"> Concepts </a><a href="/extending/overview" class="topnav__link" role="menuitem"> Extending </a><a href="/workflows/claude-code" class="topnav__link is-active" role="menuitem" aria-current="page"> Workflows </a><a href="/library/commands" class="topnav__link" role="menuitem"> Library </a><a href="/settings/walkthrough" class="topnav__link" role="menuitem"> Settings </a> </div> <div class="topnav__right"> <button id="search-trigger" class="search-trigger" aria-label="Search" aria-expanded="false" aria-controls="search-modal"> <svg class="search-trigger__icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"> <circle cx="6.5" cy="6.5" r="4.5"></circle> <path d="M10.5 10.5L14 14" stroke-linecap="round"></path> </svg>
+Search
+<kbd class="search-trigger__kbd">⌘K</kbd> </button> <button id="hamburger" class="topnav__hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav"> <span></span> <span></span> <span></span> </button> </div> </div> </nav> <!-- Mobile nav overlay --> <div id="mobile-nav" class="mobile-nav" role="dialog" aria-label="Mobile navigation" aria-hidden="true"> <a href="/" class="mobile-nav__link" style="font-weight: 600; font-size: 1rem;">Claude Guide</a> <a href="/guide" class="mobile-nav__link">How to use this guide</a> <div class="mobile-nav__section"> <p class="mobile-nav__section-label">Foundations</p> </div><div class="mobile-nav__section"> <p class="mobile-nav__section-label">Products</p> </div><div class="mobile-nav__section"> <p class="mobile-nav__section-label">Concepts</p> </div><div class="mobile-nav__section"> <p class="mobile-nav__section-label">Extending</p> </div><div class="mobile-nav__section"> <p class="mobile-nav__section-label">Workflows</p> </div><div class="mobile-nav__section"> <p class="mobile-nav__section-label">Library</p> </div><div class="mobile-nav__section"> <p class="mobile-nav__section-label">Settings</p> </div> </div>  <div id="search-modal" role="dialog" aria-modal="true" aria-label="Search" aria-hidden="true" data-astro-cid-otpdt6jm> <div id="search-box" data-astro-cid-otpdt6jm> <svg id="search-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" data-astro-cid-otpdt6jm> <circle cx="6.5" cy="6.5" r="4.5" data-astro-cid-otpdt6jm></circle> <path d="M10.5 10.5L14 14" stroke-linecap="round" data-astro-cid-otpdt6jm></path> </svg> <input id="search-input" type="text" placeholder="Search…" autocomplete="off" spellcheck="false" aria-label="Search" aria-controls="search-results" aria-autocomplete="list" data-astro-cid-otpdt6jm> <button id="search-close" aria-label="Close search" data-astro-cid-otpdt6jm>✕</button> </div> <ul id="search-results" role="listbox" aria-label="Search results" data-astro-cid-otpdt6jm></ul> </div>    <div class="page-body"> <aside class="sidebar" aria-label="Section navigation"> <div class="sidebar__section"> <p class="sidebar__label">Workflows</p> <a href="/workflows/claude-code" class="sidebar__link"> Claude Code </a><a href="/workflows/cowork" class="sidebar__link"> Cowork </a><a href="/workflows/token-optimization" class="sidebar__link"> Token optimization </a><a href="/workflows/prompting-patterns" class="sidebar__link is-active" aria-current="page"> Prompting patterns </a><a href="/workflows/obsidian-graphify" class="sidebar__link"> Obsidian + Graphify </a> </div> </aside> <main id="main-content" class="main-content"> <div class="content-inner"> <h1 class="page-title">Prompting patterns</h1> <p class="page-lede">Reusable prompt templates that work for specific situations. The structured prompt, examples, role framing, plan-then-execute, critique-then-revise, the interrogator, anti-sycophancy, the reset, and the smaller moves that earn their place.</p> <div class="article-body" data-pagefind-body>  <p>The mental model is in <a href="/concepts/prompting">/concepts/prompting</a>: Claude reads everything in the context window and produces a continuation, so the job is to make a good answer the most likely thing for it to produce. This page is the next layer. Patterns you can copy and adapt for specific situations. Templates, not theory.</p>
+<p>None of these are magic. They work because they make context, intent, and shape explicit instead of leaving Claude to guess. Pick the ones that fit the task. Don’t stack all of them on a one-line question. A 200-token prompt for “what does this regex do” is ceremony, not engineering.</p>
+<h2 id="the-foundation-structured-prompt">The foundation: structured prompt</h2>
+<svg viewBox="0 0 700 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The structured prompt template, showing role, context, task, constraints, and output_format wrapped in XML tags, with each tag annotated to explain what it does.">
+  <text x="350" y="22" text-anchor="middle" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" font-weight="600" letter-spacing="1.2">THE STRUCTURED PROMPT</text>
+  <rect x="40" y="45" width="420" height="300" rx="4" fill="none" stroke="currentColor" stroke-width="1.5"></rect>
+  <text x="60" y="76" fill="#d97706" font-family="ui-monospace, monospace" font-size="12">&#x3C;role></text>
+  <text x="75" y="93" fill="currentColor" font-family="ui-monospace, monospace" font-size="12" opacity="0.7">senior Rails engineer reviewing PRs</text>
+  <text x="60" y="110" fill="#d97706" font-family="ui-monospace, monospace" font-size="12">&#x3C;/role></text>
+  <text x="60" y="140" fill="#d97706" font-family="ui-monospace, monospace" font-size="12">&#x3C;context></text>
+  <text x="75" y="157" fill="currentColor" font-family="ui-monospace, monospace" font-size="12" opacity="0.7">stack, conventions, what's already</text>
+  <text x="75" y="174" fill="currentColor" font-family="ui-monospace, monospace" font-size="12" opacity="0.7">been tried, what to avoid</text>
+  <text x="60" y="191" fill="#d97706" font-family="ui-monospace, monospace" font-size="12">&#x3C;/context></text>
+  <text x="60" y="221" fill="#d97706" font-family="ui-monospace, monospace" font-size="12">&#x3C;task></text>
+  <text x="75" y="238" fill="currentColor" font-family="ui-monospace, monospace" font-size="12" opacity="0.7">the specific thing you want done</text>
+  <text x="60" y="255" fill="#d97706" font-family="ui-monospace, monospace" font-size="12">&#x3C;/task></text>
+  <text x="60" y="285" fill="#d97706" font-family="ui-monospace, monospace" font-size="12">&#x3C;constraints> ... &#x3C;/constraints></text>
+  <text x="60" y="318" fill="#d97706" font-family="ui-monospace, monospace" font-size="12">&#x3C;output_format> ... &#x3C;/output_format></text>
+  <line x1="465" y1="92" x2="495" y2="92" stroke="currentColor" stroke-width="1" opacity="0.4"></line>
+  <text x="500" y="96" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="11" opacity="0.7">sets the frame</text>
+  <line x1="465" y1="165" x2="495" y2="165" stroke="currentColor" stroke-width="1" opacity="0.4"></line>
+  <text x="500" y="160" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="11" opacity="0.7">replaces what Claude</text>
+  <text x="500" y="175" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="11" opacity="0.7">can't see in your head</text>
+  <line x1="465" y1="238" x2="495" y2="238" stroke="currentColor" stroke-width="1" opacity="0.4"></line>
+  <text x="500" y="242" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="11" opacity="0.7">what you actually want</text>
+  <line x1="465" y1="285" x2="495" y2="285" stroke="currentColor" stroke-width="1" opacity="0.4"></line>
+  <text x="500" y="289" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="11" opacity="0.7">filter wrong-shaped answers</text>
+  <line x1="465" y1="318" x2="495" y2="318" stroke="currentColor" stroke-width="1" opacity="0.4"></line>
+  <text x="500" y="322" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="11" opacity="0.7">shape of the response</text>
+</svg>
+<p>For anything non-trivial, wrap your role, context, task, constraints, and output format in XML tags. Claude was trained on text where tagged structure carries meaning, so tagged sections give it handles to grip. Unstructured prose blurs into a single grey blob. Tagged sections let Claude navigate.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="xml"><code><span class="line"><span style="color:#E1E4E8">&#x3C;</span><span style="color:#85E89D">role</span><span style="color:#E1E4E8">></span></span>
+<span class="line"><span style="color:#E1E4E8">Senior security engineer reviewing pull requests for vulnerabilities.</span></span>
+<span class="line"><span style="color:#E1E4E8">&#x3C;/</span><span style="color:#85E89D">role</span><span style="color:#E1E4E8">></span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">&#x3C;</span><span style="color:#85E89D">context</span><span style="color:#E1E4E8">></span></span>
+<span class="line"><span style="color:#E1E4E8">Codebase is Next.js 15 + Supabase. We've been seeing CSRF issues recently.</span></span>
+<span class="line"><span style="color:#E1E4E8">Auth is custom JWT, not NextAuth.</span></span>
+<span class="line"><span style="color:#E1E4E8">&#x3C;/</span><span style="color:#85E89D">context</span><span style="color:#E1E4E8">></span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">&#x3C;</span><span style="color:#85E89D">task</span><span style="color:#E1E4E8">></span></span>
+<span class="line"><span style="color:#E1E4E8">Review this diff. Identify real vulnerabilities. Skip style nits.</span></span>
+<span class="line"><span style="color:#E1E4E8">&#x3C;/</span><span style="color:#85E89D">task</span><span style="color:#E1E4E8">></span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">&#x3C;</span><span style="color:#85E89D">constraints</span><span style="color:#E1E4E8">></span></span>
+<span class="line"><span style="color:#E1E4E8">- Don't soften feedback. If something is fine, say so quickly and move on.</span></span>
+<span class="line"><span style="color:#E1E4E8">- If you'd reject this PR, say why in one paragraph at the top.</span></span>
+<span class="line"><span style="color:#E1E4E8">&#x3C;/</span><span style="color:#85E89D">constraints</span><span style="color:#E1E4E8">></span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">&#x3C;</span><span style="color:#85E89D">output_format</span><span style="color:#E1E4E8">></span></span>
+<span class="line"><span style="color:#E1E4E8">1. Top-line verdict (1 paragraph).</span></span>
+<span class="line"><span style="color:#E1E4E8">2. Real issues, ranked by severity.</span></span>
+<span class="line"><span style="color:#E1E4E8">3. Anything fine but worth a future cleanup note.</span></span>
+<span class="line"><span style="color:#E1E4E8">&#x3C;/</span><span style="color:#85E89D">output_format</span><span style="color:#E1E4E8">></span></span>
+<span class="line"></span></code></pre>
+<p>Each section solves a different problem. Role sets the frame. Context replaces what Claude can’t see. Task gets you out of “I’ll guess what you mean.” Constraints filter out the wrong-shaped answer. Output format gives you something you can use without reformatting.</p>
+<p>When to skip it: simple one-shot questions. <em>“What does this regex match”</em> doesn’t need a scaffold. Structure pays off when a prompt has multiple distinct sections to navigate (context plus task plus examples plus constraints). For short, single-section prompts, plain prose works just as well, and the tag overhead becomes ceremony.</p>
+<h2 id="examples-for-anything-hard-to-describe">Examples for anything hard to describe</h2>
+<p>When you can’t describe the tone, format, or structure you want, show. Two or three examples beat any amount of adjective-stacking. Wrap them in <code>&#x3C;example></code> tags so Claude distinguishes them from instructions, and aim for three to five examples for non-trivial tasks.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="xml"><code><span class="line"><span style="color:#E1E4E8">&#x3C;</span><span style="color:#85E89D">task</span><span style="color:#E1E4E8">></span></span>
+<span class="line"><span style="color:#E1E4E8">Write the next paragraph in the same style and voice.</span></span>
+<span class="line"><span style="color:#E1E4E8">&#x3C;/</span><span style="color:#85E89D">task</span><span style="color:#E1E4E8">></span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">&#x3C;</span><span style="color:#85E89D">examples</span><span style="color:#E1E4E8">></span></span>
+<span class="line"><span style="color:#E1E4E8">&#x3C;</span><span style="color:#85E89D">example</span><span style="color:#E1E4E8">></span></span>
+<span class="line"><span style="color:#E1E4E8">The user object exists in three forms now: the database row, the API response, and the React state. They drift apart the moment one of them is mutated. The fix is not better sync; the fix is one source of truth.</span></span>
+<span class="line"><span style="color:#E1E4E8">&#x3C;/</span><span style="color:#85E89D">example</span><span style="color:#E1E4E8">></span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">&#x3C;</span><span style="color:#85E89D">example</span><span style="color:#E1E4E8">></span></span>
+<span class="line"><span style="color:#E1E4E8">Caching solves a real problem. It also introduces a new one: stale data nobody is responsible for. The trade is rarely worth it until the cost it is solving is measurable.</span></span>
+<span class="line"><span style="color:#E1E4E8">&#x3C;/</span><span style="color:#85E89D">example</span><span style="color:#E1E4E8">></span></span>
+<span class="line"><span style="color:#E1E4E8">&#x3C;/</span><span style="color:#85E89D">examples</span><span style="color:#E1E4E8">></span></span>
+<span class="line"></span></code></pre>
+<p>The example covers what the description can’t. Use this for tone, code style, document structure, anything where “I’ll know it when I see it” is closer to the truth than any explanation you’d write.</p>
+<h2 id="role--frame--constraints">Role + frame + constraints</h2>
+<p>For tasks where the <em>kind</em> of response matters, set the role and the frame at the top. The shift is real: the same diff gets a substantively different review depending on the frame.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>You are a senior security engineer reviewing a PR. Your goal is to find real vulnerabilities, not style nits. You don't soften feedback or hedge. If something is fine, say so quickly and move on.</span></span>
+<span class="line"><span></span></span></code></pre>
+<p>Roles work when they constrain the response, not when they inflate it. “You are the world’s leading expert in distributed systems” doesn’t make Claude smarter. It just makes the reply read like marketing. “You are a senior engineer reviewing this for production readiness, with a bias toward shipping over perfecting” actually shapes the answer.</p>
+<p>In API contexts, the role belongs in the system prompt rather than the user message. In claude.ai chat or Cowork where there’s no system prompt to edit, put it at the top of your first message.</p>
+<h2 id="plan-first-then-execute">Plan first, then execute</h2>
+<p>For anything multi-step, separate the plan from the doing. Two reasons: the plan is cheaper to fix than the execution, and the plan tells you whether Claude understood the task.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>1. First, plan the approach. List the steps, the files you'd touch, the trade-offs you're making, and anything you're unsure about. Don't write any code yet.</span></span>
+<span class="line"><span>2. Wait for me to approve or correct the plan.</span></span>
+<span class="line"><span>3. Then execute.</span></span>
+<span class="line"><span></span></span></code></pre>
+<p>In Claude Code, plan mode (Shift+Tab) builds this into the tool. In chat, you set it up with the prompt. Both produce the same compound effect: fewer wasted execution attempts, better catches at the cheap stage.</p>
+<p>Variant for hard problems: trigger deeper reasoning with phrases like “think hard,” “think step by step,” or “ultrathink” (Claude Code specifically). These actually change how Claude approaches the task, with the thinking happening before the visible response. Use them when the task has multiple constraints to satisfy or genuine ambiguity. Skip them for simple queries since they cost tokens and add latency.</p>
+<h2 id="critique-then-revise">Critique then revise</h2>
+<p>After Claude produces something, ask it to find the flaws.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>Now critique that draft. What's weak? What's a reader likely to push back on? What's a more interesting version of the argument that you didn't make? Then revise.</span></span>
+<span class="line"><span></span></span></code></pre>
+<p>This is the highest-leverage move for writing tasks. The first draft is almost never the best draft Claude can produce; it’s the most agreeable one. The critique pass surfaces the better version that was always available.</p>
+<p>Stronger variant: have Claude critique as a specific persona. <em>“Critique this as a skeptical senior engineer reading it for the first time.”</em> The persona constrains the critique to a useful shape instead of producing generic “could be more concise” feedback.</p>
+<h2 id="the-interrogator-have-claude-ask-you-questions">The interrogator: have Claude ask you questions</h2>
+<p>When the task is ambiguous or you’re not sure what you actually want, ask Claude to ask <em>you</em> questions first.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>I want to redesign the onboarding flow for our app. Before you propose anything, ask me 3-5 questions whose answers would meaningfully change your approach.</span></span>
+<span class="line"><span></span></span></code></pre>
+<p>This pattern surfaces things you didn’t realise you hadn’t decided. Claude’s questions are usually better than your initial framing, and answering them is faster than reading three drafts of the wrong design.</p>
+<p>Variant for new projects: <em>“Ask me questions until you can write a one-paragraph spec for what I want, then write the spec.”</em> You end up with a written spec you can paste into the next prompt.</p>
+<h2 id="anti-sycophancy-ask-for-pushback-explicitly">Anti-sycophancy: ask for pushback explicitly</h2>
+<p>Claude defaults to agreeable. If you want pushback, you have to ask.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>Push back on my reasoning if anything is wrong. Tell me which assumption is weakest. If you can think of a stronger counter-argument than the one I'm anticipating, give me that.</span></span>
+<span class="line"><span></span></span></code></pre>
+<p>Without this prompt, you get warm agreement that your idea is interesting. With it, you get the critique you actually need.</p>
+<p>Use it when you’ve made a decision and want to stress-test it. Don’t use it when you’re brainstorming. Forcing critique mode on an exploration step kills the exploration.</p>
+<h2 id="the-reset">The reset</h2>
+<p>When a long conversation has drifted, the highest-leverage move is starting over, not arguing your way back. The bad context keeps pulling outputs toward bad answers. Trying to reason past it costs more tokens than the reset would.</p>
+<p>The pattern:</p>
+<ol>
+<li>Ask Claude to summarise what matters from this conversation: decisions made, things tried, what works, what doesn’t.</li>
+<li>Copy the summary.</li>
+<li>Open a new chat. Paste the summary as your first message, along with what you want next.</li>
+</ol>
+<p>You keep the context you need, drop the noise, and Claude starts from a clean state. The same idea expressed in Claude Code is <code>/clear</code>, and in Cowork it’s a new session. In all three surfaces, the underlying move is the same: trade conversation history for a clean prompt.</p>
+<h2 id="smaller-moves-that-pay-off">Smaller moves that pay off</h2>
+<p>A few one-liner patterns that don’t deserve their own section but earn their place:</p>
+<p><strong>Self-check appendage.</strong> <em>“Before you finish, verify your answer against [test criteria].”</em> This catches errors reliably for coding and math tasks. Cheap to add, often surfaces real problems.</p>
+<p><strong>Ground in quotes for long documents.</strong> <em>“Before you answer, quote the parts of the document most relevant to the question.”</em> Useful when Claude is reasoning over a long doc and you want to make sure it’s actually engaging with the right parts, not making up an answer that sounds plausible.</p>
+<p><strong>Pre-fill (API and Claude Code).</strong> Start Claude’s response for it. Beginning the assistant turn with <code>{</code> forces JSON output. Beginning with <code>&#x3C;answer></code> forces a structured response. Beginning with the first word of the answer skips past hedging preambles like “It depends…” or “I cannot…”. Useful when Claude keeps stalling on something it can clearly do, or when you want strictly-formatted output.</p>
+<h2 id="common-mistakes">Common mistakes</h2>
+<p><strong>Stacking patterns on simple queries.</strong> Five tags, a role, an interrogator request, and a critique pass for <em>“what does this regex do”</em> is ceremony, not engineering. Match the pattern to the task.</p>
+<p><strong>Treating XML tags as decoration.</strong> Tags work because they delimit semantic sections, not because they look professional. <code>&#x3C;thing>random words&#x3C;/thing></code> doesn’t help. <code>&#x3C;context>actual context&#x3C;/context></code> does.</p>
+<p><strong>Role priming for inflation.</strong> “World’s foremost expert” doesn’t make answers better. It just makes the reply read like marketing. Roles work when they constrain the answer, not when they inflate it.</p>
+<p><strong>Asking for short when you want depth.</strong> “Briefly” is read literally. If you want a depth-first answer, ask for depth and edit afterward. The same goes the other way. If you want concise, say so explicitly. “No preamble, no conclusion paragraph, bullets only” produces what you want. “Try to be concise if you can” produces a suggestion Claude is free to ignore.</p>
+<p><strong>Reasoning past a derailed conversation.</strong> Five messages of Claude stuck on the wrong assumption almost never get fixed by a sixth message. Reset.</p>
+<h2 id="when-to-combine-patterns">When to combine patterns</h2>
+<p>The patterns layer. Common useful combinations:</p>
+<ul>
+<li><strong>Structured prompt + plan-then-execute</strong> for any non-trivial coding task.</li>
+<li><strong>Role + critique-then-revise</strong> for writing tasks where genre matters.</li>
+<li><strong>Interrogator + structured prompt</strong> for novel work where you’re not sure what you want yet.</li>
+<li><strong>Anti-sycophancy + critique-then-revise</strong> when you want a real second opinion, not a polished agreement.</li>
+<li><strong>Self-check + plan-then-execute</strong> when correctness matters more than speed.</li>
+</ul>
+<p>The point of having a catalogue of patterns isn’t to apply all of them at once. It’s to reach for the right one. Each task needs different combinations, and over time you’ll start to feel which patterns the task is calling for before you write the prompt.</p>  </div> </div> </main> </div>  </div>  </body> </html>

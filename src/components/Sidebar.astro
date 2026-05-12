@@ -1,0 +1,96 @@
+---
+interface Props {
+  currentSection: string;
+  currentPath: string;
+}
+
+const { currentSection, currentPath } = Astro.props;
+
+const sectionPages: Record<string, { label: string; href: string }[]> = {
+  foundations: [
+    { label: 'Ecosystem',          href: '/foundations/ecosystem'        },
+    { label: 'Models',             href: '/foundations/models'           },
+    { label: 'Choosing a product', href: '/foundations/choosing-a-product' },
+    { label: 'Mythos',             href: '/foundations/mythos'           },
+  ],
+  products: [
+    { label: 'Claude.ai',   href: '/products/claude-ai'  },
+    { label: 'Claude Code', href: '/products/claude-code' },
+    { label: 'Cowork',      href: '/products/cowork'      },
+    { label: 'Chrome',      href: '/products/chrome'      },
+    { label: 'Design',      href: '/products/design'      },
+    { label: 'Dispatch',    href: '/products/dispatch'    },
+    { label: 'Phone',       href: '/products/phone'       },
+  ],
+  concepts: [
+    { label: 'Prompting',      href: '/concepts/prompting'      },
+    { label: 'Memory',         href: '/concepts/memory'         },
+    { label: 'Projects',       href: '/concepts/projects'       },
+    { label: 'Artifacts',      href: '/concepts/artifacts'      },
+    { label: 'Research',       href: '/concepts/research'       },
+    { label: 'Subagents',      href: '/concepts/subagents'      },
+    { label: 'Project files',  href: '/concepts/project-files'  },
+    { label: 'Hooks',          href: '/concepts/hooks'          },
+    { label: 'Output styles',  href: '/concepts/output-styles'  },
+    { label: 'Permissions',    href: '/concepts/permissions'    },
+  ],
+  extending: [
+    { label: 'Overview',    href: '/extending/overview'    },
+    { label: 'Skills',      href: '/extending/skills'      },
+    { label: 'MCP',         href: '/extending/mcp'         },
+    { label: 'Connectors',  href: '/extending/connectors'  },
+    { label: 'Plugins',     href: '/extending/plugins'     },
+    { label: 'Commands',    href: '/extending/commands'    },
+  ],
+  workflows: [
+    { label: 'Claude Code',        href: '/workflows/claude-code'        },
+    { label: 'Cowork',             href: '/workflows/cowork'             },
+    { label: 'Token optimization', href: '/workflows/token-optimization'  },
+    { label: 'Prompting patterns', href: '/workflows/prompting-patterns'  },
+    { label: 'Obsidian + Graphify',href: '/workflows/obsidian-graphify'   },
+  ],
+  library: [
+    { label: 'Commands',    href: '/library/commands'    },
+    { label: 'Skills',      href: '/library/skills'      },
+    { label: 'Plugins',     href: '/library/plugins'     },
+    { label: 'MCP servers', href: '/library/mcp-servers' },
+  ],
+  settings: [
+    { label: 'Walkthrough', href: '/settings/walkthrough' },
+    { label: 'Usage',       href: '/settings/usage'       },
+  ],
+};
+
+const sectionLabel: Record<string, string> = {
+  foundations: 'Foundations',
+  products:    'Products',
+  concepts:    'Concepts',
+  extending:   'Extending',
+  workflows:   'Workflows',
+  library:     'Library',
+  settings:    'Settings',
+};
+
+const pages = sectionPages[currentSection] ?? [];
+const label = sectionLabel[currentSection] ?? '';
+---
+
+<aside class="sidebar" aria-label="Section navigation">
+  {pages.length > 0 && (
+    <div class="sidebar__section">
+      <p class="sidebar__label">{label}</p>
+      {pages.map((page) => {
+        const isActive = currentPath === page.href || currentPath === page.href + '/';
+        return (
+          <a
+            href={page.href}
+            class={`sidebar__link${isActive ? ' is-active' : ''}`}
+            aria-current={isActive ? 'page' : undefined}
+          >
+            {page.label}
+          </a>
+        );
+      })}
+    </div>
+  )}
+</aside>

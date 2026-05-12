@@ -1,0 +1,141 @@
+---
+interface Props {
+  currentSection?: string;
+}
+
+const { currentSection } = Astro.props;
+
+const sections = [
+  { label: 'Foundations', href: '/foundations/ecosystem', id: 'foundations' },
+  { label: 'Products',    href: '/products/claude-ai',    id: 'products'    },
+  { label: 'Concepts',   href: '/concepts/prompting',    id: 'concepts'    },
+  { label: 'Extending',  href: '/extending/overview',    id: 'extending'   },
+  { label: 'Workflows',  href: '/workflows/claude-code', id: 'workflows'   },
+  { label: 'Library',    href: '/library/commands',      id: 'library'     },
+  { label: 'Settings',   href: '/settings/walkthrough',  id: 'settings'    },
+];
+---
+
+<nav class="topnav" aria-label="Site navigation">
+  <div class="topnav__inner">
+    <a href="/" class="topnav__logo">Claude Guide</a>
+
+    <div class="topnav__nav" role="menubar">
+      {sections.map((s) => (
+        <a
+          href={s.href}
+          class={`topnav__link${currentSection === s.id ? ' is-active' : ''}`}
+          role="menuitem"
+          aria-current={currentSection === s.id ? 'page' : undefined}
+        >
+          {s.label}
+        </a>
+      ))}
+    </div>
+
+    <div class="topnav__right">
+      <button
+        id="search-trigger"
+        class="search-trigger"
+        aria-label="Search"
+        aria-expanded="false"
+        aria-controls="search-modal"
+      >
+        <svg class="search-trigger__icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <circle cx="6.5" cy="6.5" r="4.5" />
+          <path d="M10.5 10.5L14 14" stroke-linecap="round" />
+        </svg>
+        Search
+        <kbd class="search-trigger__kbd">⌘K</kbd>
+      </button>
+
+      <button
+        id="hamburger"
+        class="topnav__hamburger"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile nav overlay -->
+<div id="mobile-nav" class="mobile-nav" role="dialog" aria-label="Mobile navigation" aria-hidden="true">
+  <a href="/" class="mobile-nav__link" style="font-weight: 600; font-size: 1rem;">Claude Guide</a>
+  <a href="/guide" class="mobile-nav__link">How to use this guide</a>
+
+  {sections.map((s) => (
+    <div class="mobile-nav__section">
+      <p class="mobile-nav__section-label">{s.label}</p>
+    </div>
+  ))}
+</div>
+
+<script>
+  const hamburger = document.getElementById('hamburger')!;
+  const mobileNav = document.getElementById('mobile-nav')!;
+  const searchTrigger = document.getElementById('search-trigger')!;
+  const searchModal = document.getElementById('search-modal');
+
+  hamburger.addEventListener('click', () => {
+    const isOpen = mobileNav.classList.toggle('is-open');
+    hamburger.setAttribute('aria-expanded', String(isOpen));
+    mobileNav.setAttribute('aria-hidden', String(!isOpen));
+    hamburger.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+
+    // Animate hamburger lines to X
+    const spans = hamburger.querySelectorAll('span');
+    if (isOpen) {
+      (spans[0] as HTMLElement).style.transform = 'translateY(6.5px) rotate(45deg)';
+      (spans[1] as HTMLElement).style.opacity = '0';
+      (spans[2] as HTMLElement).style.transform = 'translateY(-6.5px) rotate(-45deg)';
+    } else {
+      (spans[0] as HTMLElement).style.transform = '';
+      (spans[1] as HTMLElement).style.opacity = '';
+      (spans[2] as HTMLElement).style.transform = '';
+    }
+  });
+
+  // Open search modal
+  if (searchModal) {
+    searchTrigger.addEventListener('click', () => {
+      searchModal.classList.add('is-open');
+      searchTrigger.setAttribute('aria-expanded', 'true');
+    });
+
+    // Close on backdrop click
+    searchModal.addEventListener('click', (e) => {
+      if (e.target === searchModal) {
+        searchModal.classList.remove('is-open');
+        searchTrigger.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  // Keyboard shortcut ⌘K / Ctrl+K
+  document.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault();
+      if (searchModal) {
+        const isOpen = searchModal.classList.toggle('is-open');
+        searchTrigger.setAttribute('aria-expanded', String(isOpen));
+      }
+    }
+    if (e.key === 'Escape') {
+      if (searchModal?.classList.contains('is-open')) {
+        searchModal.classList.remove('is-open');
+        searchTrigger.setAttribute('aria-expanded', 'false');
+      }
+      if (mobileNav.classList.contains('is-open')) {
+        mobileNav.classList.remove('is-open');
+        hamburger.setAttribute('aria-expanded', 'false');
+        mobileNav.setAttribute('aria-hidden', 'true');
+      }
+    }
+  });
+</script>

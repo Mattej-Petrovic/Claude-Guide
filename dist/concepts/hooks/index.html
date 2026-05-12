@@ -1,0 +1,142 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="Scripts that run at lifecycle events to enforce behavior Claude can't bypass. The deterministic control layer."><meta property="og:title" content="Hooks — Claude Guide"><meta property="og:description" content="Scripts that run at lifecycle events to enforce behavior Claude can't bypass. The deterministic control layer."><meta property="og:type" content="website"><meta property="og:url" content="https://claude-guide.dev/concepts/hooks/"><link rel="canonical" href="https://claude-guide.dev/concepts/hooks/"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><title>Hooks — Claude Guide</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="/_assets/_slug_.20oY6Rwk.css"><script type="module" src="/_assets/hoisted.C95cCMEA.js"></script></head> <body> <a href="#main-content" class="skip-link">Skip to content</a> <div class="site-shell"> <nav class="topnav" aria-label="Site navigation"> <div class="topnav__inner"> <a href="/" class="topnav__logo">Claude Guide</a> <div class="topnav__nav" role="menubar"> <a href="/foundations/ecosystem" class="topnav__link" role="menuitem"> Foundations </a><a href="/products/claude-ai" class="topnav__link" role="menuitem"> Products </a><a href="/concepts/prompting" class="topnav__link is-active" role="menuitem" aria-current="page"> Concepts </a><a href="/extending/overview" class="topnav__link" role="menuitem"> Extending </a><a href="/workflows/claude-code" class="topnav__link" role="menuitem"> Workflows </a><a href="/library/commands" class="topnav__link" role="menuitem"> Library </a><a href="/settings/walkthrough" class="topnav__link" role="menuitem"> Settings </a> </div> <div class="topnav__right"> <button id="search-trigger" class="search-trigger" aria-label="Search" aria-expanded="false" aria-controls="search-modal"> <svg class="search-trigger__icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"> <circle cx="6.5" cy="6.5" r="4.5"></circle> <path d="M10.5 10.5L14 14" stroke-linecap="round"></path> </svg>
+Search
+<kbd class="search-trigger__kbd">⌘K</kbd> </button> <button id="hamburger" class="topnav__hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav"> <span></span> <span></span> <span></span> </button> </div> </div> </nav> <!-- Mobile nav overlay --> <div id="mobile-nav" class="mobile-nav" role="dialog" aria-label="Mobile navigation" aria-hidden="true"> <a href="/" class="mobile-nav__link" style="font-weight: 600; font-size: 1rem;">Claude Guide</a> <a href="/guide" class="mobile-nav__link">How to use this guide</a> <div class="mobile-nav__section"> <p class="mobile-nav__section-label">Foundations</p> </div><div class="mobile-nav__section"> <p class="mobile-nav__section-label">Products</p> </div><div class="mobile-nav__section"> <p class="mobile-nav__section-label">Concepts</p> </div><div class="mobile-nav__section"> <p class="mobile-nav__section-label">Extending</p> </div><div class="mobile-nav__section"> <p class="mobile-nav__section-label">Workflows</p> </div><div class="mobile-nav__section"> <p class="mobile-nav__section-label">Library</p> </div><div class="mobile-nav__section"> <p class="mobile-nav__section-label">Settings</p> </div> </div>  <div id="search-modal" role="dialog" aria-modal="true" aria-label="Search" aria-hidden="true" data-astro-cid-otpdt6jm> <div id="search-box" data-astro-cid-otpdt6jm> <svg id="search-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" data-astro-cid-otpdt6jm> <circle cx="6.5" cy="6.5" r="4.5" data-astro-cid-otpdt6jm></circle> <path d="M10.5 10.5L14 14" stroke-linecap="round" data-astro-cid-otpdt6jm></path> </svg> <input id="search-input" type="text" placeholder="Search…" autocomplete="off" spellcheck="false" aria-label="Search" aria-controls="search-results" aria-autocomplete="list" data-astro-cid-otpdt6jm> <button id="search-close" aria-label="Close search" data-astro-cid-otpdt6jm>✕</button> </div> <ul id="search-results" role="listbox" aria-label="Search results" data-astro-cid-otpdt6jm></ul> </div>    <div class="page-body"> <aside class="sidebar" aria-label="Section navigation"> <div class="sidebar__section"> <p class="sidebar__label">Concepts</p> <a href="/concepts/prompting" class="sidebar__link"> Prompting </a><a href="/concepts/memory" class="sidebar__link"> Memory </a><a href="/concepts/projects" class="sidebar__link"> Projects </a><a href="/concepts/artifacts" class="sidebar__link"> Artifacts </a><a href="/concepts/research" class="sidebar__link"> Research </a><a href="/concepts/subagents" class="sidebar__link"> Subagents </a><a href="/concepts/project-files" class="sidebar__link"> Project files </a><a href="/concepts/hooks" class="sidebar__link is-active" aria-current="page"> Hooks </a><a href="/concepts/output-styles" class="sidebar__link"> Output styles </a><a href="/concepts/permissions" class="sidebar__link"> Permissions </a> </div> </aside> <main id="main-content" class="main-content"> <div class="content-inner"> <h1 class="page-title">Hooks</h1> <p class="page-lede">Scripts that run at lifecycle events to enforce behavior Claude can&#39;t bypass. The deterministic control layer.</p> <div class="article-body" data-pagefind-body>  <p>A hook is a script that runs automatically at a specific point in Claude Code’s lifecycle. Configured in <code>.claude/settings.json</code>, fired at events you choose, with full power to block, modify, or log what is happening.</p>
+<p>The fundamental shift in mental model: <strong>hooks guarantee behavior, prompts only suggest it.</strong> Writing “never run rm -rf” in CLAUDE.md is hope. A PreToolUse hook that exits with code 2 when it sees <code>rm -rf</code> is enforcement at the execution layer. The agent cannot bypass it, forget it, or reason its way around it.</p>
+<p>This makes hooks the most powerful primitive after MCP for shipping Claude Code in environments where you actually need predictable behavior.</p>
+<h2 id="how-it-works">How it works</h2>
+<p>A hook has three parts:</p>
+<ul>
+<li><strong>The event</strong> it fires on (PreToolUse, PostToolUse, SessionStart, Stop, and others)</li>
+<li><strong>A matcher</strong> that filters which tool calls trigger it (Bash, Write, Edit, or combinations)</li>
+<li><strong>A handler</strong> that runs and decides what happens (a shell command, an HTTP endpoint, a prompt, or an agent)</li>
+</ul>
+<p>Events fire at specific points in the agent loop. There are roughly 21 events as of March 2026, but six carry most of the weight.</p>
+<svg viewBox="0 0 800 580" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Claude Code hook lifecycle showing where each hook event fires during a session, turn, and tool call" style="max-width: 100%; height: auto; margin: 2rem 0;">
+  <defs>
+    <style>
+      .frame-outer { fill: none; stroke: #d97706; stroke-width: 1.5; opacity: 0.7; }
+      .frame { fill: none; stroke: currentColor; stroke-width: 1; opacity: 0.35; }
+      .frame-label { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; opacity: 0.5; }
+      .frame-label-accent { fill: #d97706; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; }
+      .hook-name { fill: currentColor; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; opacity: 0.95; font-weight: 600; }
+      .hook-desc { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 12px; opacity: 0.65; }
+      .action { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 12px; opacity: 0.5; }
+    </style>
+  </defs>
+  <rect x="20" y="20" width="760" height="540" rx="10" class="frame-outer"></rect>
+  <text x="40" y="45" class="frame-label-accent">SESSION  ·  PER-SESSION EVENTS FIRE ONCE</text>
+  <text x="60" y="85" class="hook-name">▶ SessionStart</text>
+  <text x="200" y="85" class="hook-desc">Inject context: git branch, recent TODOs, env state, any setup</text>
+  <rect x="50" y="105" width="700" height="380" rx="8" class="frame"></rect>
+  <text x="70" y="128" class="frame-label">TURN  ·  FIRES PER USER MESSAGE</text>
+  <text x="90" y="160" class="hook-name">▶ UserPromptSubmit</text>
+  <text x="240" y="160" class="hook-desc">Validate or enrich the prompt before Claude reads it</text>
+  <rect x="80" y="180" width="640" height="225" rx="6" class="frame"></rect>
+  <text x="100" y="203" class="frame-label">TOOL CALL  ·  LOOPS, ONCE PER TOOL</text>
+  <text x="120" y="235" class="hook-name">▶ PreToolUse</text>
+  <text x="240" y="235" class="hook-desc">Allow, deny, or modify tool input. Block dangerous commands here.</text>
+  <text x="120" y="275" class="action">↓ Tool executes  ·  Bash, Write, Edit, Read, WebFetch, MCP tools</text>
+  <text x="120" y="315" class="hook-name">▶ PostToolUse</text>
+  <text x="240" y="315" class="hook-desc">Format, lint, log, or inject feedback back to Claude as context</text>
+  <text x="120" y="365" class="action">↻ Loops until Claude is done with the task</text>
+  <text x="90" y="445" class="hook-name">▶ Stop</text>
+  <text x="160" y="445" class="hook-desc">Block to force continuation (this is what /loop uses), or run cleanup</text>
+  <text x="60" y="525" class="hook-name">▶ SessionEnd</text>
+  <text x="190" y="525" class="hook-desc">Cleanup, persist state, append to audit logs</text>
+</svg>
+<p>The handler receives JSON about the event on stdin. It can return its own JSON to control what happens next, or just exit with a code. Exit code 2 is special: from a PreToolUse hook it blocks the action, from a Stop hook it forces Claude to keep working.</p>
+<h2 id="the-four-handler-types">The four handler types</h2>
+<p><strong>Command.</strong> Runs a shell script. Reads JSON on stdin, optionally writes JSON to stdout, exits with a code. Fast, deterministic, the default. Use these for the vast majority of hooks: linting, blocking, logging, formatting.</p>
+<p><strong>HTTP.</strong> Sends the event JSON as a POST request to a URL, reads the response. Useful for team-wide policies enforced from a central server, or for forwarding hook events to a monitoring pipeline. Released February 2026.</p>
+<p><strong>Prompt.</strong> Sends the event context to a Claude model for single-turn evaluation. The model returns a decision. Use this when the call needs semantic judgment (“is this a destructive migration or a routine one?”) rather than pattern matching.</p>
+<p><strong>Agent.</strong> Spawns a subagent with full tool access for deep analysis. Use sparingly. Most hooks should be milliseconds; agent hooks are seconds to minutes and burn tokens.</p>
+<h2 id="decision-control">Decision control</h2>
+<p>Hooks talk back through exit codes and JSON output. Three patterns matter most.</p>
+<p><strong>Exit code 2 from PreToolUse</strong> blocks the tool call. Whatever you printed to stderr gets injected back into Claude’s context so it knows why and can adapt.</p>
+<p><strong>Exit code 2 from Stop</strong> forces Claude to keep working. This is the mechanism behind <code>/loop</code> and behind completion gates that prevent Claude from finishing before tests pass.</p>
+<p><strong>JSON output with <code>additionalContext</code></strong> is the underrated power tool. Any hook can echo JSON containing <code>additionalContext</code>, and that text gets fed into Claude’s working context. This is how feedback loops work: linter finds an error, hook injects “tests failing in <code>foo.ts</code>” as context, Claude fixes it on the next turn without you saying a word.</p>
+<p>PreToolUse can also return JSON with <code>permissionDecision</code> set to <code>allow</code>, <code>deny</code>, or <code>ask</code>. The <code>updatedInput</code> field lets you modify tool input before it runs (since v2.0.10), which means hooks can transparently rewrite commands: add <code>--dry-run</code> flags, redact secrets, fix paths, anything.</p>
+<h2 id="high-leverage-patterns">High-leverage patterns</h2>
+<p>These are what experienced practitioners actually run.</p>
+<p><strong>Safety gate.</strong> PreToolUse on Bash that blocks destructive commands. The minimum viable security setup:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#79B8FF">  "hooks"</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#79B8FF">    "PreToolUse"</span><span style="color:#E1E4E8">: [{</span></span>
+<span class="line"><span style="color:#79B8FF">      "matcher"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"Bash"</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">      "hooks"</span><span style="color:#E1E4E8">: [{</span></span>
+<span class="line"><span style="color:#79B8FF">        "type"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"command"</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">        "command"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"echo </span><span style="color:#79B8FF">\"</span><span style="color:#9ECBFF">$CLAUDE_TOOL_INPUT</span><span style="color:#79B8FF">\"</span><span style="color:#9ECBFF"> | grep -qE 'rm -rf|DROP TABLE|curl.*</span><span style="color:#79B8FF">\\</span><span style="color:#9ECBFF">| *sh' &#x26;&#x26; exit 2 || exit 0"</span></span>
+<span class="line"><span style="color:#E1E4E8">      }]</span></span>
+<span class="line"><span style="color:#E1E4E8">    }]</span></span>
+<span class="line"><span style="color:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span></code></pre>
+<p><strong>Auto-format on write.</strong> PostToolUse on Write|Edit, runs prettier and eslint automatically. Removes a class of nagging entirely:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#79B8FF">  "hooks"</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#79B8FF">    "PostToolUse"</span><span style="color:#E1E4E8">: [{</span></span>
+<span class="line"><span style="color:#79B8FF">      "matcher"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"Write|Edit|MultiEdit"</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">      "hooks"</span><span style="color:#E1E4E8">: [</span></span>
+<span class="line"><span style="color:#E1E4E8">        { </span><span style="color:#79B8FF">"type"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"command"</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">"command"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"npx prettier --write </span><span style="color:#79B8FF">\"</span><span style="color:#9ECBFF">$CLAUDE_TOOL_INPUT_FILE_PATH</span><span style="color:#79B8FF">\"</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8"> },</span></span>
+<span class="line"><span style="color:#E1E4E8">        { </span><span style="color:#79B8FF">"type"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"command"</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">"command"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"npx eslint --fix </span><span style="color:#79B8FF">\"</span><span style="color:#9ECBFF">$CLAUDE_TOOL_INPUT_FILE_PATH</span><span style="color:#79B8FF">\"</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8"> }</span></span>
+<span class="line"><span style="color:#E1E4E8">      ]</span></span>
+<span class="line"><span style="color:#E1E4E8">    }]</span></span>
+<span class="line"><span style="color:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span></code></pre>
+<p>Multiple hooks on the same event run in parallel.</p>
+<p><strong>Quality feedback loop.</strong> PostToolUse runs your linter or type-checker. If it finds errors, the hook injects them back into Claude’s context as <code>additionalContext</code>. Claude reads the errors next turn and fixes them autonomously, no human round-trip. This is the pattern that turns hooks from passive gates into active participants in the agent loop.</p>
+<p><strong>Audit trail.</strong> PreToolUse on Bash that appends every command Claude runs to a log file. Forensic record of what the agent did, when, and why. Useful for debugging, compliance, and the inevitable conversation about what happened.</p>
+<p><strong>Context injection at start.</strong> SessionStart hook that runs once and dumps the current git branch, recent commits, open TODOs, or any other live state into Claude’s context. Claude shows up oriented without you typing the brief every time.</p>
+<p><strong>Completion gate.</strong> Stop hook that runs your test suite. If tests fail, exit code 2 forces Claude to keep working until they pass. Same mechanism <code>/loop</code> uses for autonomous repeat workflows.</p>
+<p><strong>Permission auto-approval.</strong> PermissionRequest hook that auto-approves known-safe commands (<code>npm run lint</code>, <code>git status</code>, anything matching your allowlist) and routes the rest to you. Less interruption, same safety.</p>
+<p><strong>Notification routing.</strong> Notification hook fires when Claude is waiting for permission or has been idle. Pipe it to desktop pop-ups, Slack, or your phone. This is how people approve permission requests from outside the terminal during long-running sessions.</p>
+<p><strong>Compaction protection.</strong> PreCompact hook snapshots critical context, plus a SessionStart hook with the <code>compact</code> source re-injects it after compaction. Stops important rules from getting silently lost when context gets trimmed.</p>
+<h2 id="common-mistakes">Common mistakes</h2>
+<p><strong>Putting in CLAUDE.md what should be a hook.</strong> “Always run prettier after editing” is a wish. A PostToolUse prettier hook is a guarantee. If you find yourself adding rules to CLAUDE.md that get ignored, ask whether a hook would enforce them instead.</p>
+<p><strong>Slow hooks.</strong> Every PreToolUse hook adds latency to every tool call. A 500ms hook on Bash makes every shell command in your session half a second slower. Use timeouts, run hooks in parallel, mark non-blocking hooks <code>async: true</code>.</p>
+<p><strong>Putting secrets in hook commands.</strong> Hooks live in <code>.claude/settings.json</code> which is committed to git. Tokens go in env vars and get referenced as <code>$VAR</code> in the hook. Never inline.</p>
+<p><strong>Forgetting hooks fail silently.</strong> A broken hook does not crash your session. It just stops working. Toggle Claude Code’s verbose mode (<code>Ctrl+O</code>) to see hook stdout/stderr when debugging.</p>
+<p><strong>Over-blocking.</strong> A PreToolUse hook that is too strict blocks legitimate work and trains you to ignore the alerts. Block what is actually dangerous, not what is merely unusual.</p>
+<p><strong>Reimplementing what a linter handles.</strong> If ESLint catches it, ESLint should be the one catching it. Do not reimplement deterministic checks as bespoke hooks; just run the existing tool from the hook.</p>
+<p><strong>Treating hooks as a substitute for trust.</strong> Hooks are guardrails, not parents. Do not write 50 hooks to micro-manage Claude. Write the few that matter and trust the rest.</p>
+<h2 id="examples">Examples</h2>
+<p><strong>The minimum viable <code>.claude/settings.json</code></strong> that catches most issues:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#79B8FF">  "permissions"</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#79B8FF">    "deny"</span><span style="color:#E1E4E8">: [</span><span style="color:#9ECBFF">"Bash(rm -rf:*)"</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">"Read(.env)"</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#E1E4E8">  },</span></span>
+<span class="line"><span style="color:#79B8FF">  "hooks"</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#79B8FF">    "PreToolUse"</span><span style="color:#E1E4E8">: [{</span></span>
+<span class="line"><span style="color:#79B8FF">      "matcher"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"Write|Edit"</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">      "hooks"</span><span style="color:#E1E4E8">: [{ </span><span style="color:#79B8FF">"type"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"command"</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">"command"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"scripts/secret-scan.sh"</span><span style="color:#E1E4E8"> }]</span></span>
+<span class="line"><span style="color:#E1E4E8">    }],</span></span>
+<span class="line"><span style="color:#79B8FF">    "PostToolUse"</span><span style="color:#E1E4E8">: [{</span></span>
+<span class="line"><span style="color:#79B8FF">      "matcher"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"Write|Edit"</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">      "hooks"</span><span style="color:#E1E4E8">: [{ </span><span style="color:#79B8FF">"type"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"command"</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">"command"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"npx prettier --write </span><span style="color:#79B8FF">\"</span><span style="color:#9ECBFF">$CLAUDE_TOOL_INPUT_FILE_PATH</span><span style="color:#79B8FF">\"</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8"> }]</span></span>
+<span class="line"><span style="color:#E1E4E8">    }],</span></span>
+<span class="line"><span style="color:#79B8FF">    "SessionStart"</span><span style="color:#E1E4E8">: [{</span></span>
+<span class="line"><span style="color:#79B8FF">      "hooks"</span><span style="color:#E1E4E8">: [{</span></span>
+<span class="line"><span style="color:#79B8FF">        "type"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"command"</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">        "command"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"echo '{</span><span style="color:#79B8FF">\"</span><span style="color:#9ECBFF">additionalContext</span><span style="color:#79B8FF">\"</span><span style="color:#9ECBFF">: </span><span style="color:#79B8FF">\"</span><span style="color:#9ECBFF">Branch: '$(git branch --show-current)'</span><span style="color:#79B8FF">\"</span><span style="color:#9ECBFF">}'"</span></span>
+<span class="line"><span style="color:#E1E4E8">      }]</span></span>
+<span class="line"><span style="color:#E1E4E8">    }]</span></span>
+<span class="line"><span style="color:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span></code></pre>
+<p>A handful of hooks, four lines of behavior change: dangerous commands blocked, secrets caught before write, code auto-formatted, current branch always in context.</p>
+<p><strong>The completion gate</strong> for self-healing test runs:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#79B8FF">  "hooks"</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#79B8FF">    "Stop"</span><span style="color:#E1E4E8">: [{</span></span>
+<span class="line"><span style="color:#79B8FF">      "hooks"</span><span style="color:#E1E4E8">: [{</span></span>
+<span class="line"><span style="color:#79B8FF">        "type"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"command"</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">        "command"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"INPUT=$(cat); [ </span><span style="color:#79B8FF">\"</span><span style="color:#9ECBFF">$(echo $INPUT | jq -r '.stop_hook_active')</span><span style="color:#79B8FF">\"</span><span style="color:#9ECBFF"> = 'true' ] &#x26;&#x26; exit 0; npm test || exit 2"</span></span>
+<span class="line"><span style="color:#E1E4E8">      }]</span></span>
+<span class="line"><span style="color:#E1E4E8">    }]</span></span>
+<span class="line"><span style="color:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span></code></pre>
+<p>When Claude tries to finish, this runs the test suite. If tests fail, it blocks the stop and Claude keeps working. The <code>stop_hook_active</code> check prevents infinite loops if the hook itself is what is triggering the continuation.</p>
+<p><strong>The advanced production setup</strong> that teams running Claude Code in real environments tend to converge on: PreToolUse runs <code>gitleaks</code> on every Write to catch secrets before they hit disk. PostToolUse type-checks the changed file. PreToolUse on Bash logs every command to an audit file. Notification fires Slack when Claude requests permission for anything sensitive. SessionStart loads the threat model doc plus the current branch into context. Five hooks, multiple layers of defense. None of it written into CLAUDE.md, all of it enforced.</p>
+<p>This is what people mean when they say Claude Code is the most powerful coding tool that has ever shipped, and it runs Bash, and it reads your filesystem, and it calls external tools with your credentials. The hooks layer is what makes that statement comfortable instead of terrifying.</p>  </div> </div> </main> </div>  </div>  </body> </html>

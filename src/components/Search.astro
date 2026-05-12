@@ -1,0 +1,258 @@
+---
+// Search modal — plain input wired to pagefind.js low-level API.
+// No PagefindUI component, no external CSS dependencies.
+---
+
+<div id="search-modal" role="dialog" aria-modal="true" aria-label="Search" aria-hidden="true">
+  <div id="search-box">
+    <svg id="search-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+      <circle cx="6.5" cy="6.5" r="4.5" />
+      <path d="M10.5 10.5L14 14" stroke-linecap="round" />
+    </svg>
+    <input
+      id="search-input"
+      type="text"
+      placeholder="Search…"
+      autocomplete="off"
+      spellcheck="false"
+      aria-label="Search"
+      aria-controls="search-results"
+      aria-autocomplete="list"
+    />
+    <button id="search-close" aria-label="Close search">✕</button>
+  </div>
+  <ul id="search-results" role="listbox" aria-label="Search results"></ul>
+</div>
+
+<script>
+  const modal   = document.getElementById('search-modal')!;
+  const input   = document.getElementById('search-input') as HTMLInputElement;
+  const results = document.getElementById('search-results')!;
+  const closeBtn = document.getElementById('search-close')!;
+  const trigger  = document.getElementById('search-trigger');
+
+  let pf: any = null;
+  let pfLoading: Promise<void> | null = null;
+
+  function loadPagefind() {
+    if (pfLoading) return pfLoading;
+    pfLoading = new Promise<void>((resolve, reject) => {
+      const script = document.createElement('script');
+      script.type = 'module';
+      script.textContent = `
+        import('/pagefind/pagefind.js')
+          .then(mod => mod.init().then(() => {
+            window.__pagefind = mod;
+            window.dispatchEvent(new CustomEvent('pagefind:ready'));
+          }))
+          .catch(e => window.dispatchEvent(new CustomEvent('pagefind:error', { detail: e })));
+      `;
+      window.addEventListener('pagefind:ready', () => {
+        pf = (window as any).__pagefind;
+        resolve();
+      }, { once: true });
+      window.addEventListener('pagefind:error', (e: any) => reject(e.detail), { once: true });
+      document.head.appendChild(script);
+    });
+    return pfLoading;
+  }
+
+  function openModal() {
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+    if (trigger) trigger.setAttribute('aria-expanded', 'true');
+    input.focus();
+    loadPagefind().catch(() => {});
+  }
+
+  function closeModal() {
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+    if (trigger) trigger.setAttribute('aria-expanded', 'false');
+    input.value = '';
+    results.innerHTML = '';
+  }
+
+  // Open
+  if (trigger) trigger.addEventListener('click', openModal);
+
+  // Close
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openModal(); }
+    if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+  });
+
+  // Search
+  let debounce: ReturnType<typeof setTimeout>;
+  input.addEventListener('input', () => {
+    clearTimeout(debounce);
+    const q = input.value.trim();
+    if (!q) { results.innerHTML = ''; return; }
+    debounce = setTimeout(() => runSearch(q), 150);
+  });
+
+  async function runSearch(q: string) {
+    if (!pf) {
+      results.innerHTML = '<li class="sr-msg">Loading…</li>';
+      try { await loadPagefind(); } catch(e: any) {
+        results.innerHTML = `<li class="sr-msg">Error: ${e?.message ?? e}</li>`;
+        return;
+      }
+    }
+    let search: any;
+    try { search = await pf.search(q); } catch(e: any) {
+      results.innerHTML = `<li class="sr-msg">Search error: ${e?.message ?? e}</li>`;
+      return;
+    }
+    if (!search?.results?.length) {
+      results.innerHTML = '<li class="sr-msg">No results for "<strong>' + q + '</strong>"</li>';
+      return;
+    }
+    // Deduplicate by base URL — pagefind returns one hit per matched sub-section
+    const data = await Promise.all(search.results.slice(0, 30).map((r: any) => r.data()));
+    const seen = new Set<string>();
+    const deduped: any[] = [];
+    for (const d of data) {
+      const base = d.url.split('#')[0];
+      if (!seen.has(base)) { seen.add(base); deduped.push({ ...d, url: base }); }
+      if (deduped.length === 8) break;
+    }
+
+    results.innerHTML = deduped.map((d: any) => {
+      const title = d.meta?.title ?? 'Untitled';
+      // Build breadcrumb from URL: /concepts/memory → Concepts
+      // Drop the last segment — the title already shows the page name
+      const parts = d.url.replace(/^\/|\/$/g, '').split('/');
+      const crumbParts = parts.slice(0, -1);
+      const breadcrumb = crumbParts.map((p: string) =>
+        p.charAt(0).toUpperCase() + p.slice(1).replace(/-/g, ' ')
+      ).join(' · ');
+      return `
+        <li class="sr-item">
+          <a href="${d.url}" class="sr-link">
+            <span class="sr-crumb">${breadcrumb}</span>
+            <span class="sr-title">${title}</span>
+          </a>
+        </li>
+      `;
+    }).join('');
+  }
+</script>
+
+<style>
+  #search-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(10, 8, 6, 0.85);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    /* Centre the search panel horizontally, start from top */
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 12vh;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  #search-modal.is-open { display: flex; }
+
+  #search-box {
+    position: relative;
+    width: 100%;
+    max-width: 560px;
+    display: flex;
+    align-items: center;
+    background: #1a1815;
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 8px;
+    padding: 0 0.75rem;
+  }
+
+  #search-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    opacity: 0.5;
+    color: #e8e3db;
+  }
+
+  #search-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #e8e3db;
+    font-family: 'Outfit', system-ui, sans-serif;
+    font-size: 1rem;
+    padding: 0.9rem 0.5rem;
+    width: 100%;
+  }
+  #search-input::placeholder { color: rgba(232,227,219,0.35); }
+
+  #search-close {
+    background: none;
+    border: none;
+    color: rgba(232,227,219,0.45);
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 0.25rem;
+    line-height: 1;
+  }
+  #search-close:hover { color: #e8e3db; }
+
+  #search-results {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    max-width: 560px;
+    max-height: 55vh;
+    overflow-y: auto;
+    background: #1a1815;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+  }
+  #search-results:empty { display: none; }
+
+  .sr-item { border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .sr-item:last-child { border-bottom: none; }
+
+  .sr-link {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    padding: 0.65rem 1rem;
+    text-decoration: none;
+    color: inherit;
+  }
+  .sr-link:hover, .sr-link:focus { background: rgba(255,255,255,0.05); outline: none; }
+
+  .sr-crumb {
+    font-size: 0.7rem;
+    color: #c9a96e;
+    opacity: 0.75;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .sr-title {
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: #e8e3db;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .sr-msg {
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+    color: rgba(232,227,219,0.4);
+  }
+  .sr-msg strong { color: rgba(232,227,219,0.7); font-weight: 500; }
+</style>

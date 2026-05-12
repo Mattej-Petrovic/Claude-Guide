@@ -1,0 +1,57 @@
+---
+title: Ecosystem
+lede: All Claude products and how they relate to each other.
+section: foundations
+---
+
+import EcosystemDiagram from '../../../components/EcosystemDiagram.astro';
+
+Claude isn't one thing. It's a model, several products that wrap that model for different jobs, a set of capabilities that show up across those products, and an extension layer that lets you bend the whole system to your own work. Most confusion about Claude comes from collapsing these layers. Treating Claude.ai and Claude Code as the same thing, or assuming a feature in one product exists in all of them. They don't.
+
+This page maps the pieces. It doesn't teach any of them. Each piece has its own page; the goal here is to give you enough of a mental model that those pages make sense in context.
+
+<EcosystemDiagram />
+
+## The products
+
+These are the surfaces you actually interact with. Same underlying model, different shells, different jobs.
+
+**Claude.ai** — the chat interface. Web and mobile. Where most people start and where most use stays.
+
+**Claude Code** — a terminal-based coding agent. Lives in your shell, edits your files, runs your commands. Different mental model from chat: you're delegating, not conversing.
+
+**Cowork** — a desktop tool for delegating file and task management to Claude on your own machine. Non-developer-facing automation.
+
+**Claude in Chrome** — a browser agent. Claude operating a browser tab on your behalf.
+
+**Claude in Excel** — a spreadsheet agent. Claude inside a sheet, doing sheet-shaped work.
+
+**Claude Design, Claude Dispatch, Claude Phone** — newer or more specialized surfaces. Covered on their own pages.
+
+Underneath all of it is the **API**. None of the products above would exist without it, and many people skip the products entirely and build directly on the API. Treat the API as the substrate: the thing the products are made of and the thing third-party tools talk to.
+
+## The capabilities
+
+These are things Claude can do that show up across multiple products, sometimes with different names or different limits in each. Knowing them as concepts — not as features of a specific product — saves a lot of confusion.
+
+**Memory** lets Claude carry context across conversations. **Projects** group related conversations, files, and instructions. **Artifacts** are standalone outputs Claude produces alongside the chat. **Research** is a deeper, multi-step search mode. **Subagents** are Claude instances Claude itself can spawn for delegated work. **Hooks**, **output styles**, and **permissions** shape how Claude behaves in agentic contexts.
+
+Not every capability exists in every product. Memory works differently in Claude.ai than in Claude Code. Artifacts are a Claude.ai thing. Hooks and subagents are mostly Code-flavored. The [Concepts](/concepts/prompting) section covers each on its own terms.
+
+## The extension layer
+
+This is where Claude stops being a fixed product and starts being something you shape.
+
+**Skills** are folders of instructions and assets that teach Claude how to do specific tasks well. **MCP** (Model Context Protocol) is the standard for connecting Claude to outside tools and data. **Connectors** are pre-built MCP integrations to common services. **Plugins** bundle skills, commands, and MCP servers into installable packages. **Commands** are reusable prompts you can invoke by name.
+
+The extension layer is also where the ecosystem stops being only Anthropic's. There's a large and growing third-party layer — community-built skills, MCP servers, plugins, tooling — that often moves faster than what Anthropic ships directly. Some of it is excellent. Some of it is hype. The [Library](/library/commands) section is a curated list of what's worth knowing about.
+
+## How the layers relate
+
+Products consume the API. Capabilities are exposed through the products in product-shaped ways. The extension layer plugs into the products (and sometimes directly into the API) to add new capabilities or new connections to the outside world. A skill written for Claude Code can sometimes be used in Claude.ai. An MCP server built for one product can usually be reached from any product that supports MCP.
+
+The boundary between "user" and "builder" lives in the extension layer. You can use Claude for years without touching it. You can also rebuild your entire workflow around it. Both are legitimate. The guide treats the extension layer as a normal part of the ecosystem, not an advanced topic, because the people who get the most out of Claude tend to live in it.
+
+## Where to go next
+
+If you don't yet know which product to use for what, go to [Choosing a product](/foundations/choosing-a-product). If you want to understand which model variant fits which job, go to [Models](/foundations/models). Otherwise, treat this page as a reference and come back when a term shows up that you want to place on the map.

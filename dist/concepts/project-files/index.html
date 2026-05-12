@@ -1,0 +1,134 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="CLAUDE.md, AGENTS.md, settings.json, and the rest of the files that configure a Claude Code project."><meta property="og:title" content="Project files — Claude Guide"><meta property="og:description" content="CLAUDE.md, AGENTS.md, settings.json, and the rest of the files that configure a Claude Code project."><meta property="og:type" content="website"><meta property="og:url" content="https://claude-guide.dev/concepts/project-files/"><link rel="canonical" href="https://claude-guide.dev/concepts/project-files/"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><title>Project files — Claude Guide</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="/_assets/_slug_.20oY6Rwk.css"><script type="module" src="/_assets/hoisted.C95cCMEA.js"></script></head> <body> <a href="#main-content" class="skip-link">Skip to content</a> <div class="site-shell"> <nav class="topnav" aria-label="Site navigation"> <div class="topnav__inner"> <a href="/" class="topnav__logo">Claude Guide</a> <div class="topnav__nav" role="menubar"> <a href="/foundations/ecosystem" class="topnav__link" role="menuitem"> Foundations </a><a href="/products/claude-ai" class="topnav__link" role="menuitem"> Products </a><a href="/concepts/prompting" class="topnav__link is-active" role="menuitem" aria-current="page"> Concepts </a><a href="/extending/overview" class="topnav__link" role="menuitem"> Extending </a><a href="/workflows/claude-code" class="topnav__link" role="menuitem"> Workflows </a><a href="/library/commands" class="topnav__link" role="menuitem"> Library </a><a href="/settings/walkthrough" class="topnav__link" role="menuitem"> Settings </a> </div> <div class="topnav__right"> <button id="search-trigger" class="search-trigger" aria-label="Search" aria-expanded="false" aria-controls="search-modal"> <svg class="search-trigger__icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"> <circle cx="6.5" cy="6.5" r="4.5"></circle> <path d="M10.5 10.5L14 14" stroke-linecap="round"></path> </svg>
+Search
+<kbd class="search-trigger__kbd">⌘K</kbd> </button> <button id="hamburger" class="topnav__hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav"> <span></span> <span></span> <span></span> </button> </div> </div> </nav> <!-- Mobile nav overlay --> <div id="mobile-nav" class="mobile-nav" role="dialog" aria-label="Mobile navigation" aria-hidden="true"> <a href="/" class="mobile-nav__link" style="font-weight: 600; font-size: 1rem;">Claude Guide</a> <a href="/guide" class="mobile-nav__link">How to use this guide</a> <div class="mobile-nav__section"> <p class="mobile-nav__section-label">Foundations</p> </div><div class="mobile-nav__section"> <p class="mobile-nav__section-label">Products</p> </div><div class="mobile-nav__section"> <p class="mobile-nav__section-label">Concepts</p> </div><div class="mobile-nav__section"> <p class="mobile-nav__section-label">Extending</p> </div><div class="mobile-nav__section"> <p class="mobile-nav__section-label">Workflows</p> </div><div class="mobile-nav__section"> <p class="mobile-nav__section-label">Library</p> </div><div class="mobile-nav__section"> <p class="mobile-nav__section-label">Settings</p> </div> </div>  <div id="search-modal" role="dialog" aria-modal="true" aria-label="Search" aria-hidden="true" data-astro-cid-otpdt6jm> <div id="search-box" data-astro-cid-otpdt6jm> <svg id="search-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" data-astro-cid-otpdt6jm> <circle cx="6.5" cy="6.5" r="4.5" data-astro-cid-otpdt6jm></circle> <path d="M10.5 10.5L14 14" stroke-linecap="round" data-astro-cid-otpdt6jm></path> </svg> <input id="search-input" type="text" placeholder="Search…" autocomplete="off" spellcheck="false" aria-label="Search" aria-controls="search-results" aria-autocomplete="list" data-astro-cid-otpdt6jm> <button id="search-close" aria-label="Close search" data-astro-cid-otpdt6jm>✕</button> </div> <ul id="search-results" role="listbox" aria-label="Search results" data-astro-cid-otpdt6jm></ul> </div>    <div class="page-body"> <aside class="sidebar" aria-label="Section navigation"> <div class="sidebar__section"> <p class="sidebar__label">Concepts</p> <a href="/concepts/prompting" class="sidebar__link"> Prompting </a><a href="/concepts/memory" class="sidebar__link"> Memory </a><a href="/concepts/projects" class="sidebar__link"> Projects </a><a href="/concepts/artifacts" class="sidebar__link"> Artifacts </a><a href="/concepts/research" class="sidebar__link"> Research </a><a href="/concepts/subagents" class="sidebar__link"> Subagents </a><a href="/concepts/project-files" class="sidebar__link is-active" aria-current="page"> Project files </a><a href="/concepts/hooks" class="sidebar__link"> Hooks </a><a href="/concepts/output-styles" class="sidebar__link"> Output styles </a><a href="/concepts/permissions" class="sidebar__link"> Permissions </a> </div> </aside> <main id="main-content" class="main-content"> <div class="content-inner"> <h1 class="page-title">Project files</h1> <p class="page-lede">CLAUDE.md, AGENTS.md, settings.json, and the rest of the files that configure a Claude Code project.</p> <div class="article-body" data-pagefind-body>  <p>These are the files at the root of your project that configure Claude Code. They turn a stateless agent into one that already knows your stack, your conventions, your commands, and which tools it has access to.</p>
+<p>The problem they solve: every Claude Code session starts blank. Without configuration, you spend the first messages of every session re-explaining your project. With it, the agent shows up oriented and you start the work, not the briefing.</p>
+<svg viewBox="0 0 800 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Project file structure showing CLAUDE.md, AGENTS.md, settings.json, mcp.json and the .claude folder layout" style="max-width: 100%; height: auto; margin: 2rem 0;">
+  <defs>
+    <style>
+      .tree-text { fill: currentColor; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; opacity: 0.85; }
+      .tree-folder { fill: #d97706; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; font-weight: 600; }
+      .annotation { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 12px; opacity: 0.65; }
+    </style>
+  </defs>
+  <text x="20" y="40" class="tree-folder">my-project/</text>
+  <text x="20" y="68" class="tree-text">├── CLAUDE.md</text>
+  <text x="350" y="68" class="annotation">Project memory. Loaded every session.</text>
+  <text x="20" y="96" class="tree-text">├── AGENTS.md</text>
+  <text x="350" y="96" class="annotation">Cross-tool standard. Use if mixing AI tools.</text>
+  <text x="20" y="124" class="tree-text">├── CLAUDE.local.md</text>
+  <text x="350" y="124" class="annotation">Personal additions. Gitignored.</text>
+  <text x="20" y="152" class="tree-text">├── README.md</text>
+  <text x="350" y="152" class="annotation">Build, run, test for humans. Claude reads it too.</text>
+  <text x="20" y="180" class="tree-text">├── .mcp.json</text>
+  <text x="350" y="180" class="annotation">MCP server config. Shared via git.</text>
+  <text x="20" y="208" class="tree-text">├── .claude/</text>
+  <text x="20" y="236" class="tree-text">│   ├── settings.json</text>
+  <text x="350" y="236" class="annotation">Hooks, permissions, env vars.</text>
+  <text x="20" y="264" class="tree-text">│   ├── settings.local.json</text>
+  <text x="350" y="264" class="annotation">Personal settings. Gitignored.</text>
+  <text x="20" y="292" class="tree-text">│   ├── agents/</text>
+  <text x="350" y="292" class="annotation">Custom subagents.</text>
+  <text x="20" y="320" class="tree-text">│   ├── commands/</text>
+  <text x="350" y="320" class="annotation">Slash commands.</text>
+  <text x="20" y="348" class="tree-text">│   └── skills/</text>
+  <text x="350" y="348" class="annotation">Reusable workflows.</text>
+  <text x="20" y="376" class="tree-text">└── src/</text>
+  <text x="350" y="376" class="annotation">Your code.</text>
+</svg>
+<h2 id="claudemd">CLAUDE.md</h2>
+<p>The standing brief. Plain markdown loaded at every session start. This is where you tell Claude what your project is, what stack it uses, what the build and test commands are, what conventions to follow, and what to avoid.</p>
+<p>Three locations get merged when Claude Code starts:</p>
+<ul>
+<li><code>~/.claude/CLAUDE.md</code> for personal preferences across every project on your machine</li>
+<li><code>./CLAUDE.md</code> at the project root for shared, version-controlled team rules</li>
+<li>A <code>CLAUDE.md</code> in a subdirectory for scoped rules that only apply when working in that part of the tree</li>
+</ul>
+<p>The closest file wins on conflicts. The file you can edit is the one you should be working with.</p>
+<p>Keep it lean. A February 2026 ETH Zurich study found that human-written context files improve task success by about 4%, while LLM-generated ones (the kind <code>/init</code> produces) actually reduce success by about 3% and inflate cost by 20%. The default <code>/init</code> output is usually bloated. Delete most of what it generates and keep only what you would correct Claude on if it was not in the file.</p>
+<p>Target under 300 lines. If your file is over 500 lines, most of it is being ignored. Claude Code injects a system reminder with your CLAUDE.md saying “this context may or may not be relevant to your tasks,” which is exactly how it treats long, scattered files.</p>
+<h2 id="agentsmd">AGENTS.md</h2>
+<p>A cross-tool standard. Same purpose as CLAUDE.md, different audience. Originally pushed by OpenAI for Codex, donated to the Linux Foundation in December 2025, and now read by Codex, Cursor, GitHub Copilot CLI, Gemini CLI, Windsurf, Aider, Zed, Warp, and others. Past 60,000 open-source projects use it.</p>
+<p>Claude Code reads CLAUDE.md as primary but also reads AGENTS.md as a fallback when no CLAUDE.md exists. This means for mixed-tool teams, you can write one AGENTS.md and have it work for everyone.</p>
+<p>When to choose which:</p>
+<ul>
+<li><strong>Claude Code only.</strong> CLAUDE.md is fine.</li>
+<li><strong>Multiple AI tools across the team.</strong> AGENTS.md as the source of truth, with a tiny CLAUDE.md that says “Read AGENTS.md for project context” plus any Claude-specific instructions.</li>
+<li><strong>Simplest possible setup.</strong> Just AGENTS.md.</li>
+</ul>
+<p>Some teams symlink CLAUDE.md to AGENTS.md (<code>ln -s AGENTS.md CLAUDE.md</code>) to keep one source of truth. It is a workaround, but it works and prevents the two files from drifting apart.</p>
+<h2 id="claudesettingsjson">.claude/settings.json</h2>
+<p>Permissions, environment variables, and hook configuration. Lives in <code>.claude/</code> at the project root, shared via git so the whole team gets the same guardrails.</p>
+<p>Common contents:</p>
+<ul>
+<li><code>permissions.allow</code> and <code>permissions.deny</code> to whitelist specific commands or block dangerous ones (<code>Bash(rm -rf:*)</code>, <code>Bash(curl:*|sh)</code>, <code>Read(.env)</code>)</li>
+<li><code>hooks.PreToolUse</code> and <code>hooks.PostToolUse</code> to run shell scripts before or after Claude Code actions, for things like secret scanning or auto-formatting</li>
+<li><code>env</code> variables that should be set for the session</li>
+</ul>
+<p>A locked-down example: deny destructive bash, run a secret scanner before any write to disk, log every tool call. None of that is overhead. It is how you ship Claude Code at work without losing sleep.</p>
+<p><code>.claude/settings.local.json</code> is the same shape but personal and gitignored. Put your own overrides there.</p>
+<h2 id="mcpjson">.mcp.json</h2>
+<p>MCP server configuration at the project root. This is where you wire Claude Code to GitHub, JIRA, Slack, your database, or any other MCP server the team uses.</p>
+<p>Tokens go in environment variables, never inline. Use <code>${VAR_NAME}</code> references in <code>.mcp.json</code> and document the required env vars in your README. This is how you get version-controlled tool config without leaking credentials.</p>
+<h2 id="claudelocalmd">CLAUDE.local.md</h2>
+<p>Personal additions to CLAUDE.md. Gitignored. Use this when your individual workflow needs something the team file should not have. Personal aliases, machine-specific paths, debugging preferences, “always check git status before suggesting commits.”</p>
+<p>If everyone on the team uses Claude Code, team-wide preferences go in CLAUDE.md and personal stuff goes in CLAUDE.local.md without polluting either.</p>
+<h2 id="readmemd">README.md</h2>
+<p>Not technically a Claude file, but Claude reads it. The build, run, and test instructions for humans become the same instructions for the agent. If a human cannot follow your README to start the project, Claude will not be able to either.</p>
+<p>This is also one of the highest-leverage single changes you can make. A clear README beats a sprawling CLAUDE.md.</p>
+<h2 id="how-to-use-them-well">How to use them well</h2>
+<p><strong>Write rules in response to failure, not preemptively.</strong> Every entry in CLAUDE.md should exist because Claude got something wrong and you are stopping it from happening again. Speculative rules add token cost and reduce success rates. The right time to add a rule is the second time you correct the same mistake.</p>
+<p><strong>Skip /init or delete most of what it generates.</strong> Auto-generated context is generic. The agent already knows what TypeScript looks like; it does not need a paragraph confirming your project uses it. Write the file by hand. Every line should earn its place.</p>
+<p><strong>Do not restate what the code says.</strong> Claude reads your code. A “Project Structure” section that lists your folders is redundant unless your structure violates conventions of your framework. Same for “Code Style” sections that duplicate what Prettier or ESLint already enforce.</p>
+<p><strong>Treat config as code.</strong> These files affect output the same way source code affects behavior. Review them in PRs. Update them when stack changes. Delete sections that no longer apply.</p>
+<p><strong>Use scoped CLAUDE.md files for monorepos.</strong> Instead of one giant root file with sections per package, drop a focused CLAUDE.md inside each package. Claude only loads the closest one, which keeps context relevant and small.</p>
+<p><strong>Keep secrets out.</strong> <code>.env</code> files, <code>.claude/settings.local.json</code>, and anything with tokens never gets committed. Add them to <code>.gitignore</code> before you write the first line.</p>
+<h2 id="common-mistakes">Common mistakes</h2>
+<p><strong>The bloated CLAUDE.md.</strong> A thousand lines of “best practices,” code snippets, and architecture diagrams. The agent ignores most of it. Worse, the noise reduces its ability to follow the rules that actually matter.</p>
+<p><strong>Auto-generated files committed without review.</strong> Run <code>/init</code>, push, done. The file ends up full of obvious facts and missing the real instructions. A mediocre context file is worse than no context file at all.</p>
+<p><strong>Linter rules in CLAUDE.md.</strong> Indentation, quote style, semicolons. Your linter handles this deterministically. Putting it in CLAUDE.md outsources a fast deterministic job to a slow probabilistic one and adds noise to every session.</p>
+<p><strong>Stale references.</strong> “The auth logic lives in <code>src/lib/auth.ts</code>” when it actually moved to <code>src/features/auth/</code> six months ago. Stale CLAUDE.md actively misleads. Update or delete.</p>
+<p><strong>Treating CLAUDE.md as documentation.</strong> It is not for humans. It is a system prompt for a specific agent. Architectural decisions belong in <code>docs/</code>. Onboarding goes in README.md. CLAUDE.md is rules and standing instructions.</p>
+<p><strong>Forgetting CLAUDE.local.md exists.</strong> Personal preferences end up in CLAUDE.md, polluting the team’s setup. Or they end up nowhere and you re-set them every session. The .local file is the answer to both.</p>
+<p><strong>Committing <code>.claude/settings.local.json</code> or <code>.env</code>.</strong> Same problem as committing any secrets file. Gitignore them on day one.</p>
+<h2 id="examples">Examples</h2>
+<p><strong>A minimal good CLAUDE.md</strong> for a TypeScript Next.js project:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="markdown"><code><span class="line"><span style="color:#79B8FF;font-weight:bold"># Project</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">E-commerce app, Next.js 14 App Router, TypeScript, Drizzle ORM, Postgres.</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF;font-weight:bold">## Commands</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#79B8FF"> `pnpm dev`</span><span style="color:#E1E4E8">        Start dev server</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#79B8FF"> `pnpm test`</span><span style="color:#E1E4E8">       Run Vitest</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#79B8FF"> `pnpm db:migrate`</span><span style="color:#E1E4E8"> Apply migrations</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#79B8FF"> `pnpm lint:fix`</span><span style="color:#E1E4E8">   Run ESLint with autofix</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF;font-weight:bold">## Conventions</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> Functional components with named exports. No default exports.</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> Server components by default. Add 'use client' only when client interactivity is required.</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> Collocate tests next to source files.</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> Use Drizzle queries, not raw SQL, unless the query genuinely needs it.</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF;font-weight:bold">## Avoid</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> Adding </span><span style="color:#79B8FF">`any`</span><span style="color:#E1E4E8"> types. If a type is unclear, ask.</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> Modifying </span><span style="color:#79B8FF">`migrations/`</span><span style="color:#E1E4E8"> directly. Generate via </span><span style="color:#79B8FF">`pnpm db:generate`</span><span style="color:#E1E4E8">.</span></span>
+<span class="line"></span></code></pre>
+<p><strong>A locked-down <code>.claude/settings.json</code>:</strong></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#79B8FF">  "permissions"</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#79B8FF">    "allow"</span><span style="color:#E1E4E8">: [</span><span style="color:#9ECBFF">"Read"</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">"Write(src/**)"</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">"Bash(git status:*)"</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">"Bash(pnpm:*)"</span><span style="color:#E1E4E8">],</span></span>
+<span class="line"><span style="color:#79B8FF">    "deny"</span><span style="color:#E1E4E8">: [</span><span style="color:#9ECBFF">"Bash(rm -rf:*)"</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">"Bash(curl:*|sh)"</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">"Read(.env)"</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#E1E4E8">  },</span></span>
+<span class="line"><span style="color:#79B8FF">  "hooks"</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#79B8FF">    "PreToolUse"</span><span style="color:#E1E4E8">: [</span></span>
+<span class="line"><span style="color:#E1E4E8">      {</span></span>
+<span class="line"><span style="color:#79B8FF">        "matcher"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"Write|Edit"</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">        "hooks"</span><span style="color:#E1E4E8">: [{ </span><span style="color:#79B8FF">"type"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"command"</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">"command"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"scripts/secret-scan.sh"</span><span style="color:#E1E4E8"> }]</span></span>
+<span class="line"><span style="color:#E1E4E8">      }</span></span>
+<span class="line"><span style="color:#E1E4E8">    ]</span></span>
+<span class="line"><span style="color:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span></code></pre>
+<p><strong>A multi-tool team setup:</strong> AGENTS.md as the source of truth at project root with all the project context. CLAUDE.md is one line: <code>Read AGENTS.md for project context.</code> plus any Claude-specific instructions. Everyone’s tool reads from the same well, no drift.</p>  </div> </div> </main> </div>  </div>  </body> </html>

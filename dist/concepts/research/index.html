@@ -1,0 +1,97 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="Claude's agentic research mode. When to use it, how to prompt it, and when web search is enough."><meta property="og:title" content="Research — Claude Guide"><meta property="og:description" content="Claude's agentic research mode. When to use it, how to prompt it, and when web search is enough."><meta property="og:type" content="website"><meta property="og:url" content="https://claude-guide.dev/concepts/research/"><link rel="canonical" href="https://claude-guide.dev/concepts/research/"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><title>Research — Claude Guide</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="/_assets/_slug_.20oY6Rwk.css"><script type="module" src="/_assets/hoisted.C95cCMEA.js"></script></head> <body> <a href="#main-content" class="skip-link">Skip to content</a> <div class="site-shell"> <nav class="topnav" aria-label="Site navigation"> <div class="topnav__inner"> <a href="/" class="topnav__logo">Claude Guide</a> <div class="topnav__nav" role="menubar"> <a href="/foundations/ecosystem" class="topnav__link" role="menuitem"> Foundations </a><a href="/products/claude-ai" class="topnav__link" role="menuitem"> Products </a><a href="/concepts/prompting" class="topnav__link is-active" role="menuitem" aria-current="page"> Concepts </a><a href="/extending/overview" class="topnav__link" role="menuitem"> Extending </a><a href="/workflows/claude-code" class="topnav__link" role="menuitem"> Workflows </a><a href="/library/commands" class="topnav__link" role="menuitem"> Library </a><a href="/settings/walkthrough" class="topnav__link" role="menuitem"> Settings </a> </div> <div class="topnav__right"> <button id="search-trigger" class="search-trigger" aria-label="Search" aria-expanded="false" aria-controls="search-modal"> <svg class="search-trigger__icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"> <circle cx="6.5" cy="6.5" r="4.5"></circle> <path d="M10.5 10.5L14 14" stroke-linecap="round"></path> </svg>
+Search
+<kbd class="search-trigger__kbd">⌘K</kbd> </button> <button id="hamburger" class="topnav__hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav"> <span></span> <span></span> <span></span> </button> </div> </div> </nav> <!-- Mobile nav overlay --> <div id="mobile-nav" class="mobile-nav" role="dialog" aria-label="Mobile navigation" aria-hidden="true"> <a href="/" class="mobile-nav__link" style="font-weight: 600; font-size: 1rem;">Claude Guide</a> <a href="/guide" class="mobile-nav__link">How to use this guide</a> <div class="mobile-nav__section"> <p class="mobile-nav__section-label">Foundations</p> </div><div class="mobile-nav__section"> <p class="mobile-nav__section-label">Products</p> </div><div class="mobile-nav__section"> <p class="mobile-nav__section-label">Concepts</p> </div><div class="mobile-nav__section"> <p class="mobile-nav__section-label">Extending</p> </div><div class="mobile-nav__section"> <p class="mobile-nav__section-label">Workflows</p> </div><div class="mobile-nav__section"> <p class="mobile-nav__section-label">Library</p> </div><div class="mobile-nav__section"> <p class="mobile-nav__section-label">Settings</p> </div> </div>  <div id="search-modal" role="dialog" aria-modal="true" aria-label="Search" aria-hidden="true" data-astro-cid-otpdt6jm> <div id="search-box" data-astro-cid-otpdt6jm> <svg id="search-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" data-astro-cid-otpdt6jm> <circle cx="6.5" cy="6.5" r="4.5" data-astro-cid-otpdt6jm></circle> <path d="M10.5 10.5L14 14" stroke-linecap="round" data-astro-cid-otpdt6jm></path> </svg> <input id="search-input" type="text" placeholder="Search…" autocomplete="off" spellcheck="false" aria-label="Search" aria-controls="search-results" aria-autocomplete="list" data-astro-cid-otpdt6jm> <button id="search-close" aria-label="Close search" data-astro-cid-otpdt6jm>✕</button> </div> <ul id="search-results" role="listbox" aria-label="Search results" data-astro-cid-otpdt6jm></ul> </div>    <div class="page-body"> <aside class="sidebar" aria-label="Section navigation"> <div class="sidebar__section"> <p class="sidebar__label">Concepts</p> <a href="/concepts/prompting" class="sidebar__link"> Prompting </a><a href="/concepts/memory" class="sidebar__link"> Memory </a><a href="/concepts/projects" class="sidebar__link"> Projects </a><a href="/concepts/artifacts" class="sidebar__link"> Artifacts </a><a href="/concepts/research" class="sidebar__link is-active" aria-current="page"> Research </a><a href="/concepts/subagents" class="sidebar__link"> Subagents </a><a href="/concepts/project-files" class="sidebar__link"> Project files </a><a href="/concepts/hooks" class="sidebar__link"> Hooks </a><a href="/concepts/output-styles" class="sidebar__link"> Output styles </a><a href="/concepts/permissions" class="sidebar__link"> Permissions </a> </div> </aside> <main id="main-content" class="main-content"> <div class="content-inner"> <h1 class="page-title">Research</h1> <p class="page-lede">Claude&#39;s agentic research mode. When to use it, how to prompt it, and when web search is enough.</p> <div class="article-body" data-pagefind-body>  <p>The Research button on the chat input puts Claude into agentic research mode. Instead of one or two searches, Claude plans an approach, runs many searches in sequence, reads multiple sources, cross-references findings, and returns a structured report with inline citations. Available on paid plans (Pro, Max, Team, Enterprise) with web search enabled.</p>
+<p>A normal Claude turn answers from training data. Web search adds a handful of lookups when current info is needed. Research goes further: it operates over minutes, runs 5 to 20 or more tool calls, and synthesizes across many sources into something that reads more like a research brief than a chat response.</p>
+<h2 id="how-it-works">How it works</h2>
+<p>Toggle Research on (the button turns blue) and ask your question. Claude does roughly this:</p>
+<ol>
+<li>Plans the research approach. Extended thinking auto-activates for this step.</li>
+<li>Runs initial searches across the web and any connected integrations (Gmail, Calendar, Google Docs, Drive, Slack, Notion, depending on what you have connected).</li>
+<li>Reads full pages, not just snippets.</li>
+<li>Identifies gaps and contradictions, runs follow-up searches.</li>
+<li>Synthesizes findings into a structured markdown report with citations linking back to sources.</li>
+</ol>
+<p>Most runs land in 1 to 3 minutes. Heavier ones go longer. The output is sectioned markdown with headers, bullets, sometimes tables, and citations inline so you can verify the claims that matter to you.</p>
+<svg viewBox="0 0 800 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Comparison of three Claude modes: web search, extended thinking, and research" style="max-width: 100%; height: auto; margin: 2rem 0;">
+  <defs>
+    <style>
+      .card { fill: none; stroke: currentColor; stroke-width: 1; opacity: 0.4; }
+      .card-accent { fill: none; stroke: #d97706; stroke-width: 1.5; opacity: 0.7; }
+      .mode-name { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; opacity: 0.6; }
+      .mode-name-accent { fill: #d97706; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; }
+      .stat-label { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 10px; opacity: 0.45; letter-spacing: 1px; }
+      .stat-val { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 13px; opacity: 0.85; }
+      .desc { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 12px; opacity: 0.7; }
+    </style>
+  </defs>
+  <rect x="20" y="20" width="240" height="280" rx="6" class="card"></rect>
+  <text x="40" y="50" class="mode-name">WEB SEARCH</text>
+  <text x="40" y="90" class="stat-label">TIME</text>
+  <text x="40" y="110" class="stat-val">Seconds</text>
+  <text x="40" y="140" class="stat-label">SOURCES</text>
+  <text x="40" y="160" class="stat-val">1 to 5 lookups</text>
+  <text x="40" y="178" class="stat-val">across the web</text>
+  <text x="40" y="210" class="stat-label">BEST FOR</text>
+  <text x="40" y="232" class="desc">Quick facts and</text>
+  <text x="40" y="249" class="desc">current data when</text>
+  <text x="40" y="266" class="desc">one or two sources</text>
+  <text x="40" y="283" class="desc">can answer it.</text>
+  <rect x="280" y="20" width="240" height="280" rx="6" class="card"></rect>
+  <text x="300" y="50" class="mode-name">EXTENDED THINKING</text>
+  <text x="300" y="90" class="stat-label">TIME</text>
+  <text x="300" y="110" class="stat-val">Seconds</text>
+  <text x="300" y="140" class="stat-label">SOURCES</text>
+  <text x="300" y="160" class="stat-val">None</text>
+  <text x="300" y="178" class="stat-val">(no external search)</text>
+  <text x="300" y="210" class="stat-label">BEST FOR</text>
+  <text x="300" y="232" class="desc">Harder reasoning on</text>
+  <text x="300" y="249" class="desc">things Claude already</text>
+  <text x="300" y="266" class="desc">knows.</text>
+  <rect x="540" y="20" width="240" height="280" rx="6" class="card-accent"></rect>
+  <text x="560" y="50" class="mode-name-accent">RESEARCH</text>
+  <text x="560" y="90" class="stat-label">TIME</text>
+  <text x="560" y="110" class="stat-val">1 to 3 minutes+</text>
+  <text x="560" y="140" class="stat-label">SOURCES</text>
+  <text x="560" y="160" class="stat-val">10+ across web</text>
+  <text x="560" y="178" class="stat-val">and integrations</text>
+  <text x="560" y="210" class="stat-label">BEST FOR</text>
+  <text x="560" y="232" class="desc">Multi-source</text>
+  <text x="560" y="249" class="desc">synthesis returned</text>
+  <text x="560" y="266" class="desc">as a cited,</text>
+  <text x="560" y="283" class="desc">structured report.</text>
+</svg>
+<h2 id="when-to-use-it-and-when-not-to">When to use it (and when not to)</h2>
+<p>Research earns its time when:</p>
+<ul>
+<li>The answer needs many sources, not one</li>
+<li>The task involves comparison, synthesis, or due diligence</li>
+<li>You are building a list or table from a set of criteria</li>
+<li>You are updating something with current info from across the web</li>
+<li>You want sources cited so you can verify claims</li>
+</ul>
+<p>It is overkill when:</p>
+<ul>
+<li>A single web search would answer (today’s exchange rate, current weather)</li>
+<li>You just want Claude to think harder about something it already knows. Extended thinking on its own is the cleaner tool.</li>
+<li>The task is creative output, not information gathering</li>
+</ul>
+<h2 id="how-to-use-it-well">How to use it well</h2>
+<p><strong>Write research-shaped prompts.</strong> Short questions get short answers. Research is most useful when you give it something to chew on. “Research the trade-offs between Postgres and MongoDB for a real-time analytics use case with high write volume and low query complexity” beats “what is better, Postgres or MongoDB.”</p>
+<p><strong>Define what success looks like.</strong> Tell it what you want at the end. A comparison table. A ranked shortlist. A one-page brief. A set of recommendations with reasoning. Without this you get a generic information dump.</p>
+<p><strong>Specify scope and constraints.</strong> Geography, time window, budget, criteria, what to exclude. The more specific the brief, the more useful the report.</p>
+<p><strong>Reference internal context when relevant.</strong> Words like “our,” “my,” and specific document or email names signal Claude to pull from connected integrations alongside the web. “Compare these vendors with what we have already evaluated in Drive” reaches both sides at once.</p>
+<p><strong>Use it where it compresses real hours.</strong> The kind of task that would take you a day of tabs and notes is exactly where Research pays off. A 30-second Google query is not.</p>
+<p><strong>Spot-check the citations.</strong> Research reduces hallucination but does not eliminate it. For anything you will act on, click through 2 or 3 sources and confirm what is claimed actually appears there. The citation existing is not the same as the claim being correct.</p>
+<h2 id="common-mistakes">Common mistakes</h2>
+<p><strong>Using it for quick lookups.</strong> A one-fact question does not need 15 searches. Web search alone is faster and the answer is the same.</p>
+<p><strong>Vague prompts.</strong> “Research AI” gives you a Wikipedia summary in fancier formatting. Specific scope, specific output format, specific decision the report is supporting.</p>
+<p><strong>Treating the report as final.</strong> It is a starting point. The citations link to real sources for a reason. Verify the claims that matter before you act on them.</p>
+<p><strong>Forgetting integrations exist.</strong> If your Gmail and Drive are connected, Research can pull from them in the same run as the web. Most people only think about web sources and miss half the value.</p>
+<p><strong>Reaching for Research when extended thinking would handle it.</strong> If the task is “reason carefully about something I already gave you,” not “find information out there,” extended thinking on its own does the job in less time.</p>
+<h2 id="examples">Examples</h2>
+<p><strong>Sourcing targets for outreach or list-building.</strong> Companies, products, services, or people that match specific criteria in a specific area. The kind of task where you would otherwise tab through search results, open LinkedIn, and copy into a sheet for hours. Research compresses it into a structured list with sources you can verify.</p>
+<p><strong>Vendor or tool comparisons.</strong> Side-by-side analysis of options against your specific constraints. Pricing, features, integrations, gotchas. The report becomes the doc you bring into the decision conversation.</p>
+<p><strong>Due diligence before a call or meeting.</strong> Background on a person, company, market, or topic you want to walk in informed about. Recent news, competitive landscape, public statements, key context.</p>
+<p><strong>Updating a stale document.</strong> Point Research at a Drive doc or paste content in, ask it to refresh anything outdated against current sources, and you get a list of what changed plus links to the new info.</p>
+<p><strong>Multi-angle exploration of an unfamiliar topic.</strong> When you do not yet know what you do not know. Research surfaces angles you would not have searched for, because it identifies gaps and chases them automatically.</p>
+<p><strong>Synthesizing inbox plus external context.</strong> With Gmail connected, Research can pull what you owe across threads and bring web context for any unfamiliar references in those emails into one report.</p>  </div> </div> </main> </div>  </div>  </body> </html>

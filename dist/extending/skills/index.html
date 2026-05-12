@@ -1,0 +1,177 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="Reusable instruction sets that change how Claude approaches a class of tasks."><meta property="og:title" content="Skills — Claude Guide"><meta property="og:description" content="Reusable instruction sets that change how Claude approaches a class of tasks."><meta property="og:type" content="website"><meta property="og:url" content="https://claude-guide.dev/extending/skills/"><link rel="canonical" href="https://claude-guide.dev/extending/skills/"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><title>Skills — Claude Guide</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="/_assets/_slug_.20oY6Rwk.css"><script type="module" src="/_assets/hoisted.C95cCMEA.js"></script></head> <body> <a href="#main-content" class="skip-link">Skip to content</a> <div class="site-shell"> <nav class="topnav" aria-label="Site navigation"> <div class="topnav__inner"> <a href="/" class="topnav__logo">Claude Guide</a> <div class="topnav__nav" role="menubar"> <a href="/foundations/ecosystem" class="topnav__link" role="menuitem"> Foundations </a><a href="/products/claude-ai" class="topnav__link" role="menuitem"> Products </a><a href="/concepts/prompting" class="topnav__link" role="menuitem"> Concepts </a><a href="/extending/overview" class="topnav__link is-active" role="menuitem" aria-current="page"> Extending </a><a href="/workflows/claude-code" class="topnav__link" role="menuitem"> Workflows </a><a href="/library/commands" class="topnav__link" role="menuitem"> Library </a><a href="/settings/walkthrough" class="topnav__link" role="menuitem"> Settings </a> </div> <div class="topnav__right"> <button id="search-trigger" class="search-trigger" aria-label="Search" aria-expanded="false" aria-controls="search-modal"> <svg class="search-trigger__icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"> <circle cx="6.5" cy="6.5" r="4.5"></circle> <path d="M10.5 10.5L14 14" stroke-linecap="round"></path> </svg>
+Search
+<kbd class="search-trigger__kbd">⌘K</kbd> </button> <button id="hamburger" class="topnav__hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav"> <span></span> <span></span> <span></span> </button> </div> </div> </nav> <!-- Mobile nav overlay --> <div id="mobile-nav" class="mobile-nav" role="dialog" aria-label="Mobile navigation" aria-hidden="true"> <a href="/" class="mobile-nav__link" style="font-weight: 600; font-size: 1rem;">Claude Guide</a> <a href="/guide" class="mobile-nav__link">How to use this guide</a> <div class="mobile-nav__section"> <p class="mobile-nav__section-label">Foundations</p> </div><div class="mobile-nav__section"> <p class="mobile-nav__section-label">Products</p> </div><div class="mobile-nav__section"> <p class="mobile-nav__section-label">Concepts</p> </div><div class="mobile-nav__section"> <p class="mobile-nav__section-label">Extending</p> </div><div class="mobile-nav__section"> <p class="mobile-nav__section-label">Workflows</p> </div><div class="mobile-nav__section"> <p class="mobile-nav__section-label">Library</p> </div><div class="mobile-nav__section"> <p class="mobile-nav__section-label">Settings</p> </div> </div>  <div id="search-modal" role="dialog" aria-modal="true" aria-label="Search" aria-hidden="true" data-astro-cid-otpdt6jm> <div id="search-box" data-astro-cid-otpdt6jm> <svg id="search-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" data-astro-cid-otpdt6jm> <circle cx="6.5" cy="6.5" r="4.5" data-astro-cid-otpdt6jm></circle> <path d="M10.5 10.5L14 14" stroke-linecap="round" data-astro-cid-otpdt6jm></path> </svg> <input id="search-input" type="text" placeholder="Search…" autocomplete="off" spellcheck="false" aria-label="Search" aria-controls="search-results" aria-autocomplete="list" data-astro-cid-otpdt6jm> <button id="search-close" aria-label="Close search" data-astro-cid-otpdt6jm>✕</button> </div> <ul id="search-results" role="listbox" aria-label="Search results" data-astro-cid-otpdt6jm></ul> </div>    <div class="page-body"> <aside class="sidebar" aria-label="Section navigation"> <div class="sidebar__section"> <p class="sidebar__label">Extending</p> <a href="/extending/overview" class="sidebar__link"> Overview </a><a href="/extending/skills" class="sidebar__link is-active" aria-current="page"> Skills </a><a href="/extending/mcp" class="sidebar__link"> MCP </a><a href="/extending/connectors" class="sidebar__link"> Connectors </a><a href="/extending/plugins" class="sidebar__link"> Plugins </a><a href="/extending/commands" class="sidebar__link"> Commands </a> </div> </aside> <main id="main-content" class="main-content"> <div class="content-inner"> <h1 class="page-title">Skills</h1> <p class="page-lede">Reusable instruction sets that change how Claude approaches a class of tasks.</p> <div class="article-body" data-pagefind-body>  <p>A Skill is a folder Claude reads on demand. At minimum it contains a <code>SKILL.md</code> file with frontmatter (name and description) and a body of instructions. It can also bundle executable scripts, reference documents, templates, and assets. Claude decides when to load a skill based on its description, then follows the instructions inside, optionally running the bundled code.</p>
+<p>This is Anthropic’s answer to a problem that grew with model capability: as Claude got better at agentic tasks, people started cramming everything into system prompts and CLAUDE.md files. Every session paid the context tax for instructions that only mattered some of the time. Skills invert that. Instructions sit on disk until Claude needs them.</p>
+<h2 id="how-they-actually-work">How they actually work</h2>
+<p>The mechanism is called progressive disclosure, and it has three levels.</p>
+<p><strong>Level one</strong> is permanent. Every skill’s name and description load into Claude’s context at session start. Nothing else. A description is a few sentences. Ten skills cost roughly a paragraph of context.</p>
+<p><strong>Level two</strong> triggers when Claude reads a description and decides the skill applies to the current task. The full <code>SKILL.md</code> body loads. This is the actual instruction set: how to do the thing.</p>
+<p><strong>Level three</strong> is anything <code>SKILL.md</code> references. Bundled Python scripts, reference markdown, templates, sample data. These load only when the body of the skill tells Claude to read or run them.</p>
+<p>The whole point of this design is that you can install dozens of skills, even hundreds, and your context budget barely moves until something fires.</p>
+<svg viewBox="0 0 800 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Progressive disclosure diagram showing the three levels of skill loading" style="width:100%;height:auto;color:currentColor;font-family:ui-sans-serif,system-ui,sans-serif">
+  <style>
+    .panel { fill: none; stroke: currentColor; stroke-opacity: 0.25; stroke-width: 1; }
+    .panel-active { fill: none; stroke: #d97706; stroke-width: 1.5; }
+    .label { fill: currentColor; font-size: 13px; font-weight: 600; }
+    .sub { fill: currentColor; fill-opacity: 0.7; font-size: 12px; }
+    .accent { fill: #d97706; font-size: 12px; font-weight: 600; }
+    .file { fill: currentColor; fill-opacity: 0.85; font-size: 12px; font-family: ui-monospace, monospace; }
+    .dim { fill: currentColor; fill-opacity: 0.45; font-size: 12px; font-family: ui-monospace, monospace; }
+    .arrow { stroke: currentColor; stroke-opacity: 0.45; stroke-width: 1; fill: none; }
+    .arrow-active { stroke: #d97706; stroke-width: 1.5; fill: none; }
+    .level-num { fill: #d97706; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; }
+  </style>
+  <!-- Level 1 -->
+  <rect class="panel-active" x="20" y="40" width="240" height="380" rx="6"></rect>
+  <text class="level-num" x="36" y="64">LEVEL 1 — ALWAYS LOADED</text>
+  <text class="label" x="36" y="86">Name + description</text>
+  <text class="sub" x="36" y="104">Sits in context every session.</text>
+  <text class="sub" x="36" y="120">A few sentences per skill.</text>
+  <rect x="36" y="148" width="208" height="48" rx="4" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-opacity="0.2"></rect>
+  <text class="file" x="48" y="170">cv-resume</text>
+  <text class="dim" x="48" y="187">"Build ATS-optimized CVs..."</text>
+  <rect x="36" y="208" width="208" height="48" rx="4" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-opacity="0.2"></rect>
+  <text class="file" x="48" y="230">pdf</text>
+  <text class="dim" x="48" y="247">"Reading, merging, filling..."</text>
+  <rect x="36" y="268" width="208" height="48" rx="4" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-opacity="0.2"></rect>
+  <text class="file" x="48" y="290">frontend-design</text>
+  <text class="dim" x="48" y="307">"Distinctive web UIs..."</text>
+  <text class="dim" x="36" y="346">+ every other installed skill</text>
+  <text class="accent" x="36" y="386">~1 paragraph total</text>
+  <text class="sub" x="36" y="402">regardless of count</text>
+  <!-- Arrow 1->2 -->
+  <path class="arrow-active" d="M 260 230 L 300 230" marker-end="url(#arr)"></path>
+  <text class="accent" x="263" y="222">trigger</text>
+  <!-- Level 2 -->
+  <rect class="panel" x="300" y="40" width="240" height="380" rx="6"></rect>
+  <text class="level-num" x="316" y="64">LEVEL 2 — ON TRIGGER</text>
+  <text class="label" x="316" y="86">SKILL.md body</text>
+  <text class="sub" x="316" y="104">Loads when Claude decides</text>
+  <text class="sub" x="316" y="120">the description applies.</text>
+  <rect x="316" y="148" width="208" height="240" rx="4" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-opacity="0.2"></rect>
+  <text class="file" x="328" y="170">SKILL.md</text>
+  <text class="dim" x="328" y="194">---</text>
+  <text class="dim" x="328" y="210">name: cv-resume</text>
+  <text class="dim" x="328" y="226">description: ...</text>
+  <text class="dim" x="328" y="242">---</text>
+  <text class="dim" x="328" y="262"># Procedure</text>
+  <text class="dim" x="328" y="280">1. Read uploaded CV</text>
+  <text class="dim" x="328" y="296">2. Read reference/</text>
+  <text class="dim" x="328" y="312">   ats-rules.md</text>
+  <text class="dim" x="328" y="328">3. Draft structure</text>
+  <text class="dim" x="328" y="344">4. Render via</text>
+  <text class="dim" x="328" y="360">   scripts/...</text>
+  <!-- Arrow 2->3 -->
+  <path class="arrow-active" d="M 540 230 L 580 230" marker-end="url(#arr)"></path>
+  <text class="accent" x="543" y="222">on demand</text>
+  <!-- Level 3 -->
+  <rect class="panel" x="580" y="40" width="200" height="380" rx="6"></rect>
+  <text class="level-num" x="596" y="64">LEVEL 3 — REFERENCED</text>
+  <text class="label" x="596" y="86">Bundled assets</text>
+  <text class="sub" x="596" y="104">Only when SKILL.md</text>
+  <text class="sub" x="596" y="120">tells Claude to load.</text>
+  <rect x="596" y="148" width="170" height="36" rx="4" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-opacity="0.2"></rect>
+  <text class="file" x="608" y="171">reference/ats-rules.md</text>
+  <rect x="596" y="194" width="170" height="36" rx="4" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-opacity="0.2"></rect>
+  <text class="file" x="608" y="217">reference/examples.md</text>
+  <rect x="596" y="240" width="170" height="36" rx="4" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-opacity="0.2"></rect>
+  <text class="file" x="608" y="263">templates/base.html</text>
+  <rect x="596" y="286" width="170" height="36" rx="4" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-opacity="0.2"></rect>
+  <text class="file" x="608" y="309">scripts/render_pdf.py</text>
+  <text class="accent" x="596" y="362">Executed or read</text>
+  <text class="sub" x="596" y="378">only as needed.</text>
+  <text class="sub" x="596" y="394">Zero context cost</text>
+  <text class="sub" x="596" y="410">until referenced.</text>
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#d97706"></path>
+    </marker>
+  </defs>
+</svg>
+<h2 id="what-goes-inside-a-skill">What goes inside a skill</h2>
+<p>A minimal skill is one file:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>my-skill/</span></span>
+<span class="line"><span>└── SKILL.md</span></span>
+<span class="line"><span></span></span></code></pre>
+<p>A real skill usually has more:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>cv-resume/</span></span>
+<span class="line"><span>├── SKILL.md              # the instructions Claude follows</span></span>
+<span class="line"><span>├── reference/</span></span>
+<span class="line"><span>│   ├── ats-rules.md      # only loaded if SKILL.md tells Claude to read it</span></span>
+<span class="line"><span>│   └── examples.md</span></span>
+<span class="line"><span>├── templates/</span></span>
+<span class="line"><span>│   └── base.html</span></span>
+<span class="line"><span>└── scripts/</span></span>
+<span class="line"><span>    └── render_pdf.py     # executed in the sandbox when SKILL.md invokes it</span></span>
+<span class="line"><span></span></span></code></pre>
+<p>The frontmatter at the top of <code>SKILL.md</code> is the part Claude sees at session start:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="markdown"><code><span class="line"><span style="color:#79B8FF;font-weight:bold">---</span></span>
+<span class="line"><span style="color:#E1E4E8">name: cv-resume</span></span>
+<span class="line"><span style="color:#E1E4E8">description: Build ATS-optimized CVs and resumes as designed HTML with PDF export. Use when the user asks to create, redesign, or update a CV or resume in any language or industry, or uploads an existing CV for feedback. Covers analysis, structure recommendations, building the HTML, generating the PDF, and iterating until done.</span></span>
+<span class="line"><span style="color:#79B8FF;font-weight:bold">---</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF;font-weight:bold"># CV / Resume Skill</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">Procedure when invoked:</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFAB70">1.</span><span style="color:#E1E4E8"> If the user uploaded an existing CV, read it first and identify what to keep, cut, or rework.</span></span>
+<span class="line"><span style="color:#FFAB70">2.</span><span style="color:#E1E4E8"> Read reference/ats-rules.md before drafting.</span></span>
+<span class="line"><span style="color:#FFAB70">3.</span><span style="color:#E1E4E8"> ...</span></span>
+<span class="line"></span></code></pre>
+<p>Everything below the frontmatter is Level 2. Anything in <code>reference/</code>, <code>templates/</code>, or <code>scripts/</code> is Level 3.</p>
+<h2 id="the-description-is-the-whole-trigger-surface">The description is the whole trigger surface</h2>
+<p>This is the single most important thing to get right and the place most skills fail.</p>
+<p>Claude only ever sees the description in deciding whether to load a skill. If the description is vague, the skill never fires when it should. If it’s overclaimed, it fires on tasks it can’t handle.</p>
+<p>A bad description:</p>
+<blockquote>
+<p>A skill for working with PDFs.</p>
+</blockquote>
+<p>A description that triggers reliably:</p>
+<blockquote>
+<p>Use this skill whenever the user wants to do anything with PDF files. This includes reading or extracting text from PDFs, combining or merging multiple PDFs, splitting them apart, rotating pages, adding watermarks, creating new PDFs, filling forms, encrypting or decrypting, and OCR on scanned PDFs. Use whenever the user mentions a .pdf file or asks to produce one.</p>
+</blockquote>
+<p>The pattern: name the concrete user scenarios that should fire it, and the ones that shouldn’t. The description is not marketing copy. It is a router.</p>
+<h2 id="skills-are-not-just-saved-prompts">Skills are not just saved prompts</h2>
+<p>The most common mental model is that a Skill is a saved prompt you can recall by name. Half right. The half people miss:</p>
+<p>A skill can run code. The bundled <code>scripts/</code> directory is executable in the same sandbox Claude uses for code execution and file creation. Anthropic’s official <code>pdf</code>, <code>xlsx</code>, and <code>pptx</code> skills lean on this. The markdown describes the workflow, but the actual heavy lifting (parsing a workbook, generating a deck from a template) happens in Python the skill ships with. Deterministic where determinism matters, model judgment where judgment matters.</p>
+<p>Once you see this, the design space opens up. A scraping skill bundles the scraper. A deploy skill bundles the deploy script. A research skill bundles the citation formatter. The markdown becomes an orchestrator. Most community skills published right now skip this entirely and stay at the prompt-as-skill level, which leaves most of the leverage on the table.</p>
+<h2 id="where-skills-run">Where skills run</h2>
+<ul>
+<li><strong>Claude.ai</strong> — Settings → Capabilities → enable Code Execution and File Creation. Skills load from your account. Anthropic ships several by default (pdf, docx, pptx, xlsx among them).</li>
+<li><strong>Claude Code</strong> — drop skills into <code>~/.claude/skills/</code> for global, or <code>.claude/skills/</code> inside a project for project-scoped. Manage with <code>/skills</code> and discover others’ work with <code>/find-skills</code> and <code>/plugin</code>.</li>
+<li><strong>The API</strong> — skills are passed in via the Skills API (anthropic/skills repo has the integration patterns). This is how Cowork and any custom agent built on the API uses them.</li>
+<li><strong>Cowork</strong> — same skills as Claude.ai, surfaced through the desktop file-system flow.</li>
+</ul>
+<p>A skill written once works across all of these. The folder structure is the contract.</p>
+<h2 id="how-to-use-them-well">How to use them well</h2>
+<p><strong>Build it by iterating, not by drafting.</strong> Write a first version. Use it. When Claude does something wrong or skips a step, don’t re-prompt around it. Open <code>SKILL.md</code>, fix the instructions, save, run again. The skill itself is the artifact you’re improving. After five or six rounds of this, a good skill produces consistent output with no extra prompting.</p>
+<p><strong>Move logic into scripts when determinism matters.</strong> If a step has one correct way to do it (rendering, validation, computation, formatting), a Python file in <code>scripts/</code> is more reliable than a paragraph of instructions. Keep prose for judgment calls. Keep scripts for procedure.</p>
+<p><strong>Split big skills into reference files.</strong> If <code>SKILL.md</code> runs past three or four hundred lines, push the rarely-needed parts into <code>reference/</code> and have the body say “for X, read reference/x.md.” That preserves the progressive disclosure benefit. A skill where everything is in one giant <code>SKILL.md</code> reloads the whole thing every trigger, which defeats the design.</p>
+<p><strong>Compose skills instead of building monoliths.</strong> If a CV builder needs polished HTML, let the existing <code>frontend-design</code> skill handle styling and have your CV skill describe content rules only. Skills stack. Two firing together is normal.</p>
+<p><strong>Treat the description as the product.</strong> Spend more time on the description than on the body. The body only matters if the description fires. Test by asking Claude in a clean session to handle a task the skill should fire on, and see if it does. If not, the description is wrong, not the prompt.</p>
+<h2 id="common-mistakes">Common mistakes</h2>
+<p><strong>Stuffing skill-shaped instructions into <code>CLAUDE.md</code>.</strong> This works but you pay the token cost every session, including sessions where the instructions are irrelevant. The instinct to put “everything Claude needs to know” in CLAUDE.md is the thing Skills exist to replace. Use CLAUDE.md for things that apply to every session in a project. Use Skills for things that apply when a specific task comes up.</p>
+<p><strong>Confusing Skills with MCP servers.</strong> Skills are instructions Claude executes. MCP servers are external tools Claude can call. A skill might <em>use</em> an MCP server inside its workflow (“call the github MCP to fetch the issue”), but they sit at different layers. Skills extend Claude’s behavior. MCP extends Claude’s reach.</p>
+<p><strong>Confusing Skills with Subagents.</strong> Subagents spawn a separate Claude instance with its own context window to handle a subtask in parallel. Skills are loaded into the current Claude’s context. A subagent can use skills. A skill is not a subagent.</p>
+<p><strong>Vague descriptions that never trigger.</strong> Already covered above, but worth repeating because it kills more skills than any other failure mode.</p>
+<p><strong>Skipping the iteration loop.</strong> A first-draft skill never works as well as the same skill after five rounds of “use it, find what broke, fix the markdown, repeat.” Treat the skill like code. Maintain it.</p>
+<h2 id="a-concrete-example-building-a-cv-skill">A concrete example: building a CV skill</h2>
+<p>The process that actually works:</p>
+<ol>
+<li>Research what a good CV looks like in your target context (ATS rules, photo conventions for your country, length, ordering). Have Claude do the research, but verify the claims yourself before committing them to the skill.</li>
+<li>Write a first <code>SKILL.md</code> capturing those rules as a procedure.</li>
+<li>Build a CV with the skill. Note everywhere Claude went off-procedure, made a judgment you disagreed with, or produced something inconsistent.</li>
+<li>Open <code>SKILL.md</code>. Fix those things directly in the instructions, not by re-prompting.</li>
+<li>Repeat. After five or six iterations, the skill produces a CV you’d ship without manual editing.</li>
+<li>Move deterministic parts (PDF rendering, ATS keyword matching) into <code>scripts/</code>. Keep judgment-heavy parts (tone, what to cut) in prose.</li>
+</ol>
+<p>This loop generalises. It is the workflow for any skill worth building.</p>
+<a href="/library/skills" class="crosslink">
+  <svg class="crosslink__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+  <div class="crosslink__body">
+    <p class="crosslink__label">See also</p>
+    <p class="crosslink__title">Library: Skills</p>
+    <p class="crosslink__desc">Browse the curated list of available skills.</p>
+  </div>
+  <svg class="crosslink__arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" width="16" height="16"><path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+</a>  </div> </div> </main> </div>  </div>  </body> </html>

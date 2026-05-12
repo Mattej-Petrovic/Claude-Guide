@@ -1,0 +1,95 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const sections = [
+  {
+    num: '01',
+    name: 'Foundations',
+    href: '/foundations/ecosystem',
+    desc: 'The ecosystem, the models, and how to pick the right product for the job.',
+  },
+  {
+    num: '02',
+    name: 'Products',
+    href: '/products/claude-ai',
+    desc: 'Every Claude surface — claude.ai, Code, Cowork, Chrome, Design, Dispatch, Phone.',
+  },
+  {
+    num: '03',
+    name: 'Concepts',
+    href: '/concepts/prompting',
+    desc: 'Prompting, memory, projects, artifacts, subagents, hooks, and permissions.',
+  },
+  {
+    num: '04',
+    name: 'Extending',
+    href: '/extending/overview',
+    desc: 'Skills, MCP, connectors, plugins, and commands — when to use what.',
+  },
+  {
+    num: '05',
+    name: 'Workflows',
+    href: '/workflows/claude-code',
+    desc: 'Real patterns for Claude Code, Cowork, token optimization, and more.',
+  },
+  {
+    num: '06',
+    name: 'Library',
+    href: '/library/commands',
+    desc: 'Reference lists of commands, skills, plugins, and MCP servers.',
+  },
+  {
+    num: '07',
+    name: 'Settings',
+    href: '/settings/walkthrough',
+    desc: 'Walkthrough every setting, customize behavior, understand usage.',
+  },
+];
+---
+
+<BaseLayout title="Claude Guide" description="A practical guide to using the Claude ecosystem well.">
+  <main id="main-content" class="landing">
+
+    <section class="landing__hero">
+      <p class="landing__eyebrow">Claude Guide</p>
+      <h1 class="landing__headline">
+        Go deeper with Claude.
+      </h1>
+      <p class="landing__desc">
+        A practical guide to the Claude ecosystem, not only what each product is, but also how to use it well.
+      </p>
+      <div class="landing__ctas">
+        <a href="/foundations/ecosystem" class="btn btn--primary">
+          New to Claude
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </a>
+        <a href="/workflows/claude-code" class="btn btn--ghost">
+          Show me the depth
+        </a>
+      </div>
+      <p class="landing__meta">
+        Not sure where to start? <a href="/guide">How to use this guide</a>
+      </p>
+    </section>
+
+    <section class="landing__sections">
+      <p class="landing__sections-label">Seven sections</p>
+      <div class="sections-grid stagger-children">
+        {sections.map((s) => (
+          <a href={s.href} class="section-card">
+            <p class="section-card__num">{s.num}</p>
+            <p class="section-card__name">{s.name}</p>
+            <p class="section-card__desc">{s.desc}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <p class="site-footer__text">Claude Guide — community documentation, not affiliated with Anthropic.</p>
+      <a href="/guide" class="site-footer__guide-link">How to use this guide</a>
+    </footer>
+  </main>
+</BaseLayout>

@@ -1,0 +1,29 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Sidebar from '../components/Sidebar.astro';
+
+interface Props {
+  title: string;
+  lede: string;
+  description?: string;
+  section: string;
+}
+
+const { title, lede, description, section } = Astro.props;
+---
+
+<BaseLayout title={title} description={description ?? lede} section={section}>
+  <div class="page-body">
+    <Sidebar currentSection={section} currentPath={Astro.url.pathname} />
+
+    <main id="main-content" class="main-content">
+      <div class="content-inner">
+        <h1 class="page-title">{title}</h1>
+        <p class="page-lede">{lede}</p>
+        <div class="article-body" data-pagefind-body>
+          <slot />
+        </div>
+      </div>
+    </main>
+  </div>
+</BaseLayout>

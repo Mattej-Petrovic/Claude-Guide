@@ -1,0 +1,133 @@
+---
+// Model comparison table with mobile card fallback.
+// Sonnet 4.6 column header gets a subtle accent — it's the recommended default.
+// Numeric cells (pricing, context, output) are right-aligned.
+// API model ID row renders in monospace.
+// On narrow viewports the table hides and per-model cards are shown instead.
+---
+
+<div class="model-table-wrap">
+  <table class="model-table">
+    <thead>
+      <tr>
+        <th class="model-table__feature-col">Feature</th>
+        <th>Opus 4.7</th>
+        <th class="model-table__recommended">Sonnet 4.6</th>
+        <th>Haiku 4.5</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="model-table__label">Tier</td>
+        <td>Most capable</td>
+        <td class="model-table__recommended">Daily driver</td>
+        <td>Fast &amp; cheap</td>
+      </tr>
+      <tr>
+        <td class="model-table__label">Released</td>
+        <td>April 2026</td>
+        <td class="model-table__recommended">February 2026</td>
+        <td>October 2025</td>
+      </tr>
+      <tr>
+        <td class="model-table__label">Pricing<br/><span class="model-table__sublabel">per 1M tokens</span></td>
+        <td class="model-table__numeric">$5 in / $25 out</td>
+        <td class="model-table__numeric model-table__recommended">$3 in / $15 out</td>
+        <td class="model-table__numeric">$1 in / $5 out</td>
+      </tr>
+      <tr>
+        <td class="model-table__label">Context window</td>
+        <td class="model-table__numeric">1M tokens</td>
+        <td class="model-table__numeric model-table__recommended">1M tokens</td>
+        <td class="model-table__numeric">200K tokens</td>
+      </tr>
+      <tr>
+        <td class="model-table__label">Max output</td>
+        <td class="model-table__numeric">128K tokens</td>
+        <td class="model-table__numeric model-table__recommended">64K tokens</td>
+        <td class="model-table__numeric">64K tokens</td>
+      </tr>
+      <tr>
+        <td class="model-table__label">Extended thinking</td>
+        <td>Yes</td>
+        <td class="model-table__recommended">Yes</td>
+        <td>Yes</td>
+      </tr>
+      <tr>
+        <td class="model-table__label">Adaptive thinking</td>
+        <td>Yes</td>
+        <td class="model-table__recommended">Yes</td>
+        <td>No</td>
+      </tr>
+      <tr>
+        <td class="model-table__label">Latency</td>
+        <td>Moderate</td>
+        <td class="model-table__recommended">Fast</td>
+        <td>Fastest</td>
+      </tr>
+      <tr>
+        <td class="model-table__label">Knowledge cutoff</td>
+        <td>Jan 2026</td>
+        <td class="model-table__recommended">Aug 2025</td>
+        <td>Feb 2025</td>
+      </tr>
+      <tr>
+        <td class="model-table__label">API model ID</td>
+        <td class="model-table__mono">claude-opus-4-7</td>
+        <td class="model-table__mono model-table__recommended">claude-sonnet-4-6</td>
+        <td class="model-table__mono">claude-haiku-4-5</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Mobile: one card per model, same data -->
+<div class="model-cards">
+  <div class="model-card">
+    <div class="model-card__header">Opus 4.7</div>
+    <dl class="model-card__data">
+      <dt>Tier</dt><dd>Most capable</dd>
+      <dt>Released</dt><dd>April 2026</dd>
+      <dt>Pricing</dt><dd class="model-card__numeric">$5 in / $25 out per 1M tokens</dd>
+      <dt>Context window</dt><dd class="model-card__numeric">1M tokens</dd>
+      <dt>Max output</dt><dd class="model-card__numeric">128K tokens</dd>
+      <dt>Extended thinking</dt><dd>Yes</dd>
+      <dt>Adaptive thinking</dt><dd>Yes</dd>
+      <dt>Latency</dt><dd>Moderate</dd>
+      <dt>Knowledge cutoff</dt><dd>Jan 2026</dd>
+      <dt>API model ID</dt><dd class="model-card__mono">claude-opus-4-7</dd>
+    </dl>
+  </div>
+
+  <div class="model-card model-card--recommended">
+    <div class="model-card__header">Sonnet 4.6 <span class="model-card__badge">recommended</span></div>
+    <dl class="model-card__data">
+      <dt>Tier</dt><dd>Daily driver</dd>
+      <dt>Released</dt><dd>February 2026</dd>
+      <dt>Pricing</dt><dd class="model-card__numeric">$3 in / $15 out per 1M tokens</dd>
+      <dt>Context window</dt><dd class="model-card__numeric">1M tokens</dd>
+      <dt>Max output</dt><dd class="model-card__numeric">64K tokens</dd>
+      <dt>Extended thinking</dt><dd>Yes</dd>
+      <dt>Adaptive thinking</dt><dd>Yes</dd>
+      <dt>Latency</dt><dd>Fast</dd>
+      <dt>Knowledge cutoff</dt><dd>Aug 2025</dd>
+      <dt>API model ID</dt><dd class="model-card__mono">claude-sonnet-4-6</dd>
+    </dl>
+  </div>
+
+  <div class="model-card">
+    <div class="model-card__header">Haiku 4.5</div>
+    <dl class="model-card__data">
+      <dt>Tier</dt><dd>Fast &amp; cheap</dd>
+      <dt>Released</dt><dd>October 2025</dd>
+      <dt>Pricing</dt><dd class="model-card__numeric">$1 in / $5 out per 1M tokens</dd>
+      <dt>Context window</dt><dd class="model-card__numeric">200K tokens</dd>
+      <dt>Max output</dt><dd class="model-card__numeric">64K tokens</dd>
+      <dt>Extended thinking</dt><dd>Yes</dd>
+      <dt>Adaptive thinking</dt><dd>No</dd>
+      <dt>Latency</dt><dd>Fastest</dd>
+      <dt>Knowledge cutoff</dt><dd>Feb 2025</dd>
+      <dt>API model ID</dt><dd class="model-card__mono">claude-haiku-4-5-20251001</dd>
+    </dl>
+  </div>
+</div>

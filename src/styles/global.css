@@ -154,7 +154,7 @@ li::marker { color: var(--text-muted); }
 
 hr {
   border: none;
-  border-top: 1px solid var(--border-default);
+  border-top: 1px solid var(--border-strong);
   margin: var(--space-12) 0;
 }
 

@@ -196,3 +196,117 @@ When Claude tries to finish, this runs the test suite. If tests fail, it blocks 
 **The advanced production setup** that teams running Claude Code in real environments tend to converge on: PreToolUse runs `gitleaks` on every Write to catch secrets before they hit disk. PostToolUse type-checks the changed file. PreToolUse on Bash logs every command to an audit file. Notification fires Slack when Claude requests permission for anything sensitive. SessionStart loads the threat model doc plus the current branch into context. Five hooks, multiple layers of defense. None of it written into CLAUDE.md, all of it enforced.
 
 This is what people mean when they say Claude Code is the most powerful coding tool that has ever shipped, and it runs Bash, and it reads your filesystem, and it calls external tools with your credentials. The hooks layer is what makes that statement comfortable instead of terrifying.
+
+---
+
+## Advanced
+
+Once the patterns above feel routine, three more layers open up: composing hooks into a policy stack, centralising hook logic on a server so a team shares one ruleset, and turning the Stop hook into a self-healing loop that runs unattended. Nothing here is a new primitive. Each is a way of using what is already on the page differently.
+
+### Hook composition as a layered policy stack
+
+Multiple hooks on the same event do not run in a pipeline. They run **in parallel**, each independently, and Claude Code merges the verdicts when they all finish. For PreToolUse permission decisions, the most restrictive answer wins: `deny` beats `defer`, which beats `ask`, which beats `allow`. Any `additionalContext` strings from every hook are concatenated and passed to Claude together. One hook returning `deny` does not stop sibling hooks from executing — they still run to completion, side effects and all.
+
+This is what makes composition work. Because the merge rules are well-defined, a complex policy can be split into single-responsibility hooks that each do one thing and trust each other to do the rest.
+
+A practical stack for a file write looks like three hooks on the same `Write|Edit` matcher:
+
+```json
+{
+  "hooks": {
+    "PreToolUse": [{
+      "matcher": "Write|Edit",
+      "hooks": [
+        { "type": "command", "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/secret-scan.sh" },
+        { "type": "command", "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/protected-paths.sh" },
+        { "type": "command", "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/audit-write.sh", "async": true }
+      ]
+    }]
+  }
+}
+```
+
+The secret scanner exits 2 if it finds an API key in the diff. The protected-paths check exits 2 if the target file matches `.env` or anything under `.git/`. The audit hook always exits 0 and logs the attempt to a file. All three run on every write. If either of the first two denies, the write is blocked; the audit entry is still written because the third hook had already started.
+
+The reason to split rather than merge is the same reason any system gets decomposed: each script has one job, can be tested in isolation, and can be reused. The secret scanner is the same script you'd run in pre-commit. The audit hook can be shared across `Bash` and `Edit` and `Write` without touching the security logic.
+
+Two constraints to keep in mind. Hooks run in parallel, so they cannot depend on each other's output, and the order of `updatedInput` rewrites is non-deterministic — if two hooks both rewrite the same tool's input, the last one to finish wins, and which one that is varies. Avoid having more than one hook modify the same tool's input. The other constraint is latency: every hook on a hot event adds its slowest member's runtime to every tool call. Use `async: true` for anything that does not need to gate the call (logging, telemetry, notifications), and reserve the synchronous slot for actual policy.
+
+### HTTP hooks for team-wide policy
+
+A `type: "http"` hook sends the event JSON as a POST request to a URL and reads the response body for the decision. The body uses the same JSON output format as a command hook. Replace local scripts with one endpoint, and every developer's session enforces the same policy.
+
+```json
+{
+  "hooks": {
+    "PreToolUse": [{
+      "matcher": "Bash",
+      "hooks": [{
+        "type": "http",
+        "url": "https://policy.internal.example.com/hooks/pre-tool-use",
+        "headers": { "Authorization": "Bearer $POLICY_TOKEN" },
+        "allowedEnvVars": ["POLICY_TOKEN"]
+      }]
+    }]
+  }
+}
+```
+
+The endpoint receives the same `tool_name` and `tool_input` a local script would read from stdin, applies whatever rules the team has agreed on, and returns a JSON body that either allows the call, denies it with a reason, or injects `additionalContext` Claude will read on the next turn. The config goes in the team's shared `.claude/settings.json` and gets committed to the repo. Updating policy means deploying the server, not asking every developer to update their local hooks.
+
+The reason this matters is that local hooks drift. Twenty developers with twenty copies of `secret-scan.sh` end up with twenty slightly different versions, and the strictest one becomes a flaky CI failure nobody can reproduce. A central endpoint has one version, one log, one place to update the regex when a new credential format appears. The same endpoint can also forward events to a SIEM, build a dashboard of what Claude has touched across the team, or rate-limit specific tool patterns.
+
+Two things to know before relying on this in production. First, HTTP hooks fail open by default — non-2xx responses, timeouts, and connection failures are all non-blocking errors, and execution continues. If your policy server goes down, every developer's Claude session keeps running with no enforcement. If you need the opposite behavior, wrap the HTTP hook in a thin local command hook that calls your endpoint and exits 2 on failure. Second, header values support `$VAR` interpolation only for variables listed in `allowedEnvVars`. Anything not in that allowlist is replaced with an empty string. Tokens go in env vars and get referenced; they never go in the config itself, which lives in git.
+
+### The Stop hook as a self-healing loop
+
+The completion gate earlier on this page blocks a single stop until tests pass. The same mechanism, structured a little differently, is what lets Claude run for hours on its own and recover from its own mistakes.
+
+The shape of an autonomous loop is: a clear definition of done, a way to verify it, a way to inject feedback when the verification fails, and a way to exit cleanly when it passes. The Stop hook is all four. Exit 2 forces continuation. The stderr message becomes the feedback Claude reads on the next turn. Exit 0 lets the session end. The `stop_hook_active` flag tells the hook whether it is already inside a continuation cycle, which is the only way to avoid an infinite loop.
+
+A more durable version of the gate uses an evidence file rather than a live test run, so the hook is checking a recorded fact rather than rerunning the work:
+
+```bash
+#!/bin/bash
+# .claude/hooks/done-gate.sh
+INPUT=$(cat)
+
+# Reentrancy guard. Without this the loop never ends.
+if [ "$(echo "$INPUT" | jq -r '.stop_hook_active')" = "true" ]; then
+  exit 0
+fi
+
+CWD=$(echo "$INPUT" | jq -r '.cwd')
+EVIDENCE="$CWD/.evidence/done.json"
+
+# Did this turn produce a complete evidence file?
+if [ ! -f "$EVIDENCE" ]; then
+  echo "No evidence file at .evidence/done.json. Run the verification script and write the result there before finishing." >&2
+  exit 2
+fi
+
+# Is the evidence valid?
+if ! jq -e '.tests_passed == true and .types_passed == true and .lint_passed == true' "$EVIDENCE" > /dev/null; then
+  REASON=$(jq -r '.failure_reason // "unknown"' "$EVIDENCE")
+  echo "Verification failed: $REASON. Fix and rewrite .evidence/done.json." >&2
+  exit 2
+fi
+
+exit 0
+```
+
+The hook does not run `npm test` itself. It checks whether Claude has produced a file claiming the work is done and reads what is in it. The contract becomes: Claude is finished when the evidence file says so, and only then. This is a small change that makes the loop survive across turns. The test run can be slow, can require a database, can fork to a subagent — none of that has to happen inside the hook. The hook is just the bouncer.
+
+Three things are worth being honest about before running this overnight.
+
+Autonomous loops burn tokens. A session that retries for four hours can easily cost more than running the work synchronously and reviewing the result. The pattern is worth it when the work is parallelisable (large refactors, batch fixes, test coverage backfills) and the verification is cheap and deterministic. It is not worth it for judgment work or anything where "done" is subjective.
+
+The Stop hook fires whenever Claude finishes responding, not only at task completion. If you build a hook that grades the whole task on every turn and the task is genuinely multi-step, you create a hook that will keep blocking turns that were never trying to finish. The cleanest version of the pattern lets Claude declare intent ("I am stopping now") and only then runs the gate. The evidence file is one way to do that. A user-controlled flag is another.
+
+Stop hooks and async work do not mix cleanly. If a turn is waiting on a background subagent to come back, the Stop hook will fire while the wait is happening and can force continuation Claude has no way to satisfy — Claude cannot poll, cannot invoke another tool, and cannot produce the evidence the hook is looking for. This is a known failure mode that has consumed entire session quotas. If a workflow uses `run_in_background: true`, the Stop hook needs an explicit branch that returns `exit 0` when pending background work exists.
+
+### What this layer is actually for
+
+A composition stack, an HTTP endpoint, and a Stop-hook loop are three different answers to the same question: how much of the work can Claude do without you in the room? Composition makes a single session safer to leave running unattended. HTTP hooks make twenty sessions enforce the same rules. The Stop-hook loop makes one session keep trying until it has produced evidence of being done.
+
+None of this is autonomy in the brochure sense. Each pattern works because the rules of the loop are spelled out in code that runs whether Claude likes it or not. That is the same idea the rest of this page has been pointing at, scaled up. Hooks are not a clever trick. They are how you write down what the agent is and is not allowed to do, and then trust the system to hold the line.

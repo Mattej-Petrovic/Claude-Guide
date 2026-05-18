@@ -376,6 +376,152 @@ tbody tr:hover td { background: var(--bg-surface); }
 }
 
 /* ============================================================
+   SKILL CARDS (library/skills community section)
+   ============================================================ */
+.skill-card {
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: var(--space-5) var(--space-6);
+  margin: var(--space-4) 0;
+  background: var(--bg-surface);
+  transition: border-color var(--duration-fast) var(--ease-out);
+}
+.skill-card:hover {
+  border-color: var(--border-strong);
+}
+
+.skill-card__header {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.skill-card__name {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-code);
+}
+
+.skill-card__tag {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+.skill-card__tag::before {
+  content: "— ";
+}
+
+.skill-card__desc {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  max-width: none;
+  margin-bottom: var(--space-4);
+  line-height: 1.65;
+}
+
+.skill-card__install {
+  margin-bottom: var(--space-3);
+}
+
+.skill-card__install-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: var(--space-2);
+}
+
+.skill-card__install pre {
+  margin-bottom: 0;
+  font-size: 0.8rem;
+}
+
+.skill-card__install + .skill-card__install {
+  margin-top: var(--space-2);
+}
+
+.skill-card__link {
+  display: inline-block;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: var(--space-2);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+.skill-card__link:hover {
+  color: var(--accent);
+  opacity: 1;
+}
+
+.skill-card__author {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: var(--space-3);
+}
+
+/* ============================================================
+   COMMAND QUICK REFERENCE STRIP
+   ============================================================ */
+.cmd-quickref {
+  margin: var(--space-8) 0;
+  padding: var(--space-5) var(--space-6);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+}
+
+.cmd-quickref__label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0 0 var(--space-3) 0;
+  max-width: none;
+}
+
+.cmd-quickref__grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.cmd-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  transition: border-color var(--duration-fast) var(--ease-out),
+              background var(--duration-fast) var(--ease-out);
+}
+.cmd-chip:hover {
+  border-color: var(--accent-border);
+  background: var(--accent-dim);
+  opacity: 1;
+}
+
+.cmd-chip code {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-code);
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.cmd-chip span {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+/* ============================================================
    LAYOUT SHELL
    ============================================================ */
 .site-shell {
@@ -625,10 +771,9 @@ tbody tr:hover td { background: var(--bg-surface); }
    --_w is the diagram width. We shift left by (diagram-width - content-max) / 2
    so it stays centered over the content column. */
 .ecosystem-diagram {
-  --_w: min(calc(100vw - var(--sidebar-width) - var(--space-8) * 2 - var(--space-8)), 880px);
   display: block;
-  width: var(--_w);
-  max-width: 100%;
+  width: min(calc(100vw - var(--sidebar-width) - var(--space-8) * 2), 900px);
+  max-width: min(calc(100vw - var(--sidebar-width) - var(--space-8) * 2), 900px);
   position: relative;
   left: 50%;
   transform: translateX(-50%);
@@ -683,6 +828,9 @@ tbody tr:hover td { background: var(--bg-surface); }
   padding: var(--space-6);
   color: var(--text-primary);
   box-sizing: border-box;
+}
+.article-body > svg.svg-wide[viewBox] {
+  --_svg-w: min(calc(100vw - var(--sidebar-width) - var(--space-8) * 2 - var(--space-8)), 1040px);
 }
 @media (max-width: 768px) {
   .article-body > svg[viewBox],
@@ -1037,13 +1185,6 @@ tbody tr:hover td { background: var(--bg-surface); }
   margin: 0;
 }
 
-/* Offset variant — first card in each row slightly taller feel */
-.section-card:nth-child(odd) {
-  margin-top: 0;
-}
-.section-card:nth-child(even) {
-  margin-top: var(--space-3);
-}
 
 /* ============================================================
    FOOTER

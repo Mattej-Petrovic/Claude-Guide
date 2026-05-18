@@ -14,238 +14,201 @@ section: library
   <svg class="crosslink__arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" width="16" height="16"><path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round" /></svg>
 </a>
 
-Plugins bundle skills, agents, hooks, MCP servers, and commands into a single installable package. Where a skill is one markdown file that teaches Claude one workflow, a plugin is the whole system -- everything configured and namespaced, ready to use.
+Plugins bundle skills, agents, hooks, MCP servers, and commands into a single installable package. Install from the official marketplace:
 
-Install from the official marketplace:
 ```
 claude plugin install <plugin-name>@claude-plugins-official
 ```
 
-Most plugins install globally (user scope) and are available in every project. Add `--scope project` to limit to the current repo.
+Most plugins install globally and are available in every project. Add `--scope project` to limit to the current repo. After installing, run `/reload-plugins` to activate without restarting.
 
-After installing, run `/reload-plugins` to activate without restarting. Manage installed plugins with `/plugin`.
-
-**Security note:** Plugins can load MCP servers, hooks, and external software. Only install plugins from sources you trust. The official marketplace (`claude-plugins-official`) is Anthropic-managed. Community marketplaces vary.
+**Security note:** Plugins can load MCP servers, hooks, and external software. Only install from sources you trust.
 
 ---
 
 ## Official Plugins
-*By Anthropic · installed from `claude-plugins-official`*
 
-The official marketplace comes pre-configured. No `marketplace add` step needed for these.
+*By Anthropic &middot; installed from `claude-plugins-official`. No `marketplace add` step needed.*
 
----
+<div class="skill-card">
+  <div class="skill-card__header">
+    <span class="skill-card__name">code-review</span>
+    <span class="skill-card__tag">Automated PR code review</span>
+  </div>
+  <p class="skill-card__desc">Four parallel agents independently assess logic errors, security issues, style violations, and CLAUDE.md compliance — each finding scored 0–100, only issues above 80 confidence reported. Output includes direct GitHub links with full SHA hashes and line numbers. Can post as a PR comment or print to terminal.</p>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Install</span>
+    <pre><code>claude plugin install code-review@claude-plugins-official</code></pre>
+  </div>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Use</span>
+    <pre><code>/code-review           # review and print to terminal
+/code-review --comment # post as GitHub PR comment</code></pre>
+  </div>
+  <a class="skill-card__link" href="https://github.com/anthropics/claude-code/tree/main/plugins/code-review" target="_blank" rel="noopener">github.com/anthropics/claude-code/tree/main/plugins/code-review →</a>
+</div>
 
-### code-review
-Automated PR code review using four parallel agents with confidence-based scoring. Agents independently assess logic errors, security issues, style violations, and CLAUDE.md compliance. Each finding is scored 0--100 and only issues above 80 confidence are reported -- filtering the noise that makes automated review annoying. Output includes direct GitHub links with full SHA hashes and line numbers. Can post the review as a PR comment or print to terminal.
+<div class="skill-card">
+  <div class="skill-card__header">
+    <span class="skill-card__name">feature-dev</span>
+    <span class="skill-card__tag">Full feature development workflow</span>
+  </div>
+  <p class="skill-card__desc">Three specialized agents in sequence: explorer maps every relevant file, architect designs the implementation (data models, API contracts, component structure), reviewer audits the plan for edge cases and risks before a line is written. Works best with a well-maintained CLAUDE.md.</p>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Install</span>
+    <pre><code>claude plugin install feature-dev@claude-plugins-official</code></pre>
+  </div>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Use</span>
+    <pre><code>/feature-dev</code></pre>
+  </div>
+  <a class="skill-card__link" href="https://github.com/anthropics/claude-plugins-official" target="_blank" rel="noopener">github.com/anthropics/claude-plugins-official →</a>
+</div>
 
-**Install:**
-```
-claude plugin install code-review@claude-plugins-official
-```
+<div class="skill-card">
+  <div class="skill-card__header">
+    <span class="skill-card__name">security-guidance</span>
+    <span class="skill-card__tag">Silent PreToolUse security hook</span>
+  </div>
+  <p class="skill-card__desc">Runs on every file write and edit, checking for nine patterns: command injection, XSS, eval usage, dangerous HTML, pickle deserialization, os.system calls, unsafe regex, hardcoded secrets, and SQL string concatenation. Warns before the tool executes — not after. No slash command, no manual trigger.</p>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Install</span>
+    <pre><code>claude plugin install security-guidance@claude-plugins-official</code></pre>
+  </div>
+  <a class="skill-card__link" href="https://github.com/anthropics/claude-plugins-official" target="_blank" rel="noopener">github.com/anthropics/claude-plugins-official →</a>
+</div>
 
-**Use:**
-```
-/code-review              # review and print to terminal
-/code-review --comment    # post as GitHub PR comment
-```
+<div class="skill-card">
+  <div class="skill-card__header">
+    <span class="skill-card__name">context7</span>
+    <span class="skill-card__tag">Live library documentation &mdash; by Upstash, Anthropic-verified</span>
+  </div>
+  <p class="skill-card__desc">Pulls current version-specific documentation from source repositories (React, Postgres, Stripe, etc.) instead of relying on training-data docs that may be months out of date. Activates automatically when Claude identifies a library reference. Queries route to Upstash's hosted service — no API key needed for basic use.</p>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Install</span>
+    <pre><code>claude plugin install context7@claude-plugins-official</code></pre>
+  </div>
+  <a class="skill-card__link" href="https://github.com/anthropics/claude-plugins-official/tree/main/external_plugins/context7" target="_blank" rel="noopener">github.com/anthropics/claude-plugins-official/tree/main/external_plugins/context7 →</a>
+</div>
 
-Run on a PR branch. Skips closed, draft, automated, and already-reviewed PRs automatically. Adjust the confidence threshold by editing the command file if 80 doesn't suit your team.
+<div class="skill-card">
+  <div class="skill-card__header">
+    <span class="skill-card__name">playwright</span>
+    <span class="skill-card__tag">Browser automation MCP &mdash; by Microsoft, Anthropic-verified</span>
+  </div>
+  <p class="skill-card__desc">Playwright MCP bundled as a one-command plugin install — navigate, click, fill forms, screenshot, run end-to-end tests via accessibility snapshots — without manually configuring the MCP entry. See <a href="/library/mcp-servers">MCP Servers → Playwright</a> for full capabilities.</p>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Install</span>
+    <pre><code>claude plugin install playwright@claude-plugins-official</code></pre>
+  </div>
+  <a class="skill-card__link" href="https://github.com/anthropics/claude-plugins-official" target="_blank" rel="noopener">github.com/anthropics/claude-plugins-official →</a>
+</div>
 
-→ [github.com/anthropics/claude-code/tree/main/plugins/code-review](https://github.com/anthropics/claude-code/tree/main/plugins/code-review)
-
----
-
-### feature-dev
-Full feature development workflow orchestrated by three specialized agents. The explorer agent maps the codebase and identifies every file relevant to the feature. The architect agent designs the implementation -- data models, API contracts, component structure. The reviewer agent audits the plan for edge cases and risks before a line is written. Claude asks clarifying questions throughout rather than making silent assumptions.
-
-**Install:**
-```
-claude plugin install feature-dev@claude-plugins-official
-```
-
-**Use:**
-```
-/feature-dev
-```
-
-Then describe the feature in natural language. Works best with a well-maintained CLAUDE.md -- the agents use it to understand your conventions before planning.
-
-→ [github.com/anthropics/claude-plugins-official](https://github.com/anthropics/claude-plugins-official)
-
----
-
-### security-guidance
-A PreToolUse hook that runs silently on every file write and edit, checking for nine security patterns: command injection, XSS, eval usage, dangerous HTML, pickle deserialization, os.system calls, unsafe regex, hardcoded secrets, and SQL string concatenation. When it fires, it warns before the tool executes -- not after. No slash command, no manual trigger. Just installs and runs in the background for every session.
-
-**Install:**
-```
-claude plugin install security-guidance@claude-plugins-official
-```
-
-No interaction required after install. The hook fires automatically whenever Claude writes or edits a file. Does not block -- it warns.
-
-→ [github.com/anthropics/claude-plugins-official](https://github.com/anthropics/claude-plugins-official)
-
----
-
-### context7
-**By Upstash · External plugin, Anthropic-verified**
-
-Connects to Upstash's Context7 service, which indexes live documentation from source repositories. When Claude needs to reference a library (React, Postgres, Stripe, etc.), instead of relying on training-data docs that may be months out of date, it pulls the current version-specific documentation from the actual source repo. Eliminates the class of bugs caused by Claude confidently using an API that changed in the last release.
-
-**Install:**
-```
-claude plugin install context7@claude-plugins-official
-```
-
-No API key needed for basic use. Claude activates Context7 automatically when it identifies a library reference in context. The plugin connects to Upstash's hosted service -- your queries go to their servers.
-
-→ [github.com/anthropics/claude-plugins-official/tree/main/external_plugins/context7](https://github.com/anthropics/claude-plugins-official/tree/main/external_plugins/context7)
-
----
-
-### playwright
-**By Microsoft · External plugin, Anthropic-verified**
-
-Playwright MCP bundled as a one-command plugin install. Same capabilities as the standalone MCP server (navigate, click, fill forms, screenshot, run end-to-end tests via accessibility snapshots) but packaged so you don't need to manually configure the MCP entry. Useful if you want Playwright alongside other plugins without editing config files.
-
-**Install:**
-```
-claude plugin install playwright@claude-plugins-official
-```
-
-For more on what Playwright MCP can do, see [MCP Servers → Playwright](/library/mcp-servers).
-
-→ [github.com/anthropics/claude-plugins-official](https://github.com/anthropics/claude-plugins-official)
-
----
-
-### ralph-loop
-An autonomous iteration loop. Start it on a task and Claude runs repeatedly -- writing code, testing, fixing failures, iterating -- until the task is done or you stop it. A Stop hook intercepts Claude's natural exit points and redirects back into the loop. `/cancel-ralph` breaks out cleanly.
-
-Best used for tasks with a clear, testable done condition: "make all tests pass," "make the linter clean," "implement this spec." Works poorly for open-ended tasks with no success criteria.
-
-**Install:**
-```
-claude plugin install ralph-loop@claude-plugins-official
-```
-
-**Use:**
-```
-/ralph-loop     # start the loop on the current task
-/cancel-ralph   # break out
-```
-
-→ [github.com/anthropics/claude-code/tree/main/plugins](https://github.com/anthropics/claude-code/tree/main/plugins)
+<div class="skill-card">
+  <div class="skill-card__header">
+    <span class="skill-card__name">ralph-loop</span>
+    <span class="skill-card__tag">Autonomous iteration loop</span>
+  </div>
+  <p class="skill-card__desc">Claude runs repeatedly — writing code, testing, fixing failures, iterating — until the task is done or you stop it. Best for tasks with a clear, testable done condition ("make all tests pass", "implement this spec"). Works poorly for open-ended tasks with no success criteria.</p>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Install</span>
+    <pre><code>claude plugin install ralph-loop@claude-plugins-official</code></pre>
+  </div>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Use</span>
+    <pre><code>/ralph-loop   # start
+/cancel-ralph # break out</code></pre>
+  </div>
+  <a class="skill-card__link" href="https://github.com/anthropics/claude-code/tree/main/plugins" target="_blank" rel="noopener">github.com/anthropics/claude-code/tree/main/plugins →</a>
+</div>
 
 ---
 
 ## Community Plugins
 
----
+<div class="skill-card">
+  <div class="skill-card__header">
+    <span class="skill-card__name">Caveman</span>
+    <span class="skill-card__tag">Output token compression</span>
+  </div>
+  <p class="skill-card__author">By JuliusBrussee</p>
+  <p class="skill-card__desc">Cuts output tokens by ~65% with six intensity levels from <code>lite</code> (removes hedging) to <code>ultra</code> (maximum compression), preserving code blocks, technical terms, and security warnings. Includes <code>caveman-compress</code> for rewriting CLAUDE.md and memory files in compressed format to reduce input tokens too.</p>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Install</span>
+    <pre><code>claude plugin marketplace add JuliusBrussee/caveman
+claude plugin install caveman@caveman</code></pre>
+  </div>
+  <a class="skill-card__link" href="https://github.com/JuliusBrussee/caveman" target="_blank" rel="noopener">github.com/JuliusBrussee/caveman →</a>
+</div>
 
-### Caveman
-**By JuliusBrussee**
-
-Cuts Claude's output tokens by ~65% by forcing minimal, fragment-style responses while preserving full technical accuracy. Drops articles, filler words, and pleasantries. Keeps code blocks, technical terms, and caveats intact. Six intensity levels from `lite` (removes hedging only) to `ultra` (maximum compression). Automatically backs off to normal language for security warnings and destructive operations where clarity matters.
-
-Includes a companion `caveman-compress` sub-skill that rewrites your CLAUDE.md and memory files in compressed format -- reducing input tokens, not just output.
-
-**Install:**
-```
-claude plugin marketplace add JuliusBrussee/caveman
-claude plugin install caveman@caveman
-```
-
-Trigger with `/caveman`, `/caveman lite`, `/caveman ultra`, or natural language: "caveman mode", "less tokens".
-
-→ [github.com/JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman)
-
----
-
-### Everything Claude Code (ECC)
-**By affaan-m**
-
-A complete agent harness built over 10+ months of daily use: 185 skills organized by language (TypeScript, Python, Go, PHP, Swift, web) and domain, 48 production-ready agents, hooks for PreToolUse/PostToolUse/SessionStart events, an instinct system that learns your patterns and promotes them into skills automatically, and AgentShield for scanning against prompt injection and supply-chain attacks.
-
-The plugin installs skills, agents, and hooks. Language-specific rules (coding standards and conventions) must be installed separately -- the plugin system cannot distribute them automatically.
-
-**Install:**
-```
-claude plugin marketplace add affaan-m/everything-claude-code
-claude plugin install ecc@ecc
-```
-
-Then install rules for your stack:
-```
-git clone https://github.com/affaan-m/everything-claude-code.git
+<div class="skill-card">
+  <div class="skill-card__header">
+    <span class="skill-card__name">everything-claude-code (ECC)</span>
+    <span class="skill-card__tag">Full agent harness</span>
+  </div>
+  <p class="skill-card__author">By affaan-m</p>
+  <p class="skill-card__desc">185 skills by language and domain, 48 production-ready agents, hooks for PreToolUse/PostToolUse/SessionStart, an instinct system that promotes your patterns into skills automatically, and AgentShield for prompt injection scanning. Language-specific rules must be installed separately after the plugin.</p>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Install</span>
+    <pre><code>claude plugin marketplace add affaan-m/everything-claude-code
+claude plugin install ecc@ecc</code></pre>
+  </div>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Then install rules for your stack</span>
+    <pre><code>git clone https://github.com/affaan-m/everything-claude-code.git
 cp -r everything-claude-code/rules/common ~/.claude/rules/ecc/
-cp -r everything-claude-code/rules/typescript ~/.claude/rules/ecc/   # or python, golang, php, etc.
-```
+cp -r everything-claude-code/rules/typescript ~/.claude/rules/ecc/</code></pre>
+  </div>
+  <a class="skill-card__link" href="https://github.com/affaan-m/everything-claude-code" target="_blank" rel="noopener">github.com/affaan-m/everything-claude-code →</a>
+</div>
 
-Do not run the full manual installer after a plugin install -- it duplicates skills and hooks.
-
-→ [github.com/affaan-m/everything-claude-code](https://github.com/affaan-m/everything-claude-code)
-
----
-
-### Composio
-**By ComposioHQ**
-
-Connects Claude Code to 1,000+ external apps -- Slack, GitHub, Gmail, Notion, Linear, Google Calendar, Salesforce, and more -- with managed authentication. Instead of configuring one MCP server per service, Composio handles auth for all of them through a single connection and routes Claude's tool calls intelligently. Includes programmatic tool calling for building agents that take real actions across services.
-
-Two plugins: `composio-mcp` (the MCP server connection) and `composio-cli` (CLI tools for managing connections).
-
-**Install:**
-```
-claude plugin marketplace add ComposioHQ/composio-plugin-cc
+<div class="skill-card">
+  <div class="skill-card__header">
+    <span class="skill-card__name">Composio</span>
+    <span class="skill-card__tag">1,000+ external app connections</span>
+  </div>
+  <p class="skill-card__author">By ComposioHQ</p>
+  <p class="skill-card__desc">Connects Claude Code to Slack, GitHub, Gmail, Notion, Linear, Google Calendar, Salesforce, and 1,000+ more with managed authentication — one connection instead of one MCP server per service. Two plugins: <code>composio-mcp</code> (the server connection) and <code>composio-cli</code> (CLI tools for managing connections). Requires a Composio account; tool calls route through their servers.</p>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Install</span>
+    <pre><code>claude plugin marketplace add ComposioHQ/composio-plugin-cc
 claude plugin install composio-mcp@composio
-claude plugin install composio-cli@composio
-```
+claude plugin install composio-cli@composio</code></pre>
+  </div>
+  <a class="skill-card__link" href="https://github.com/ComposioHQ/composio-plugin-cc" target="_blank" rel="noopener">github.com/ComposioHQ/composio-plugin-cc →</a>
+</div>
 
-Requires a Composio account (free tier available). Your API key is stored locally. Tool calls route through Composio's servers -- review their privacy policy if working with sensitive data.
-
-→ [github.com/ComposioHQ/composio-plugin-cc](https://github.com/ComposioHQ/composio-plugin-cc)
-
----
-
-### Repomix
-**By yamadashy**
-
-Packs an entire codebase into a single AI-optimized file for full-project context. Three separate plugins covering different use cases: `repomix-mcp` exposes the packing capability as an MCP server so Claude can request it on demand; `repomix-commands` adds slash commands for quick operations; `repomix-explorer` adds AI-powered codebase analysis agents. All three together give the most complete experience; `repomix-mcp` alone is the practical minimum.
-
-**Install:**
-```
-claude plugin marketplace add yamadashy/repomix
+<div class="skill-card">
+  <div class="skill-card__header">
+    <span class="skill-card__name">Repomix</span>
+    <span class="skill-card__tag">Full-codebase context packing</span>
+  </div>
+  <p class="skill-card__author">By yamadashy</p>
+  <p class="skill-card__desc">Packs an entire codebase into a single AI-optimized file. Three plugins: <code>repomix-mcp</code> exposes packing as an MCP server Claude can request on demand (practical minimum), <code>repomix-commands</code> adds slash commands, <code>repomix-explorer</code> adds AI-powered analysis agents.</p>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Install</span>
+    <pre><code>claude plugin marketplace add yamadashy/repomix
 claude plugin install repomix-mcp@repomix
-claude plugin install repomix-commands@repomix     # optional
-claude plugin install repomix-explorer@repomix     # optional
-```
+claude plugin install repomix-commands@repomix  # optional
+claude plugin install repomix-explorer@repomix  # optional</code></pre>
+  </div>
+  <a class="skill-card__link" href="https://repomix.com/guide/claude-code-plugins" target="_blank" rel="noopener">repomix.com/guide/claude-code-plugins →</a>
+</div>
 
-Or use the interactive installer:
-```
-/plugin
-```
-
-→ [repomix.com/guide/claude-code-plugins](https://repomix.com/guide/claude-code-plugins)
-
----
-
-### Compound Engineering
-**By EveryInc**
-
-An engineering workflow system built around the idea that each unit of work should leave behind a lesson that makes the next one easier. Skills and agents for planning (`/ce-plan`), implementation (`/ce-work`), code review (`/ce-code-review`), and a compound loop (`/ce-compound`) that captures solutions in a `docs/solutions/` directory -- building a project-specific knowledge base Claude draws from in future sessions. Includes specialized review agents for Swift/iOS, TypeScript, and backend architecture. Run `/ce-setup` after install to check your environment and configure recommended tools.
-
-**Install:**
-```
-claude plugin marketplace add EveryInc/compound-engineering-plugin
-claude plugin install compound-engineering@compound-engineering-plugin
-```
-
-Then run `/ce-setup` to verify the install and configure your environment.
-
-→ [github.com/EveryInc/compound-engineering-plugin](https://github.com/EveryInc/compound-engineering-plugin)
+<div class="skill-card">
+  <div class="skill-card__header">
+    <span class="skill-card__name">Compound Engineering</span>
+    <span class="skill-card__tag">Knowledge-accumulating dev workflow</span>
+  </div>
+  <p class="skill-card__author">By EveryInc</p>
+  <p class="skill-card__desc">Skills and agents for planning (<code>/ce-plan</code>), implementation (<code>/ce-work</code>), and review (<code>/ce-code-review</code>), plus a compound loop (<code>/ce-compound</code>) that saves solutions to <code>docs/solutions/</code> — building a project-specific knowledge base Claude draws from in future sessions. Run <code>/ce-setup</code> after install.</p>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Install</span>
+    <pre><code>claude plugin marketplace add EveryInc/compound-engineering-plugin
+claude plugin install compound-engineering@compound-engineering-plugin</code></pre>
+  </div>
+  <a class="skill-card__link" href="https://github.com/EveryInc/compound-engineering-plugin" target="_blank" rel="noopener">github.com/EveryInc/compound-engineering-plugin →</a>
+</div>
 
 ---
 

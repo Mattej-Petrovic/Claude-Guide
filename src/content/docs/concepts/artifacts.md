@@ -12,48 +12,51 @@ Claude creates an artifact automatically when content is over roughly 15 lines, 
 
 Six types render live in the panel.
 
-<svg viewBox="0 0 800 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Six artifact types: Markdown, HTML, React, SVG, Mermaid, and PDF" style="max-width: 100%; height: auto; margin: 2rem 0;">
+<svg viewBox="0 0 800 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Six artifact types: Markdown, HTML, React, SVG, Mermaid, and PDF">
   <defs>
     <style>
       .card { fill: none; stroke: currentColor; stroke-width: 1; opacity: 0.4; }
-      .type-name { fill: #d97706; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 1.5px; }
-      .type-ext { fill: currentColor; font-family: ui-monospace, SFMono-Regular, monospace; font-size: 11px; opacity: 0.55; }
-      .desc { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 12px; opacity: 0.75; }
-      .note { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 11px; opacity: 0.5; }
+      .type-name { fill: #d97706; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 16px; font-weight: 700; letter-spacing: 1.5px; }
+      .type-ext { fill: currentColor; font-family: ui-monospace, SFMono-Regular, monospace; font-size: 14px; opacity: 0.55; }
+      .desc { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 14px; opacity: 0.75; }
+      .note { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 13px; opacity: 0.5; }
     </style>
   </defs>
-  <rect x="20" y="20" width="240" height="110" rx="6" class="card"/>
-  <text x="40" y="48" class="type-name">MARKDOWN</text>
-  <text x="40" y="65" class="type-ext">.md</text>
-  <text x="40" y="95" class="desc">Documents, reports,</text>
-  <text x="40" y="112" class="desc">formatted notes.</text>
-  <rect x="280" y="20" width="240" height="110" rx="6" class="card"/>
-  <text x="300" y="48" class="type-name">HTML</text>
-  <text x="300" y="65" class="type-ext">.html</text>
-  <text x="300" y="95" class="desc">Self-contained pages.</text>
-  <text x="300" y="112" class="desc">CSS and JS in one file.</text>
-  <rect x="540" y="20" width="240" height="110" rx="6" class="card"/>
-  <text x="560" y="48" class="type-name">REACT</text>
-  <text x="560" y="65" class="type-ext">.jsx</text>
-  <text x="560" y="95" class="desc">Interactive components.</text>
-  <text x="560" y="112" class="desc">Hooks, recharts, lucide.</text>
-  <rect x="20" y="150" width="240" height="110" rx="6" class="card"/>
-  <text x="40" y="178" class="type-name">SVG</text>
-  <text x="40" y="195" class="type-ext">.svg</text>
-  <text x="40" y="225" class="desc">Vector graphics,</text>
-  <text x="40" y="242" class="desc">diagrams, icons.</text>
-  <rect x="280" y="150" width="240" height="110" rx="6" class="card"/>
-  <text x="300" y="178" class="type-name">MERMAID</text>
-  <text x="300" y="195" class="type-ext">.mermaid</text>
-  <text x="300" y="225" class="desc">Flowcharts, sequence,</text>
-  <text x="300" y="242" class="desc">gantt, ER diagrams.</text>
-  <rect x="540" y="150" width="240" height="110" rx="6" class="card"/>
-  <text x="560" y="178" class="type-name">PDF</text>
-  <text x="560" y="195" class="type-ext">.pdf</text>
-  <text x="560" y="225" class="desc">Generated documents</text>
-  <text x="560" y="242" class="desc">and rendered files.</text>
-  <text x="400" y="300" text-anchor="middle" class="note">Each artifact is a single self-contained file. No backend, no localStorage,</text>
-  <text x="400" y="318" text-anchor="middle" class="note">no external imports beyond the libraries shipped in the sandbox.</text>
+  <!-- Row 1: y=20, card height=140 -->
+  <rect x="20" y="20" width="240" height="140" rx="6" class="card"/>
+  <text x="40" y="54" class="type-name">MARKDOWN</text>
+  <text x="40" y="75" class="type-ext">.md</text>
+  <text x="40" y="112" class="desc">Documents, reports,</text>
+  <text x="40" y="132" class="desc">formatted notes.</text>
+  <rect x="280" y="20" width="240" height="140" rx="6" class="card"/>
+  <text x="300" y="54" class="type-name">HTML</text>
+  <text x="300" y="75" class="type-ext">.html</text>
+  <text x="300" y="112" class="desc">Self-contained pages.</text>
+  <text x="300" y="132" class="desc">CSS and JS in one file.</text>
+  <rect x="540" y="20" width="240" height="140" rx="6" class="card"/>
+  <text x="560" y="54" class="type-name">REACT</text>
+  <text x="560" y="75" class="type-ext">.jsx</text>
+  <text x="560" y="112" class="desc">Interactive components.</text>
+  <text x="560" y="132" class="desc">Hooks, recharts, lucide.</text>
+  <!-- Row 2: y=180, card height=140 -->
+  <rect x="20" y="180" width="240" height="140" rx="6" class="card"/>
+  <text x="40" y="214" class="type-name">SVG</text>
+  <text x="40" y="235" class="type-ext">.svg</text>
+  <text x="40" y="272" class="desc">Vector graphics,</text>
+  <text x="40" y="292" class="desc">diagrams, icons.</text>
+  <rect x="280" y="180" width="240" height="140" rx="6" class="card"/>
+  <text x="300" y="214" class="type-name">MERMAID</text>
+  <text x="300" y="235" class="type-ext">.mermaid</text>
+  <text x="300" y="272" class="desc">Flowcharts, sequence,</text>
+  <text x="300" y="292" class="desc">gantt, ER diagrams.</text>
+  <rect x="540" y="180" width="240" height="140" rx="6" class="card"/>
+  <text x="560" y="214" class="type-name">PDF</text>
+  <text x="560" y="235" class="type-ext">.pdf</text>
+  <text x="560" y="272" class="desc">Generated documents</text>
+  <text x="560" y="292" class="desc">and rendered files.</text>
+  <!-- Note -->
+  <text x="400" y="360" text-anchor="middle" class="note">Each artifact is a single self-contained file. No backend, no localStorage,</text>
+  <text x="400" y="380" text-anchor="middle" class="note">no external imports beyond the libraries shipped in the sandbox.</text>
 </svg>
 
 You can also generate downloadable docx, pptx, xlsx, and PDF files. Those are downloads, not interactive renders.

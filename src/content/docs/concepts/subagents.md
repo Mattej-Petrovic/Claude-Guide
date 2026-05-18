@@ -14,51 +14,54 @@ Two reasons subagents exist:
 
 You will see them most prominently in Claude Code, where you can define reusable ones in `.claude/agents/`. Cowork uses them too, automatically spawning parallel workers on complex tasks. The mental model is the same in both: separate context, scoped task, summary back.
 
-<svg viewBox="0 0 800 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A main session spawns three subagents in parallel, each in its own isolated context window" style="max-width: 100%; height: auto; margin: 2rem 0;">
+<svg viewBox="0 0 800 430" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A main session spawns three subagents in parallel, each in its own isolated context window">
   <defs>
     <style>
       .main-box { fill: none; stroke: #d97706; stroke-width: 1.5; opacity: 0.7; }
       .agent-box { fill: none; stroke: currentColor; stroke-width: 1; opacity: 0.4; }
-      .label-lg { fill: #d97706; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 2px; }
-      .label-md { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 13px; opacity: 0.85; }
-      .label-sm { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 10px; opacity: 0.5; letter-spacing: 1.2px; font-weight: 600; }
-      .muted { fill: currentColor; opacity: 0.55; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 12px; }
-      .footer-note { fill: currentColor; opacity: 0.5; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 11px; }
+      .label-lg { fill: #d97706; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 2px; }
+      .label-md { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 15px; opacity: 0.85; }
+      .label-sm { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 12px; opacity: 0.5; letter-spacing: 1.2px; font-weight: 600; }
+      .muted { fill: currentColor; opacity: 0.55; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 14px; }
+      .footer-note { fill: currentColor; opacity: 0.5; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 13px; }
       .arrow { stroke: currentColor; stroke-width: 1; fill: none; opacity: 0.4; }
     </style>
     <marker id="sg-ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor" opacity="0.45"/>
     </marker>
   </defs>
-  <rect x="20" y="20" width="760" height="90" rx="8" class="main-box"/>
-  <text x="40" y="50" class="label-lg">MAIN SESSION</text>
-  <text x="40" y="75" class="label-md">Your conversation, planning, integration.</text>
-  <text x="40" y="95" class="muted">Spawns subagents. Receives summaries. Decides next step.</text>
-  <line x1="140" y1="115" x2="140" y2="155" class="arrow" marker-end="url(#sg-ah)"/>
-  <line x1="400" y1="115" x2="400" y2="155" class="arrow" marker-end="url(#sg-ah)"/>
-  <line x1="660" y1="115" x2="660" y2="155" class="arrow" marker-end="url(#sg-ah)"/>
-  <rect x="20" y="160" width="240" height="160" rx="6" class="agent-box"/>
-  <text x="40" y="188" class="label-sm">SUBAGENT</text>
-  <text x="40" y="215" class="label-md">explore</text>
-  <text x="40" y="248" class="muted">Own context window.</text>
-  <text x="40" y="268" class="muted">Own system prompt.</text>
-  <text x="40" y="288" class="muted">Read-only tools.</text>
-  <text x="40" y="308" class="muted">Returns summary.</text>
-  <rect x="280" y="160" width="240" height="160" rx="6" class="agent-box"/>
-  <text x="300" y="188" class="label-sm">SUBAGENT</text>
-  <text x="300" y="215" class="label-md">code-reviewer</text>
-  <text x="300" y="248" class="muted">Own context window.</text>
-  <text x="300" y="268" class="muted">Own system prompt.</text>
-  <text x="300" y="288" class="muted">Read plus diff tools.</text>
-  <text x="300" y="308" class="muted">Returns summary.</text>
-  <rect x="540" y="160" width="240" height="160" rx="6" class="agent-box"/>
-  <text x="560" y="188" class="label-sm">SUBAGENT</text>
-  <text x="560" y="215" class="label-md">security-auditor</text>
-  <text x="560" y="248" class="muted">Own context window.</text>
-  <text x="560" y="268" class="muted">Own system prompt.</text>
-  <text x="560" y="288" class="muted">Scoped scan tools.</text>
-  <text x="560" y="308" class="muted">Returns summary.</text>
-  <text x="400" y="345" text-anchor="middle" class="footer-note">Each subagent runs in parallel, in isolation, and cannot spawn further subagents.</text>
+  <!-- Main session box: y=20, height=110 -->
+  <rect x="20" y="20" width="760" height="110" rx="8" class="main-box"/>
+  <text x="40" y="55" class="label-lg">MAIN SESSION</text>
+  <text x="40" y="84" class="label-md">Your conversation, planning, integration.</text>
+  <text x="40" y="108" class="muted">Spawns subagents. Receives summaries. Decides next step.</text>
+  <!-- Arrows: from y=135 to y=175 -->
+  <line x1="140" y1="135" x2="140" y2="175" class="arrow" marker-end="url(#sg-ah)"/>
+  <line x1="400" y1="135" x2="400" y2="175" class="arrow" marker-end="url(#sg-ah)"/>
+  <line x1="660" y1="135" x2="660" y2="175" class="arrow" marker-end="url(#sg-ah)"/>
+  <!-- Subagent boxes: y=180, height=200 -->
+  <rect x="20" y="180" width="240" height="200" rx="6" class="agent-box"/>
+  <text x="40" y="212" class="label-sm">SUBAGENT</text>
+  <text x="40" y="242" class="label-md">explore</text>
+  <text x="40" y="278" class="muted">Own context window.</text>
+  <text x="40" y="300" class="muted">Own system prompt.</text>
+  <text x="40" y="322" class="muted">Read-only tools.</text>
+  <text x="40" y="344" class="muted">Returns summary.</text>
+  <rect x="280" y="180" width="240" height="200" rx="6" class="agent-box"/>
+  <text x="300" y="212" class="label-sm">SUBAGENT</text>
+  <text x="300" y="242" class="label-md">code-reviewer</text>
+  <text x="300" y="278" class="muted">Own context window.</text>
+  <text x="300" y="300" class="muted">Own system prompt.</text>
+  <text x="300" y="322" class="muted">Read plus diff tools.</text>
+  <text x="300" y="344" class="muted">Returns summary.</text>
+  <rect x="540" y="180" width="240" height="200" rx="6" class="agent-box"/>
+  <text x="560" y="212" class="label-sm">SUBAGENT</text>
+  <text x="560" y="242" class="label-md">security-auditor</text>
+  <text x="560" y="278" class="muted">Own context window.</text>
+  <text x="560" y="300" class="muted">Own system prompt.</text>
+  <text x="560" y="322" class="muted">Scoped scan tools.</text>
+  <text x="560" y="344" class="muted">Returns summary.</text>
+  <text x="400" y="408" text-anchor="middle" class="footer-note">Each subagent runs in parallel, in isolation, and cannot spawn further subagents.</text>
 </svg>
 
 ## How it works

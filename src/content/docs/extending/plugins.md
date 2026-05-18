@@ -109,7 +109,7 @@ Bundle all five as `acme-deploy-plugin`, ship it through your team's internal ma
 
 Most personal-use cases don't hit this threshold. Most team workflows do.
 
-<svg viewBox="0 0 800 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram showing the contents of a plugin and where each part is registered inside Claude Code on install" style="width:100%;height:auto;color:currentColor;font-family:ui-sans-serif,system-ui,sans-serif">
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram showing the contents of a plugin and where each part is registered inside Claude Code on install" style="height:auto;color:currentColor;font-family:ui-sans-serif,system-ui,sans-serif">
   <style>
     .panel { fill: none; stroke: currentColor; stroke-opacity: 0.25; stroke-width: 1; }
     .panel-accent { fill: none; stroke: #d97706; stroke-width: 1.5; }

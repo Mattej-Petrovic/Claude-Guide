@@ -20,80 +20,81 @@ The mechanism is called progressive disclosure, and it has three levels.
 
 The whole point of this design is that you can install dozens of skills, even hundreds, and your context budget barely moves until something fires.
 
-<svg viewBox="0 0 800 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Progressive disclosure diagram showing the three levels of skill loading" style="width:100%;height:auto;color:currentColor;font-family:ui-sans-serif,system-ui,sans-serif">
+<svg viewBox="0 0 960 510" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Progressive disclosure diagram showing the three levels of skill loading" class="svg-wide" style="height:auto;color:currentColor;font-family:ui-sans-serif,system-ui,sans-serif">
   <style>
     .panel { fill: none; stroke: currentColor; stroke-opacity: 0.25; stroke-width: 1; }
     .panel-active { fill: none; stroke: #d97706; stroke-width: 1.5; }
-    .label { fill: currentColor; font-size: 13px; font-weight: 600; }
-    .sub { fill: currentColor; fill-opacity: 0.7; font-size: 12px; }
-    .accent { fill: #d97706; font-size: 12px; font-weight: 600; }
-    .file { fill: currentColor; fill-opacity: 0.85; font-size: 12px; font-family: ui-monospace, monospace; }
-    .dim { fill: currentColor; fill-opacity: 0.45; font-size: 12px; font-family: ui-monospace, monospace; }
-    .arrow { stroke: currentColor; stroke-opacity: 0.45; stroke-width: 1; fill: none; }
+    .label { fill: currentColor; font-size: 15px; font-weight: 600; }
+    .sub { fill: currentColor; fill-opacity: 0.7; font-size: 14px; }
+    .accent { fill: #d97706; font-size: 14px; font-weight: 600; }
+    .file { fill: currentColor; fill-opacity: 0.85; font-size: 13px; font-family: ui-monospace, monospace; }
+    .dim { fill: currentColor; fill-opacity: 0.45; font-size: 13px; font-family: ui-monospace, monospace; }
     .arrow-active { stroke: #d97706; stroke-width: 1.5; fill: none; }
-    .level-num { fill: #d97706; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; }
+    .arrow-label { fill: #d97706; font-size: 11px; font-weight: 600; }
+    .level-num { fill: #d97706; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; }
   </style>
+  <!-- Layout: panel1 x=20 w=260, gap=80, panel2 x=360 w=260, gap=80, panel3 x=700 w=220 -->
   <!-- Level 1 -->
-  <rect class="panel-active" x="20" y="40" width="240" height="380" rx="6"/>
-  <text class="level-num" x="36" y="64">LEVEL 1 — ALWAYS LOADED</text>
-  <text class="label" x="36" y="86">Name + description</text>
-  <text class="sub" x="36" y="104">Sits in context every session.</text>
-  <text class="sub" x="36" y="120">A few sentences per skill.</text>
-  <rect x="36" y="148" width="208" height="48" rx="4" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-opacity="0.2"/>
-  <text class="file" x="48" y="170">cv-resume</text>
-  <text class="dim" x="48" y="187">"Build ATS-optimized CVs..."</text>
-  <rect x="36" y="208" width="208" height="48" rx="4" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-opacity="0.2"/>
-  <text class="file" x="48" y="230">pdf</text>
-  <text class="dim" x="48" y="247">"Reading, merging, filling..."</text>
-  <rect x="36" y="268" width="208" height="48" rx="4" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-opacity="0.2"/>
-  <text class="file" x="48" y="290">frontend-design</text>
-  <text class="dim" x="48" y="307">"Distinctive web UIs..."</text>
-  <text class="dim" x="36" y="346">+ every other installed skill</text>
-  <text class="accent" x="36" y="386">~1 paragraph total</text>
-  <text class="sub" x="36" y="402">regardless of count</text>
-  <!-- Arrow 1->2 -->
-  <path class="arrow-active" d="M 260 230 L 300 230" marker-end="url(#arr)"/>
-  <text class="accent" x="263" y="222">trigger</text>
-  <!-- Level 2 -->
-  <rect class="panel" x="300" y="40" width="240" height="380" rx="6"/>
-  <text class="level-num" x="316" y="64">LEVEL 2 — ON TRIGGER</text>
-  <text class="label" x="316" y="86">SKILL.md body</text>
-  <text class="sub" x="316" y="104">Loads when Claude decides</text>
-  <text class="sub" x="316" y="120">the description applies.</text>
-  <rect x="316" y="148" width="208" height="240" rx="4" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-opacity="0.2"/>
-  <text class="file" x="328" y="170">SKILL.md</text>
-  <text class="dim" x="328" y="194">---</text>
-  <text class="dim" x="328" y="210">name: cv-resume</text>
-  <text class="dim" x="328" y="226">description: ...</text>
-  <text class="dim" x="328" y="242">---</text>
-  <text class="dim" x="328" y="262"># Procedure</text>
-  <text class="dim" x="328" y="280">1. Read uploaded CV</text>
-  <text class="dim" x="328" y="296">2. Read reference/</text>
-  <text class="dim" x="328" y="312">   ats-rules.md</text>
-  <text class="dim" x="328" y="328">3. Draft structure</text>
-  <text class="dim" x="328" y="344">4. Render via</text>
-  <text class="dim" x="328" y="360">   scripts/...</text>
-  <!-- Arrow 2->3 -->
-  <path class="arrow-active" d="M 540 230 L 580 230" marker-end="url(#arr)"/>
-  <text class="accent" x="543" y="222">on demand</text>
-  <!-- Level 3 -->
-  <rect class="panel" x="580" y="40" width="200" height="380" rx="6"/>
-  <text class="level-num" x="596" y="64">LEVEL 3 — REFERENCED</text>
-  <text class="label" x="596" y="86">Bundled assets</text>
-  <text class="sub" x="596" y="104">Only when SKILL.md</text>
-  <text class="sub" x="596" y="120">tells Claude to load.</text>
-  <rect x="596" y="148" width="170" height="36" rx="4" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-opacity="0.2"/>
-  <text class="file" x="608" y="171">reference/ats-rules.md</text>
-  <rect x="596" y="194" width="170" height="36" rx="4" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-opacity="0.2"/>
-  <text class="file" x="608" y="217">reference/examples.md</text>
-  <rect x="596" y="240" width="170" height="36" rx="4" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-opacity="0.2"/>
-  <text class="file" x="608" y="263">templates/base.html</text>
-  <rect x="596" y="286" width="170" height="36" rx="4" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-opacity="0.2"/>
-  <text class="file" x="608" y="309">scripts/render_pdf.py</text>
-  <text class="accent" x="596" y="362">Executed or read</text>
-  <text class="sub" x="596" y="378">only as needed.</text>
-  <text class="sub" x="596" y="394">Zero context cost</text>
-  <text class="sub" x="596" y="410">until referenced.</text>
+  <rect class="panel-active" x="20" y="40" width="260" height="460" rx="6"/>
+  <text class="level-num" x="36" y="66">LEVEL 1 — ALWAYS LOADED</text>
+  <text class="label" x="36" y="92">Name + description</text>
+  <text class="sub" x="36" y="114">Sits in context every session.</text>
+  <text class="sub" x="36" y="132">A few sentences per skill.</text>
+  <rect x="36" y="162" width="228" height="56" rx="4" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-opacity="0.2"/>
+  <text class="file" x="48" y="186">cv-resume</text>
+  <text class="dim" x="48" y="206">"Build ATS-optimized CVs..."</text>
+  <rect x="36" y="230" width="228" height="56" rx="4" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-opacity="0.2"/>
+  <text class="file" x="48" y="254">pdf</text>
+  <text class="dim" x="48" y="274">"Reading, merging, filling..."</text>
+  <rect x="36" y="298" width="228" height="56" rx="4" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-opacity="0.2"/>
+  <text class="file" x="48" y="322">frontend-design</text>
+  <text class="dim" x="48" y="342">"Distinctive web UIs..."</text>
+  <text class="dim" x="36" y="390">+ every other installed skill</text>
+  <text class="accent" x="36" y="434">~1 paragraph total</text>
+  <text class="sub" x="36" y="454">regardless of count</text>
+  <!-- Arrow 1->2: from x=280 to x=360, centered at y=270, label centered at x=320 -->
+  <path class="arrow-active" d="M 280 270 L 358 270" marker-end="url(#arr)"/>
+  <text class="arrow-label" x="320" y="258" text-anchor="middle">trigger</text>
+  <!-- Level 2: x=360 -->
+  <rect class="panel" x="360" y="40" width="260" height="460" rx="6"/>
+  <text class="level-num" x="376" y="66">LEVEL 2 — ON TRIGGER</text>
+  <text class="label" x="376" y="92">SKILL.md body</text>
+  <text class="sub" x="376" y="114">Loads when Claude decides</text>
+  <text class="sub" x="376" y="132">the description applies.</text>
+  <rect x="376" y="162" width="228" height="290" rx="4" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-opacity="0.2"/>
+  <text class="file" x="388" y="186">SKILL.md</text>
+  <text class="dim" x="388" y="214">---</text>
+  <text class="dim" x="388" y="232">name: cv-resume</text>
+  <text class="dim" x="388" y="250">description: ...</text>
+  <text class="dim" x="388" y="268">---</text>
+  <text class="dim" x="388" y="292"># Procedure</text>
+  <text class="dim" x="388" y="312">1. Read uploaded CV</text>
+  <text class="dim" x="388" y="330">2. Read reference/</text>
+  <text class="dim" x="388" y="348">   ats-rules.md</text>
+  <text class="dim" x="388" y="366">3. Draft structure</text>
+  <text class="dim" x="388" y="384">4. Render via</text>
+  <text class="dim" x="388" y="402">   scripts/...</text>
+  <!-- Arrow 2->3: from x=620 to x=700, label centered at x=660 -->
+  <path class="arrow-active" d="M 620 270 L 698 270" marker-end="url(#arr)"/>
+  <text class="arrow-label" x="660" y="258" text-anchor="middle">on demand</text>
+  <!-- Level 3: x=700 -->
+  <rect class="panel" x="700" y="40" width="240" height="460" rx="6"/>
+  <text class="level-num" x="716" y="66">LEVEL 3 — REFERENCED</text>
+  <text class="label" x="716" y="92">Bundled assets</text>
+  <text class="sub" x="716" y="114">Only when SKILL.md</text>
+  <text class="sub" x="716" y="132">tells Claude to load.</text>
+  <rect x="716" y="162" width="208" height="42" rx="4" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-opacity="0.2"/>
+  <text class="file" x="728" y="188">reference/ats-rules.md</text>
+  <rect x="716" y="214" width="208" height="42" rx="4" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-opacity="0.2"/>
+  <text class="file" x="728" y="240">reference/examples.md</text>
+  <rect x="716" y="266" width="208" height="42" rx="4" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-opacity="0.2"/>
+  <text class="file" x="728" y="292">templates/base.html</text>
+  <rect x="716" y="318" width="208" height="42" rx="4" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-opacity="0.2"/>
+  <text class="file" x="728" y="344">scripts/render_pdf.py</text>
+  <text class="accent" x="716" y="406">Executed or read</text>
+  <text class="sub" x="716" y="426">only as needed.</text>
+  <text class="sub" x="716" y="446">Zero context cost</text>
+  <text class="sub" x="716" y="466">until referenced.</text>
   <defs>
     <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#d97706"/>

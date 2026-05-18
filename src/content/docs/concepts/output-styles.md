@@ -27,47 +27,47 @@ This is the part most people miss. Output styles are not "additions" the way CLA
 
 Three styles ship built-in.
 
-<svg viewBox="0 0 800 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Three built-in Claude Code output styles: Default, Explanatory, Learning" style="max-width: 100%; height: auto; margin: 2rem 0;">
+<svg viewBox="0 0 800 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Three built-in Claude Code output styles: Default, Explanatory, Learning">
   <defs>
     <style>
       .card { fill: none; stroke: currentColor; stroke-width: 1; opacity: 0.4; }
       .card-accent { fill: none; stroke: #d97706; stroke-width: 1.5; opacity: 0.7; }
-      .style-name { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; opacity: 0.6; }
-      .style-name-accent { fill: #d97706; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; }
-      .stat-label { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 10px; opacity: 0.45; letter-spacing: 1px; }
-      .desc { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 12px; opacity: 0.7; }
+      .style-name { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 1.5px; opacity: 0.6; }
+      .style-name-accent { fill: #d97706; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 1.5px; }
+      .stat-label { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 12px; opacity: 0.45; letter-spacing: 1px; }
+      .desc { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 14px; opacity: 0.7; }
     </style>
   </defs>
-  <rect x="20" y="20" width="240" height="240" rx="6" class="card-accent"/>
-  <text x="40" y="50" class="style-name-accent">DEFAULT</text>
-  <text x="40" y="90" class="stat-label">CHARACTER</text>
-  <text x="40" y="112" class="desc">Engineering-focused.</text>
-  <text x="40" y="129" class="desc">Concise. Verifies</text>
-  <text x="40" y="146" class="desc">work with tests.</text>
-  <text x="40" y="180" class="stat-label">BEST FOR</text>
-  <text x="40" y="202" class="desc">Most coding work.</text>
-  <text x="40" y="219" class="desc">The starting</text>
-  <text x="40" y="236" class="desc">point.</text>
-  <rect x="280" y="20" width="240" height="240" rx="6" class="card"/>
-  <text x="300" y="50" class="style-name">EXPLANATORY</text>
-  <text x="300" y="90" class="stat-label">CHARACTER</text>
-  <text x="300" y="112" class="desc">Engineering plus</text>
-  <text x="300" y="129" class="desc">narrated reasoning</text>
-  <text x="300" y="146" class="desc">and design choices.</text>
-  <text x="300" y="180" class="stat-label">BEST FOR</text>
-  <text x="300" y="202" class="desc">Onboarding to a</text>
-  <text x="300" y="219" class="desc">new codebase or</text>
-  <text x="300" y="236" class="desc">learning patterns.</text>
-  <rect x="540" y="20" width="240" height="240" rx="6" class="card"/>
-  <text x="560" y="50" class="style-name">LEARNING</text>
-  <text x="560" y="90" class="stat-label">CHARACTER</text>
-  <text x="560" y="112" class="desc">Explanatory plus</text>
-  <text x="560" y="129" class="desc">TODO(human) markers</text>
-  <text x="560" y="146" class="desc">for you to fill in.</text>
-  <text x="560" y="180" class="stat-label">BEST FOR</text>
-  <text x="560" y="202" class="desc">Pair-programming.</text>
-  <text x="560" y="219" class="desc">Learn-by-doing</text>
-  <text x="560" y="236" class="desc">on a project.</text>
+  <rect x="20" y="20" width="240" height="290" rx="6" class="card-accent"/>
+  <text x="40" y="54" class="style-name-accent">DEFAULT</text>
+  <text x="40" y="98" class="stat-label">CHARACTER</text>
+  <text x="40" y="122" class="desc">Engineering-focused.</text>
+  <text x="40" y="142" class="desc">Concise. Verifies</text>
+  <text x="40" y="162" class="desc">work with tests.</text>
+  <text x="40" y="204" class="stat-label">BEST FOR</text>
+  <text x="40" y="228" class="desc">Most coding work.</text>
+  <text x="40" y="248" class="desc">The starting</text>
+  <text x="40" y="268" class="desc">point.</text>
+  <rect x="280" y="20" width="240" height="290" rx="6" class="card"/>
+  <text x="300" y="54" class="style-name">EXPLANATORY</text>
+  <text x="300" y="98" class="stat-label">CHARACTER</text>
+  <text x="300" y="122" class="desc">Engineering plus</text>
+  <text x="300" y="142" class="desc">narrated reasoning</text>
+  <text x="300" y="162" class="desc">and design choices.</text>
+  <text x="300" y="204" class="stat-label">BEST FOR</text>
+  <text x="300" y="228" class="desc">Onboarding to a</text>
+  <text x="300" y="248" class="desc">new codebase or</text>
+  <text x="300" y="268" class="desc">learning patterns.</text>
+  <rect x="540" y="20" width="240" height="290" rx="6" class="card"/>
+  <text x="560" y="54" class="style-name">LEARNING</text>
+  <text x="560" y="98" class="stat-label">CHARACTER</text>
+  <text x="560" y="122" class="desc">Explanatory plus</text>
+  <text x="560" y="142" class="desc">TODO(human) markers</text>
+  <text x="560" y="162" class="desc">for you to fill in.</text>
+  <text x="560" y="204" class="stat-label">BEST FOR</text>
+  <text x="560" y="228" class="desc">Pair-programming.</text>
+  <text x="560" y="248" class="desc">Learn-by-doing</text>
+  <text x="560" y="268" class="desc">on a project.</text>
 </svg>
 
 Create your own with `/output-style:new` and a description (Claude scaffolds the file for you), or write the markdown file directly.

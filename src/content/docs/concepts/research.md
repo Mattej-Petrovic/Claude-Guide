@@ -20,53 +20,54 @@ Toggle Research on (the button turns blue) and ask your question. Claude does ro
 
 Most runs land in 1 to 3 minutes. Heavier ones go longer. The output is sectioned markdown with headers, bullets, sometimes tables, and citations inline so you can verify the claims that matter to you.
 
-<svg viewBox="0 0 800 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Comparison of three Claude modes: web search, extended thinking, and research" style="max-width: 100%; height: auto; margin: 2rem 0;">
+<svg viewBox="0 0 800 390" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Comparison of three Claude modes: web search, extended thinking, and research">
   <defs>
     <style>
       .card { fill: none; stroke: currentColor; stroke-width: 1; opacity: 0.4; }
       .card-accent { fill: none; stroke: #d97706; stroke-width: 1.5; opacity: 0.7; }
-      .mode-name { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; opacity: 0.6; }
-      .mode-name-accent { fill: #d97706; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; }
-      .stat-label { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 10px; opacity: 0.45; letter-spacing: 1px; }
-      .stat-val { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 13px; opacity: 0.85; }
-      .desc { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 12px; opacity: 0.7; }
+      .mode-name { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 1.5px; opacity: 0.6; }
+      .mode-name-accent { fill: #d97706; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 1.5px; }
+      .stat-label { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 12px; opacity: 0.45; letter-spacing: 1px; }
+      .stat-val { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 15px; opacity: 0.85; }
+      .desc { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 14px; opacity: 0.7; }
     </style>
   </defs>
-  <rect x="20" y="20" width="240" height="280" rx="6" class="card"/>
-  <text x="40" y="50" class="mode-name">WEB SEARCH</text>
-  <text x="40" y="90" class="stat-label">TIME</text>
-  <text x="40" y="110" class="stat-val">Seconds</text>
-  <text x="40" y="140" class="stat-label">SOURCES</text>
-  <text x="40" y="160" class="stat-val">1 to 5 lookups</text>
-  <text x="40" y="178" class="stat-val">across the web</text>
-  <text x="40" y="210" class="stat-label">BEST FOR</text>
-  <text x="40" y="232" class="desc">Quick facts and</text>
-  <text x="40" y="249" class="desc">current data when</text>
-  <text x="40" y="266" class="desc">one or two sources</text>
-  <text x="40" y="283" class="desc">can answer it.</text>
-  <rect x="280" y="20" width="240" height="280" rx="6" class="card"/>
-  <text x="300" y="50" class="mode-name">EXTENDED THINKING</text>
-  <text x="300" y="90" class="stat-label">TIME</text>
-  <text x="300" y="110" class="stat-val">Seconds</text>
-  <text x="300" y="140" class="stat-label">SOURCES</text>
-  <text x="300" y="160" class="stat-val">None</text>
-  <text x="300" y="178" class="stat-val">(no external search)</text>
-  <text x="300" y="210" class="stat-label">BEST FOR</text>
-  <text x="300" y="232" class="desc">Harder reasoning on</text>
-  <text x="300" y="249" class="desc">things Claude already</text>
-  <text x="300" y="266" class="desc">knows.</text>
-  <rect x="540" y="20" width="240" height="280" rx="6" class="card-accent"/>
-  <text x="560" y="50" class="mode-name-accent">RESEARCH</text>
-  <text x="560" y="90" class="stat-label">TIME</text>
-  <text x="560" y="110" class="stat-val">1 to 3 minutes+</text>
-  <text x="560" y="140" class="stat-label">SOURCES</text>
-  <text x="560" y="160" class="stat-val">10+ across web</text>
-  <text x="560" y="178" class="stat-val">and integrations</text>
-  <text x="560" y="210" class="stat-label">BEST FOR</text>
-  <text x="560" y="232" class="desc">Multi-source</text>
-  <text x="560" y="249" class="desc">synthesis returned</text>
-  <text x="560" y="266" class="desc">as a cited,</text>
-  <text x="560" y="283" class="desc">structured report.</text>
+  <!-- Card height=330, y=20, bottom=350 -->
+  <rect x="20" y="20" width="240" height="330" rx="6" class="card"/>
+  <text x="40" y="55" class="mode-name">WEB SEARCH</text>
+  <text x="40" y="100" class="stat-label">TIME</text>
+  <text x="40" y="122" class="stat-val">Seconds</text>
+  <text x="40" y="158" class="stat-label">SOURCES</text>
+  <text x="40" y="180" class="stat-val">1 to 5 lookups</text>
+  <text x="40" y="200" class="stat-val">across the web</text>
+  <text x="40" y="238" class="stat-label">BEST FOR</text>
+  <text x="40" y="262" class="desc">Quick facts and</text>
+  <text x="40" y="282" class="desc">current data when</text>
+  <text x="40" y="302" class="desc">one or two sources</text>
+  <text x="40" y="322" class="desc">can answer it.</text>
+  <rect x="280" y="20" width="240" height="330" rx="6" class="card"/>
+  <text x="300" y="55" class="mode-name">EXTENDED THINKING</text>
+  <text x="300" y="100" class="stat-label">TIME</text>
+  <text x="300" y="122" class="stat-val">Seconds</text>
+  <text x="300" y="158" class="stat-label">SOURCES</text>
+  <text x="300" y="180" class="stat-val">None</text>
+  <text x="300" y="200" class="stat-val">(no external search)</text>
+  <text x="300" y="238" class="stat-label">BEST FOR</text>
+  <text x="300" y="262" class="desc">Harder reasoning on</text>
+  <text x="300" y="282" class="desc">things Claude already</text>
+  <text x="300" y="302" class="desc">knows.</text>
+  <rect x="540" y="20" width="240" height="330" rx="6" class="card-accent"/>
+  <text x="560" y="55" class="mode-name-accent">RESEARCH</text>
+  <text x="560" y="100" class="stat-label">TIME</text>
+  <text x="560" y="122" class="stat-val">1 to 3 minutes+</text>
+  <text x="560" y="158" class="stat-label">SOURCES</text>
+  <text x="560" y="180" class="stat-val">10+ across web</text>
+  <text x="560" y="200" class="stat-val">and integrations</text>
+  <text x="560" y="238" class="stat-label">BEST FOR</text>
+  <text x="560" y="262" class="desc">Multi-source</text>
+  <text x="560" y="282" class="desc">synthesis returned</text>
+  <text x="560" y="302" class="desc">as a cited,</text>
+  <text x="560" y="322" class="desc">structured report.</text>
 </svg>
 
 ## When to use it (and when not to)

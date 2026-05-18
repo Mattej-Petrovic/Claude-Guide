@@ -14,220 +14,163 @@ section: library
   <svg class="crosslink__arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" width="16" height="16"><path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round" /></svg>
 </a>
 
-MCP servers connect Claude Code to external tools and data sources. Once connected, Claude can read from and act on those systems directly -- no copy-pasting into chat.
+MCP servers connect Claude Code to external tools and data sources. Once connected, Claude can read from and act on those systems directly — no copy-pasting into chat.
 
-Add a server with:
 ```
 claude mcp add <name> -- <command>
 ```
 
-Verify active servers inside any session with `/mcp`. Remove with `claude mcp remove <name>`. Add `--scope user` to make a server available across all projects instead of just the current one.
+Verify active servers with `/mcp`. Remove with `claude mcp remove <name>`. Add `--scope user` to make a server available across all projects instead of just the current one.
 
-**Security note:** Third-party MCP servers run code on your machine and can read tool outputs that pass through Claude's context window. Only install servers you trust and understand. Be especially careful with servers that fetch remote content -- they can expose you to prompt injection.
+**Security note:** Third-party MCP servers run code on your machine. Only install servers you trust. Be especially careful with servers that fetch remote content — they can expose you to prompt injection.
 
 ---
 
 ## Browser Automation
 
----
-
-### Playwright MCP
-**By Microsoft · Official**
-
-Browser automation via structured accessibility snapshots. Claude can navigate URLs, click elements, fill forms, take screenshots, and run end-to-end tests -- all driven by natural language. Works without a vision model because it reads the accessibility tree rather than parsing pixels.
-
-Supports Chrome, Firefox, and WebKit. Runs with a persistent browser profile by default (so Claude stays logged in between sessions) or in isolated mode for clean test sessions. Can also connect to an already-running browser via CDP.
-
-Note: The old package names `@modelcontextprotocol/server-playwright` (Anthropic's deprecated original) and `@executeautomation/playwright-mcp-server` (community fork) are both still referenced in older tutorials but neither is the current canonical version. Use `@playwright/mcp` from Microsoft.
-
-**Install (Claude Code):**
-```
-claude mcp add playwright -- npx @playwright/mcp@latest
-```
-
-**Or add to `~/.claude.json` for Claude Desktop:**
-```json
-{
+<div class="skill-card">
+  <div class="skill-card__header">
+    <span class="skill-card__name">Playwright MCP</span>
+    <span class="skill-card__tag">Browser automation via accessibility snapshots</span>
+  </div>
+  <p class="skill-card__author">By Microsoft &middot; Official</p>
+  <p class="skill-card__desc">Navigate URLs, click elements, fill forms, take screenshots, and run end-to-end tests driven by natural language. Works without a vision model by reading the accessibility tree instead of pixels. Supports Chrome, Firefox, and WebKit; runs with a persistent browser profile or in isolated mode for clean test sessions. Use <code>@playwright/mcp</code> — older packages (<code>@modelcontextprotocol/server-playwright</code>, <code>@executeautomation/playwright-mcp-server</code>) are deprecated.</p>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Install (Claude Code)</span>
+    <pre><code>claude mcp add playwright -- npx @playwright/mcp@latest</code></pre>
+  </div>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Or add to ~/.claude.json (Claude Desktop)</span>
+    <pre><code>{
   "mcpServers": {
     "playwright": {
       "command": "npx",
       "args": ["@playwright/mcp@latest"]
     }
   }
-}
-```
+}</code></pre>
+  </div>
+  <a class="skill-card__link" href="https://github.com/microsoft/playwright-mcp" target="_blank" rel="noopener">github.com/microsoft/playwright-mcp →</a>
+</div>
 
-Requires Node.js 18+. Browser binaries are downloaded automatically on first use.
-
-→ [github.com/microsoft/playwright-mcp](https://github.com/microsoft/playwright-mcp)
-
----
-
-### Puppeteer MCP
-
-Browser automation using Google's Puppeteer -- navigate pages, click elements, type into forms, execute JavaScript, capture screenshots, and extract DOM content. Chrome/Chromium only, unlike Playwright's cross-browser support.
-
-**Important:** Anthropic's original `@modelcontextprotocol/server-puppeteer` package is deprecated and archived. Use the community replacement `puppeteer-mcp-server` below, or migrate to Playwright MCP (recommended for most new workflows).
-
-Use Puppeteer over Playwright when you specifically need Chrome's stealth/anti-detection features, or when you have an existing Puppeteer-based workflow you're integrating with.
-
-**Install (Claude Code):**
-```
-claude mcp add puppeteer -- npx -y puppeteer-mcp-server
-```
-
-**Or auto-configure both Claude Desktop and Claude Code:**
-```
-npx puppeteer-mcp-claude install
-```
-
-Runs a headless Chromium instance (~150--300MB RAM at rest). To run headed (visible browser, useful for debugging), set the env var `PUPPETEER_LAUNCH_OPTIONS={"headless":false}`.
+<div class="skill-card">
+  <div class="skill-card__header">
+    <span class="skill-card__name">Puppeteer MCP</span>
+    <span class="skill-card__tag">Chrome automation via Puppeteer</span>
+  </div>
+  <p class="skill-card__desc">Navigate pages, click elements, type into forms, execute JavaScript, capture screenshots, and extract DOM content. Chrome/Chromium only. Use over Playwright when you specifically need Chrome's stealth/anti-detection features or have an existing Puppeteer-based workflow. Note: <code>@modelcontextprotocol/server-puppeteer</code> is deprecated — use <code>puppeteer-mcp-server</code> below.</p>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Install (Claude Code)</span>
+    <pre><code>claude mcp add puppeteer -- npx -y puppeteer-mcp-server</code></pre>
+  </div>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Or auto-configure both Claude Desktop and Claude Code</span>
+    <pre><code>npx puppeteer-mcp-claude install</code></pre>
+  </div>
+</div>
 
 ---
 
 ## Security & Pentesting
 
----
-
-### HexStrike AI
-**By 0x4m4**
-
-MCP server that gives Claude Code autonomous access to 150+ cybersecurity tools across 12 specialized AI agents -- network recon, web application testing, binary analysis, cloud security, OSINT, bug bounty workflows, and CTF solving. Runs as a local HTTP server that Claude Code connects to via the MCP protocol.
-
-Agents include purpose-built workflows for subdomain enumeration, SQL injection, vulnerability scanning with 4000+ Nuclei templates, password cracking, reverse engineering (GDB, Ghidra, Radare2), and cloud assessment (Prowler, Scout Suite, Trivy). An intelligent decision engine selects tools and parameters based on the target and task context.
-
-**Requires authorization.** Always test only against systems you own or have explicit written permission to test. This server gives Claude real offensive capabilities.
-
-**Install:**
-```
-git clone https://github.com/0x4m4/hexstrike-ai.git
+<div class="skill-card">
+  <div class="skill-card__header">
+    <span class="skill-card__name">HexStrike AI</span>
+    <span class="skill-card__tag">150+ cybersecurity tools via 12 AI agents</span>
+  </div>
+  <p class="skill-card__author">By 0x4m4</p>
+  <p class="skill-card__desc">Network recon, web app testing, binary analysis, cloud security, OSINT, bug bounty, and CTF solving — runs as a local HTTP server Claude Code connects to via MCP. Includes subdomain enumeration, SQL injection, 4000+ Nuclei templates, password cracking, reverse engineering (GDB, Ghidra, Radare2), and cloud assessment (Prowler, Scout Suite, Trivy). <strong>Requires authorization — only test systems you own or have explicit written permission to test.</strong></p>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Install</span>
+    <pre><code>git clone https://github.com/0x4m4/hexstrike-ai.git
 cd hexstrike-ai
 python3 -m venv hexstrike-env
-source hexstrike-env/bin/activate   # or .\hexstrike-env\Scripts\activate on Windows
+source hexstrike-env/bin/activate
 pip3 install -r requirements.txt
-python3 hexstrike_server.py
-```
-
-**Add to Claude Code (once the server is running):**
-```json
-{
+python3 hexstrike_server.py</code></pre>
+  </div>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Add to Claude Code (once server is running)</span>
+    <pre><code>{
   "mcpServers": {
     "hexstrike-ai": {
       "command": "python3",
-      "args": [
-        "/path/to/hexstrike-ai/hexstrike_mcp.py",
-        "--server",
-        "http://localhost:8888"
-      ],
+      "args": ["/path/to/hexstrike-ai/hexstrike_mcp.py", "--server", "http://localhost:8888"],
       "timeout": 300
     }
   }
-}
-```
+}</code></pre>
+  </div>
+  <a class="skill-card__link" href="https://github.com/0x4m4/hexstrike-ai" target="_blank" rel="noopener">github.com/0x4m4/hexstrike-ai →</a>
+</div>
 
-Security tools (nmap, gobuster, nuclei, sqlmap, etc.) must be installed separately. See the README for the full list and install commands.
-
-→ [github.com/0x4m4/hexstrike-ai](https://github.com/0x4m4/hexstrike-ai)
-
----
-
-### Talon
-**By CarbeneAI**
-
-A penetration testing methodology and configuration package built on top of Anthropic's SSH MCP server. Connects Claude Code to a Kali Linux VM (or any pentesting VM) via SSH, then provides structured guidance for a complete engagement: 5-phase automated recon, 13-service enumeration playbook, OSCP-style reporting template, and Obsidian vault note templates for organized documentation.
-
-Unlike HexStrike (which runs tools locally via a Python server), Talon runs all tools remotely on your pentesting VM. Claude executes commands over SSH, interprets the output, suggests next steps, and maintains a full attack narrative inside your Claude Code session.
-
-**Requires authorization.** Only use against systems you own or have explicit written permission to test.
-
-**Prerequisites:** A running Kali Linux VM with SSH access and key-based auth configured.
-
-**Add the SSH MCP to Claude Code:**
-```
-claude mcp add kali-ssh -- npx -y @anthropic-ai/mcp-server-ssh ssh://YOUR_USERNAME@YOUR_KALI_IP
-```
-
-**Or in `~/.claude.json`:**
-```json
-{
+<div class="skill-card">
+  <div class="skill-card__header">
+    <span class="skill-card__name">Talon</span>
+    <span class="skill-card__tag">Pentesting methodology over SSH to a Kali VM</span>
+  </div>
+  <p class="skill-card__author">By CarbeneAI</p>
+  <p class="skill-card__desc">Built on Anthropic's SSH MCP server — Claude executes commands on your Kali Linux VM over SSH, interprets output, suggests next steps, and maintains a full attack narrative in session. Includes a 5-phase recon workflow, 13-service enumeration playbook, OSCP-style report template, and Obsidian vault note templates. Unlike HexStrike, all tools run remotely on your VM. <strong>Requires authorization — only use against systems you own or have explicit written permission to test.</strong></p>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Prerequisites — set up key-based SSH auth first</span>
+    <pre><code>ssh-keygen -t ed25519 -C "claude-code-pentest"
+ssh-copy-id YOUR_USERNAME@YOUR_KALI_IP</code></pre>
+  </div>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Add SSH MCP to Claude Code</span>
+    <pre><code>claude mcp add kali-ssh -- npx -y @anthropic-ai/mcp-server-ssh ssh://YOUR_USERNAME@YOUR_KALI_IP</code></pre>
+  </div>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Or in ~/.claude.json</span>
+    <pre><code>{
   "mcpServers": {
     "kali-ssh": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@anthropic-ai/mcp-server-ssh",
-        "ssh://YOUR_USERNAME@YOUR_KALI_IP"
-      ]
+      "args": ["-y", "@anthropic-ai/mcp-server-ssh", "ssh://YOUR_USERNAME@YOUR_KALI_IP"]
     }
   }
-}
-```
-
-**Set up key-based auth first:**
-```
-ssh-keygen -t ed25519 -C "claude-code-pentest"
-ssh-copy-id YOUR_USERNAME@YOUR_KALI_IP
-```
-
-Clone the Talon repo and copy the methodology files and report templates into your engagement folder. See `docs/usage.md` for the full workflow.
-
-→ [github.com/CarbeneAI/Talon](https://github.com/CarbeneAI/Talon)
+}</code></pre>
+  </div>
+  <a class="skill-card__link" href="https://github.com/CarbeneAI/Talon" target="_blank" rel="noopener">github.com/CarbeneAI/Talon →</a>
+</div>
 
 ---
 
 ## Knowledge & Context
 
----
+<div class="skill-card">
+  <div class="skill-card__header">
+    <span class="skill-card__name">code-review-graph</span>
+    <span class="skill-card__tag">Token-efficient codebase knowledge graph</span>
+  </div>
+  <p class="skill-card__author">By tirth8205</p>
+  <p class="skill-card__desc">Builds a persistent structural map (Tree-sitter + SQLite) of functions, classes, and imports — so reviews query only the minimal relevant files rather than reading everything. Benchmarked at 6.8x fewer tokens on code reviews across 23+ languages. Also installs skills (<code>/review-delta</code>, <code>/review-pr</code>, <code>/build-graph</code>) and hooks alongside the MCP server.</p>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Install (requires Python 3.10+)</span>
+    <pre><code>pip install code-review-graph
+code-review-graph install
+code-review-graph build</code></pre>
+  </div>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Or Claude Code only</span>
+    <pre><code>code-review-graph install --platform claude-code</code></pre>
+  </div>
+  <a class="skill-card__link" href="https://github.com/tirth8205/code-review-graph" target="_blank" rel="noopener">github.com/tirth8205/code-review-graph →</a>
+</div>
 
-### code-review-graph
-**By tirth8205**
-
-Builds a persistent structural map of your codebase using Tree-sitter, stores it as a graph of functions, classes, and imports in SQLite, and exposes it to Claude via MCP. When Claude needs to review changed code, instead of reading entire files it queries the graph for the minimal relevant set -- the changed files plus their callers, dependents, and test coverage.
-
-Benchmarked at 6.8x fewer tokens on code reviews and up to 49x on daily coding tasks across real open-source repositories. Initial build takes ~10 seconds for a 500-file project. The graph updates automatically on every file edit and git commit via hooks. Supports 23+ languages including TypeScript, Python, Go, Rust, Java, Kotlin, Swift, Vue, Solidity, and Jupyter notebooks.
-
-Note: also installs skills (`/review-delta`, `/review-pr`, `/build-graph`) and hooks alongside the MCP server. The MCP server does the graph querying; the skills give Claude structured instructions for using it.
-
-**Install (requires Python 3.10+):**
-```
-pip install code-review-graph
-code-review-graph install           # auto-detects Claude Code and other platforms
-code-review-graph build             # parse your codebase (run once per repo)
-```
-
-Claude Code only:
-```
-code-review-graph install --platform claude-code
-```
-
-Restart Claude Code after installing, then try `/review-delta` on a repo with uncommitted changes.
-
-→ [github.com/tirth8205/code-review-graph](https://github.com/tirth8205/code-review-graph)
-
----
-
-### Obsidian MCP
-
-Connects Claude Code to your Obsidian vault so Claude can search notes, read files, create and update notes, and navigate backlinks -- without leaving the terminal. There is no single official Obsidian MCP server. Two approaches exist depending on whether you want Obsidian running or not.
-
-**Option A -- Direct filesystem access (Obsidian doesn't need to be running)**
-
-Reads your vault as plain markdown files. Simpler setup, works offline, supports multiple vaults. Tools: read notes, write notes, search full text, list all files, get open todos.
-```
-claude mcp add obsidian -- npx -y obsidian-mcp /absolute/path/to/your/vault
-```
-
-Use absolute paths. Relative paths (`~/Documents/MyVault`) may not resolve correctly when Claude Code spawns the server.
-
-→ [github.com/StevenStavrakis/obsidian-mcp](https://github.com/StevenStavrakis/obsidian-mcp)
-
-**Option B -- REST API via Local REST API plugin (Obsidian must be running)**
-
-More features: search, patch content at specific headings, append to existing notes, delete files. Requires installing the [Obsidian Local REST API](https://github.com/coddingtonbear/obsidian-local-rest-api) community plugin in Obsidian and copying the API key it generates.
-
-Add to your config (Claude Code or Desktop):
-```json
-{
+<div class="skill-card">
+  <div class="skill-card__header">
+    <span class="skill-card__name">Obsidian MCP</span>
+    <span class="skill-card__tag">Read and write your Obsidian vault from Claude Code</span>
+  </div>
+  <p class="skill-card__desc">Search notes, read files, create and update notes, navigate backlinks — without leaving the terminal. Two approaches depending on whether Obsidian needs to be running.</p>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Option A — Direct filesystem (Obsidian doesn't need to be running)</span>
+    <pre><code>claude mcp add obsidian -- npx -y obsidian-mcp /absolute/path/to/your/vault</code></pre>
+  </div>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Option B — REST API via Local REST API plugin (Obsidian must be running, more features)</span>
+    <pre><code>{
   "mcpServers": {
     "mcp-obsidian": {
       "command": "uvx",
@@ -239,18 +182,16 @@ Add to your config (Claude Code or Desktop):
       }
     }
   }
-}
-```
-
-Requires `uv` installed (`pip install uv` or `brew install uv`). If Claude can't find `uvx`, use `which uvx` and paste the full path.
-
-→ [github.com/MarkusPfundstein/mcp-obsidian](https://github.com/MarkusPfundstein/mcp-obsidian)
+}</code></pre>
+  </div>
+  <p class="skill-card__desc">Option A: <a href="https://github.com/StevenStavrakis/obsidian-mcp" target="_blank" rel="noopener">github.com/StevenStavrakis/obsidian-mcp</a> &mdash; Option B requires the <a href="https://github.com/coddingtonbear/obsidian-local-rest-api" target="_blank" rel="noopener">Obsidian Local REST API</a> community plugin and <code>uv</code> installed. <a href="https://github.com/MarkusPfundstein/mcp-obsidian" target="_blank" rel="noopener">github.com/MarkusPfundstein/mcp-obsidian</a></p>
+</div>
 
 ---
 
 ## Find More
 
-- [Anthropic's MCP docs](https://code.claude.com/docs/en/mcp) -- official server list and configuration reference
 - [MCP server registry](https://github.com/modelcontextprotocol/servers) -- the canonical community directory
 - [mcp.run](https://mcp.run) -- hosted MCP servers, no local setup required
+- [Anthropic's MCP docs](https://code.claude.com/docs/en/mcp) -- official server list and configuration reference
 - `/mcp` inside any Claude Code session -- lists connected servers and available tools

@@ -20,41 +20,45 @@ This page is the map. Every section below has a dedicated page going deeper.
 
 **Slash commands.** Stored prompts triggered by typing `/command-name`. Markdown files in `.claude/commands/` with optional `$ARGUMENTS` substitution. Less powerful than skills (no procedural depth, just a stored prompt) but useful when you want a quick shortcut for something you type often.
 
-<svg viewBox="0 0 800 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Comparison of five Claude extension types: skills, MCP, connectors, plugins, slash commands" style="max-width: 100%; height: auto; margin: 2rem 0;">
+<svg viewBox="0 0 800 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Comparison of five Claude extension types: skills, MCP, connectors, plugins, slash commands">
   <defs>
     <style>
-      .header-text { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 10px; opacity: 0.5; letter-spacing: 1.5px; font-weight: 700; }
-      .name-text { fill: #d97706; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 1px; }
-      .body-text { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 12px; opacity: 0.75; }
-      .body-mono { fill: currentColor; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 11px; opacity: 0.7; }
+      .header-text { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 12px; opacity: 0.5; letter-spacing: 1.5px; font-weight: 700; }
+      .name-text { fill: #d97706; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 1px; }
+      .body-text { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 14px; opacity: 0.75; }
+      .body-mono { fill: currentColor; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; opacity: 0.7; }
       .separator { stroke: currentColor; stroke-width: 1; opacity: 0.25; }
     </style>
   </defs>
-  <text x="20" y="30" class="header-text">EXTENSION</text>
-  <text x="160" y="30" class="header-text">WHAT IT IS</text>
-  <text x="440" y="30" class="header-text">WHERE IT LIVES</text>
-  <text x="600" y="30" class="header-text">BEST FOR</text>
-  <line x1="20" y1="44" x2="780" y2="44" class="separator"/>
-  <text x="20" y="86" class="name-text">SKILLS</text>
-  <text x="160" y="86" class="body-text">Markdown workflow files</text>
-  <text x="440" y="86" class="body-mono">.claude/skills/</text>
-  <text x="600" y="86" class="body-text">Repeatable workflows</text>
-  <text x="20" y="142" class="name-text">MCP</text>
-  <text x="160" y="142" class="body-text">Tool and data protocol</text>
-  <text x="440" y="142" class="body-mono">.mcp.json</text>
-  <text x="600" y="142" class="body-text">Apps, data, custom tools</text>
-  <text x="20" y="198" class="name-text">CONNECTORS</text>
-  <text x="160" y="198" class="body-text">Pre-built MCP for claude.ai</text>
-  <text x="440" y="198" class="body-text">claude.ai settings</text>
-  <text x="600" y="198" class="body-text">Consumer integrations</text>
-  <text x="20" y="254" class="name-text">PLUGINS</text>
-  <text x="160" y="254" class="body-text">Bundles of multiple extensions</text>
-  <text x="440" y="254" class="body-text">Plugin marketplace</text>
-  <text x="600" y="254" class="body-text">Sharing complete setups</text>
-  <text x="20" y="310" class="name-text">COMMANDS</text>
-  <text x="160" y="310" class="body-text">Stored slash-command prompts</text>
-  <text x="440" y="310" class="body-mono">.claude/commands/</text>
-  <text x="600" y="310" class="body-text">Frequent prompt shortcuts</text>
+  <text x="20" y="32" class="header-text">EXTENSION</text>
+  <text x="160" y="32" class="header-text">WHAT IT IS</text>
+  <text x="440" y="32" class="header-text">WHERE IT LIVES</text>
+  <text x="600" y="32" class="header-text">BEST FOR</text>
+  <line x1="20" y1="48" x2="780" y2="48" class="separator"/>
+  <text x="20" y="96" class="name-text">SKILLS</text>
+  <text x="160" y="96" class="body-text">Markdown workflow files</text>
+  <text x="440" y="96" class="body-mono">.claude/skills/</text>
+  <text x="600" y="96" class="body-text">Repeatable workflows</text>
+  <line x1="20" y1="116" x2="780" y2="116" class="separator"/>
+  <text x="20" y="164" class="name-text">MCP</text>
+  <text x="160" y="164" class="body-text">Tool and data protocol</text>
+  <text x="440" y="164" class="body-mono">.mcp.json</text>
+  <text x="600" y="164" class="body-text">Apps, data, custom tools</text>
+  <line x1="20" y1="184" x2="780" y2="184" class="separator"/>
+  <text x="20" y="232" class="name-text">CONNECTORS</text>
+  <text x="160" y="232" class="body-text">Pre-built MCP for claude.ai</text>
+  <text x="440" y="232" class="body-text">claude.ai settings</text>
+  <text x="600" y="232" class="body-text">Consumer integrations</text>
+  <line x1="20" y1="252" x2="780" y2="252" class="separator"/>
+  <text x="20" y="300" class="name-text">PLUGINS</text>
+  <text x="160" y="300" class="body-text">Bundles of multiple extensions</text>
+  <text x="440" y="300" class="body-text">Plugin marketplace</text>
+  <text x="600" y="300" class="body-text">Sharing complete setups</text>
+  <line x1="20" y1="320" x2="780" y2="320" class="separator"/>
+  <text x="20" y="368" class="name-text">COMMANDS</text>
+  <text x="160" y="368" class="body-text">Stored slash-command prompts</text>
+  <text x="440" y="368" class="body-mono">.claude/commands/</text>
+  <text x="600" y="368" class="body-text">Frequent prompt shortcuts</text>
 </svg>
 
 ## How they compose

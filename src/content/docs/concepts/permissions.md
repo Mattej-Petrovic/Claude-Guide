@@ -20,54 +20,54 @@ If nothing matches, the active permission mode decides what happens.
 
 Rules live in `permissions.allow`, `permissions.deny`, and `permissions.ask` arrays inside `.claude/settings.json` (project) or `~/.claude/settings.json` (user). Tool patterns look like `Bash(npm test)`, `Read(./.env)`, `Write(src/**)`, and `WebFetch(*.example.com)`. Glob patterns work. Deny always wins.
 
-<svg viewBox="0 0 800 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Permission evaluation order: deny rules first, then ask rules, then allow rules, then the active mode decides" style="max-width: 100%; height: auto; margin: 2rem 0;">
+<svg viewBox="0 0 800 490" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Permission evaluation order: deny rules first, then ask rules, then allow rules, then the active mode decides">
   <defs>
     <style>
       .step-box { fill: none; stroke: currentColor; stroke-width: 1; opacity: 0.4; }
       .step-box-start { fill: none; stroke: #d97706; stroke-width: 1.5; opacity: 0.7; }
       .outcome-box { fill: none; stroke: currentColor; stroke-width: 1; opacity: 0.5; }
-      .step-text { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 13px; opacity: 0.85; }
-      .step-text-start { fill: #d97706; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; }
-      .outcome-text { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 13px; opacity: 0.85; font-weight: 600; }
-      .muted-text { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 11px; opacity: 0.55; }
+      .step-text { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 14px; opacity: 0.85; }
+      .step-text-start { fill: #d97706; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 1.5px; }
+      .outcome-text { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 14px; opacity: 0.85; font-weight: 600; }
+      .muted-text { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 12px; opacity: 0.55; }
       .arrow { stroke: currentColor; stroke-width: 1; fill: none; opacity: 0.4; }
       .arrow-yes { stroke: currentColor; stroke-width: 1; fill: none; opacity: 0.4; stroke-dasharray: 4 3; }
-      .arrow-label { fill: currentColor; opacity: 0.55; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 10px; letter-spacing: 0.5px; font-weight: 600; }
+      .arrow-label { fill: currentColor; opacity: 0.55; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 11px; letter-spacing: 0.5px; font-weight: 600; }
     </style>
     <marker id="perm-ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor" opacity="0.5"/>
     </marker>
   </defs>
-  <rect x="200" y="20" width="260" height="50" rx="6" class="step-box-start"/>
-  <text x="220" y="50" class="step-text-start">TOOL CALL REQUESTED</text>
-  <line x1="330" y1="70" x2="330" y2="105" class="arrow" marker-end="url(#perm-ah)"/>
-  <rect x="200" y="110" width="260" height="50" rx="6" class="step-box"/>
-  <text x="220" y="142" class="step-text">1. Match a deny rule?</text>
-  <line x1="465" y1="135" x2="555" y2="135" class="arrow-yes" marker-end="url(#perm-ah)"/>
-  <text x="495" y="128" class="arrow-label">YES</text>
-  <rect x="560" y="115" width="220" height="40" rx="6" class="outcome-box"/>
-  <text x="580" y="140" class="outcome-text">BLOCKED</text>
-  <line x1="330" y1="160" x2="330" y2="195" class="arrow" marker-end="url(#perm-ah)"/>
-  <text x="340" y="180" class="arrow-label">NO</text>
-  <rect x="200" y="200" width="260" height="50" rx="6" class="step-box"/>
-  <text x="220" y="232" class="step-text">2. Match an ask rule?</text>
-  <line x1="465" y1="225" x2="555" y2="225" class="arrow-yes" marker-end="url(#perm-ah)"/>
-  <text x="495" y="218" class="arrow-label">YES</text>
-  <rect x="560" y="205" width="220" height="40" rx="6" class="outcome-box"/>
-  <text x="580" y="230" class="outcome-text">PROMPT YOU</text>
-  <line x1="330" y1="250" x2="330" y2="285" class="arrow" marker-end="url(#perm-ah)"/>
-  <text x="340" y="270" class="arrow-label">NO</text>
-  <rect x="200" y="290" width="260" height="50" rx="6" class="step-box"/>
-  <text x="220" y="322" class="step-text">3. Match an allow rule?</text>
-  <line x1="465" y1="315" x2="555" y2="315" class="arrow-yes" marker-end="url(#perm-ah)"/>
-  <text x="495" y="308" class="arrow-label">YES</text>
-  <rect x="560" y="295" width="220" height="40" rx="6" class="outcome-box"/>
-  <text x="580" y="320" class="outcome-text">RUN</text>
-  <line x1="330" y1="340" x2="330" y2="375" class="arrow" marker-end="url(#perm-ah)"/>
-  <text x="340" y="360" class="arrow-label">NO</text>
-  <rect x="180" y="380" width="300" height="60" rx="6" class="step-box"/>
-  <text x="200" y="408" class="step-text">4. Active permission mode decides</text>
-  <text x="200" y="427" class="muted-text">(default, acceptEdits, plan, auto, dontAsk, bypass)</text>
+  <rect x="200" y="20" width="260" height="55" rx="6" class="step-box-start"/>
+  <text x="220" y="53" class="step-text-start">TOOL CALL REQUESTED</text>
+  <line x1="330" y1="75" x2="330" y2="110" class="arrow" marker-end="url(#perm-ah)"/>
+  <rect x="200" y="115" width="260" height="55" rx="6" class="step-box"/>
+  <text x="220" y="149" class="step-text">1. Match a deny rule?</text>
+  <line x1="465" y1="142" x2="555" y2="142" class="arrow-yes" marker-end="url(#perm-ah)"/>
+  <text x="492" y="135" class="arrow-label">YES</text>
+  <rect x="560" y="122" width="220" height="44" rx="6" class="outcome-box"/>
+  <text x="580" y="150" class="outcome-text">BLOCKED</text>
+  <line x1="330" y1="170" x2="330" y2="205" class="arrow" marker-end="url(#perm-ah)"/>
+  <text x="340" y="191" class="arrow-label">NO</text>
+  <rect x="200" y="210" width="260" height="55" rx="6" class="step-box"/>
+  <text x="220" y="244" class="step-text">2. Match an ask rule?</text>
+  <line x1="465" y1="237" x2="555" y2="237" class="arrow-yes" marker-end="url(#perm-ah)"/>
+  <text x="492" y="230" class="arrow-label">YES</text>
+  <rect x="560" y="217" width="220" height="44" rx="6" class="outcome-box"/>
+  <text x="580" y="245" class="outcome-text">PROMPT YOU</text>
+  <line x1="330" y1="265" x2="330" y2="300" class="arrow" marker-end="url(#perm-ah)"/>
+  <text x="340" y="286" class="arrow-label">NO</text>
+  <rect x="200" y="305" width="260" height="55" rx="6" class="step-box"/>
+  <text x="220" y="339" class="step-text">3. Match an allow rule?</text>
+  <line x1="465" y1="332" x2="555" y2="332" class="arrow-yes" marker-end="url(#perm-ah)"/>
+  <text x="492" y="325" class="arrow-label">YES</text>
+  <rect x="560" y="312" width="220" height="44" rx="6" class="outcome-box"/>
+  <text x="580" y="340" class="outcome-text">RUN</text>
+  <line x1="330" y1="360" x2="330" y2="395" class="arrow" marker-end="url(#perm-ah)"/>
+  <text x="340" y="381" class="arrow-label">NO</text>
+  <rect x="180" y="400" width="300" height="66" rx="6" class="step-box"/>
+  <text x="200" y="430" class="step-text">4. Active permission mode decides</text>
+  <text x="200" y="452" class="muted-text">(default, acceptEdits, plan, auto, dontAsk, bypass)</text>
 </svg>
 
 ## The five permission modes

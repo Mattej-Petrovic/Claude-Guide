@@ -24,54 +24,59 @@ When the total knowledge fits in context, Claude loads everything directly into 
 
 One quirk worth knowing. The RAG cutover sometimes triggers earlier than the docs suggest. There are reproducible reports of it kicking in around 13 files even when total tokens are well under the context limit, with the UI showing "look up specific information as needed" at 2% of capacity. Splitting one cohesive document into many small files can hurt accuracy by forcing RAG mode prematurely. Fewer, larger files tend to behave better than many small ones.
 
-<svg viewBox="0 0 800 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram showing how a Claude Project contains Instructions and Knowledge that load into every chat in the project" style="max-width: 100%; height: auto; margin: 2rem 0;">
+<svg viewBox="0 0 800 580" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram showing how a Claude Project contains Instructions and Knowledge that load into every chat in the project">
   <defs>
     <style>
       .container-box { fill: none; stroke: #d97706; stroke-width: 1.5; opacity: 0.7; }
       .inner-box { fill: none; stroke: currentColor; stroke-width: 1; opacity: 0.35; }
       .chat-box { fill: none; stroke: currentColor; stroke-width: 1; opacity: 0.5; }
-      .label-xs { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 10px; opacity: 0.55; letter-spacing: 1.2px; font-weight: 600; }
-      .label-sm { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 13px; }
-      .label-lg { fill: #d97706; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 2px; }
-      .muted { fill: currentColor; opacity: 0.5; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 11px; }
+      .label-xs { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 13px; opacity: 0.55; letter-spacing: 1.2px; font-weight: 600; }
+      .label-sm { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 16px; }
+      .label-lg { fill: #d97706; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 2px; }
+      .muted { fill: currentColor; opacity: 0.5; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 14px; }
       .arrow { stroke: currentColor; stroke-width: 1; fill: none; opacity: 0.35; stroke-dasharray: 3 3; }
     </style>
     <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor" opacity="0.45"/>
     </marker>
   </defs>
-  <rect x="40" y="30" width="720" height="230" rx="10" class="container-box"/>
-  <text x="60" y="58" class="label-lg">PROJECT</text>
-  <rect x="70" y="85" width="310" height="155" rx="6" class="inner-box"/>
-  <text x="90" y="110" class="label-xs">INSTRUCTIONS</text>
-  <text x="90" y="138" class="label-sm">Role, constraints,</text>
-  <text x="90" y="156" class="label-sm">output rules</text>
-  <text x="90" y="200" class="muted">Loaded into every chat's</text>
-  <text x="90" y="217" class="muted">system prompt.</text>
-  <rect x="420" y="85" width="310" height="155" rx="6" class="inner-box"/>
-  <text x="440" y="110" class="label-xs">KNOWLEDGE</text>
-  <text x="440" y="138" class="label-sm">style-guide.pdf</text>
-  <text x="440" y="156" class="label-sm">architecture.md</text>
-  <text x="440" y="174" class="label-sm">reference.txt</text>
-  <text x="440" y="217" class="muted">Cached. Reused without burning tokens.</text>
-  <line x1="180" y1="270" x2="180" y2="330" class="arrow" marker-end="url(#ah)"/>
-  <line x1="400" y1="270" x2="400" y2="330" class="arrow" marker-end="url(#ah)"/>
-  <line x1="620" y1="270" x2="620" y2="330" class="arrow" marker-end="url(#ah)"/>
-  <rect x="80" y="345" width="200" height="115" rx="6" class="chat-box"/>
-  <text x="100" y="372" class="label-xs">CHAT 1</text>
-  <text x="100" y="402" class="muted">Fresh 200K window.</text>
-  <text x="100" y="420" class="muted">Inherits project</text>
-  <text x="100" y="437" class="muted">context.</text>
-  <rect x="300" y="345" width="200" height="115" rx="6" class="chat-box"/>
-  <text x="320" y="372" class="label-xs">CHAT 2</text>
-  <text x="320" y="402" class="muted">Fresh 200K window.</text>
-  <text x="320" y="420" class="muted">Inherits project</text>
-  <text x="320" y="437" class="muted">context.</text>
-  <rect x="520" y="345" width="200" height="115" rx="6" class="chat-box"/>
-  <text x="540" y="372" class="label-xs">CHAT 3</text>
-  <text x="540" y="402" class="muted">Fresh 200K window.</text>
-  <text x="540" y="420" class="muted">Inherits project</text>
-  <text x="540" y="437" class="muted">context.</text>
+  <!-- PROJECT outer box: y=30, height=290 -->
+  <rect x="40" y="30" width="720" height="290" rx="10" class="container-box"/>
+  <text x="60" y="62" class="label-lg">PROJECT</text>
+  <!-- INSTRUCTIONS inner box: y=80, height=220 -->
+  <rect x="70" y="80" width="310" height="220" rx="6" class="inner-box"/>
+  <text x="90" y="112" class="label-xs">INSTRUCTIONS</text>
+  <text x="90" y="148" class="label-sm">Role, constraints,</text>
+  <text x="90" y="170" class="label-sm">output rules</text>
+  <text x="90" y="242" class="muted">Loaded into every chat's</text>
+  <text x="90" y="262" class="muted">system prompt.</text>
+  <!-- KNOWLEDGE inner box: x=420, y=80, height=220 -->
+  <rect x="420" y="80" width="310" height="220" rx="6" class="inner-box"/>
+  <text x="440" y="112" class="label-xs">KNOWLEDGE</text>
+  <text x="440" y="148" class="label-sm">style-guide.pdf</text>
+  <text x="440" y="170" class="label-sm">architecture.md</text>
+  <text x="440" y="192" class="label-sm">reference.txt</text>
+  <text x="440" y="262" class="muted">Cached. Reused without burning tokens.</text>
+  <!-- Arrows: from bottom of PROJECT box (y=320) down to chat boxes (y=390) -->
+  <line x1="180" y1="330" x2="180" y2="390" class="arrow" marker-end="url(#ah)"/>
+  <line x1="400" y1="330" x2="400" y2="390" class="arrow" marker-end="url(#ah)"/>
+  <line x1="620" y1="330" x2="620" y2="390" class="arrow" marker-end="url(#ah)"/>
+  <!-- Chat boxes: y=400, height=150 -->
+  <rect x="55" y="400" width="220" height="150" rx="6" class="chat-box"/>
+  <text x="78" y="432" class="label-xs">CHAT 1</text>
+  <text x="78" y="468" class="muted">Fresh 200K window.</text>
+  <text x="78" y="490" class="muted">Inherits project</text>
+  <text x="78" y="512" class="muted">context.</text>
+  <rect x="290" y="400" width="220" height="150" rx="6" class="chat-box"/>
+  <text x="313" y="432" class="label-xs">CHAT 2</text>
+  <text x="313" y="468" class="muted">Fresh 200K window.</text>
+  <text x="313" y="490" class="muted">Inherits project</text>
+  <text x="313" y="512" class="muted">context.</text>
+  <rect x="525" y="400" width="220" height="150" rx="6" class="chat-box"/>
+  <text x="548" y="432" class="label-xs">CHAT 3</text>
+  <text x="548" y="468" class="muted">Fresh 200K window.</text>
+  <text x="548" y="490" class="muted">Inherits project</text>
+  <text x="548" y="512" class="muted">context.</text>
 </svg>
 
 ## How to use it well

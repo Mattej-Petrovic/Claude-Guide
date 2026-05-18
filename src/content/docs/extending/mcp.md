@@ -22,15 +22,15 @@ Three things a server can offer:
 
 A single server can expose any combination. The GitHub MCP exposes tools (create_issue, search_code) and resources (repository contents). The filesystem MCP exposes tools (read, write) and resources (directory listings).
 
-<svg viewBox="0 0 800 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="MCP architecture diagram showing clients connecting to servers via the protocol" style="width:100%;height:auto;color:currentColor;font-family:ui-sans-serif,system-ui,sans-serif">
+<svg viewBox="0 0 800 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="MCP architecture diagram showing clients connecting to servers via the protocol" class="svg-wide" style="height:auto;color:currentColor;font-family:ui-sans-serif,system-ui,sans-serif">
   <style>
     .panel { fill: none; stroke: currentColor; stroke-opacity: 0.25; stroke-width: 1; }
     .panel-accent { fill: none; stroke: #d97706; stroke-width: 1.5; }
-    .label { fill: currentColor; font-size: 13px; font-weight: 600; }
-    .sub { fill: currentColor; fill-opacity: 0.7; font-size: 12px; }
-    .accent { fill: #d97706; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; }
-    .file { fill: currentColor; fill-opacity: 0.85; font-size: 12px; font-family: ui-monospace, monospace; }
-    .dim { fill: currentColor; fill-opacity: 0.5; font-size: 11px; font-family: ui-monospace, monospace; }
+    .label { fill: currentColor; font-size: 15px; font-weight: 600; }
+    .sub { fill: currentColor; fill-opacity: 0.7; font-size: 13px; }
+    .accent { fill: #d97706; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; }
+    .file { fill: currentColor; fill-opacity: 0.85; font-size: 13px; font-family: ui-monospace, monospace; }
+    .dim { fill: currentColor; fill-opacity: 0.5; font-size: 12px; font-family: ui-monospace, monospace; }
     .arrow { stroke: currentColor; stroke-opacity: 0.4; stroke-width: 1; fill: none; }
     .arrow-accent { stroke: #d97706; stroke-width: 1.5; fill: none; }
     .protocol-band { fill: #d97706; fill-opacity: 0.08; stroke: #d97706; stroke-opacity: 0.4; stroke-width: 1; stroke-dasharray: 4 3; }

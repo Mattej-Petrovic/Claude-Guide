@@ -8,12 +8,12 @@ These are the files at the root of your project that configure Claude Code. They
 
 The problem they solve: every Claude Code session starts blank. Without configuration, you spend the first messages of every session re-explaining your project. With it, the agent shows up oriented and you start the work, not the briefing.
 
-<svg viewBox="0 0 800 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Project file structure showing CLAUDE.md, AGENTS.md, settings.json, mcp.json and the .claude folder layout" style="max-width: 100%; height: auto; margin: 2rem 0;">
+<svg viewBox="0 0 760 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Project file structure showing CLAUDE.md, AGENTS.md, settings.json, mcp.json and the .claude folder layout">
   <defs>
     <style>
-      .tree-text { fill: currentColor; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; opacity: 0.85; }
-      .tree-folder { fill: #d97706; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; font-weight: 600; }
-      .annotation { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 12px; opacity: 0.65; }
+      .tree-text { fill: currentColor; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 15px; opacity: 0.85; }
+      .tree-folder { fill: #d97706; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 15px; font-weight: 600; }
+      .annotation { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 14px; opacity: 0.65; }
     </style>
   </defs>
   <text x="20" y="40" class="tree-folder">my-project/</text>

@@ -14,11 +14,27 @@ section: library
   <svg class="crosslink__arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" width="16" height="16"><path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round" /></svg>
 </a>
 
-Commands are typed with `/` inside an active Claude Code session. Type `/` alone to see everything available to you -- what shows up depends on your plan, platform, and which plugins or MCP servers you have connected.
+Commands are typed with `/` inside an active Claude Code session. Type `/` alone to see everything available to you — what shows up depends on your plan, platform, and which plugins or MCP servers you have connected.
 
-Entries marked **[Skill]** are bundled skills -- they hand a prompt to Claude rather than executing a fixed action, and Claude can also invoke them automatically when relevant.
+Entries marked **[Skill]** are bundled skills — they hand a prompt to Claude rather than executing a fixed action, and Claude can also invoke them automatically when relevant.
 
 Some commands are only available in certain contexts. `/desktop` shows on macOS and Windows only. `/upgrade` shows on Pro and Max plans. `/sandbox` requires supported platforms.
+
+<div class="cmd-quickref">
+  <p class="cmd-quickref__label">Most used</p>
+  <div class="cmd-quickref__grid">
+    <a href="#project-management" class="cmd-chip"><code>/compact</code><span>free context</span></a>
+    <a href="#project-management" class="cmd-chip"><code>/clear</code><span>reset session</span></a>
+    <a href="#project-management" class="cmd-chip"><code>/init</code><span>generate CLAUDE.md</span></a>
+    <a href="#mode--model-control" class="cmd-chip"><code>/model</code><span>switch model</span></a>
+    <a href="#mode--model-control" class="cmd-chip"><code>/plan</code><span>plan mode</span></a>
+    <a href="#information--status" class="cmd-chip"><code>/context</code><span>usage grid</span></a>
+    <a href="#information--status" class="cmd-chip"><code>/cost</code><span>token stats</span></a>
+    <a href="#bundle-commands-skills" class="cmd-chip"><code>/batch</code><span>parallel changes</span></a>
+    <a href="#bundle-commands-skills" class="cmd-chip"><code>/loop</code><span>repeat prompt</span></a>
+    <a href="#integrations--extensions" class="cmd-chip"><code>/mcp</code><span>manage servers</span></a>
+  </div>
+</div>
 
 ---
 

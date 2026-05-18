@@ -157,7 +157,7 @@ Anthropic ships dozens of built-in commands. The ones most worth knowing day-to-
 
 The full reference (every built-in command, every flag, every CLI invocation) lives in the library section of this guide. The point of mentioning them here is the contrast: built-ins handle session mechanics, custom commands handle your work.
 
-<svg viewBox="0 0 800 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram showing the anatomy of a custom slash command file and how it expands when invoked" style="width:100%;height:auto;color:currentColor;font-family:ui-sans-serif,system-ui,sans-serif">
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram showing the anatomy of a custom slash command file and how it expands when invoked" style="height:auto;color:currentColor;font-family:ui-sans-serif,system-ui,sans-serif">
   <style>
     .panel { fill: none; stroke: currentColor; stroke-opacity: 0.25; stroke-width: 1; }
     .panel-accent { fill: none; stroke: #d97706; stroke-width: 1.5; }
@@ -191,8 +191,8 @@ The full reference (every built-in command, every flag, every CLI invocation) li
   <text class="sub" x="56" y="402">Filename → command name</text>
   <text class="sub" x="56" y="418">$ARGUMENTS → user input</text>
   <!-- Arrow -->
-  <path class="arrow-accent" d="M 360 240 L 420 240" marker-end="url(#arrAccent)"/>
-  <text class="step-num" x="368" y="232">/review-pr 1234</text>
+  <path class="arrow-accent" d="M 360 240 L 438 240" marker-end="url(#arrAccent)"/>
+  <text x="400" y="228" text-anchor="middle" font-family="ui-monospace,monospace" font-size="9" font-weight="700" fill="#d97706">/review-pr 1234</text>
   <!-- Right: expansion -->
   <text class="accent" x="440" y="36">WHAT CLAUDE EXECUTES</text>
   <rect class="panel" x="440" y="52" width="320" height="380" rx="6"/>

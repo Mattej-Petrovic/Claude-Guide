@@ -19,64 +19,64 @@ The two are different. Memory is durable summary. Search past chats is explicit 
 
 There is also a wider concept of "things Claude remembers across sessions" that includes Project knowledge (persistent for chats inside a project), CLAUDE.md and project files in Claude Code (loaded every session), and system prompts in API or developer contexts. This page is mostly about the consumer Memory feature, but the principles apply to all of them. Memory is the layer that follows you everywhere; the others are scoped to a project or session.
 
-<svg viewBox="0 0 700 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Layers of context Claude has during a conversation, from narrowest and most ephemeral (current message) to broadest and most durable (model training), with Memory highlighted as the layer that follows you everywhere">
+<svg viewBox="0 0 820 430" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Layers of context Claude has during a conversation, from narrowest and most ephemeral (current message) to broadest and most durable (model training), with Memory highlighted as the layer that follows you everywhere">
   <defs>
     <style>
-      .m-label { font-family: ui-sans-serif, system-ui, sans-serif; font-size: 12px; fill: var(--color-text, #e8e8e8); }
-      .m-label-strong { font-family: ui-sans-serif, system-ui, sans-serif; font-size: 13px; font-weight: 600; fill: var(--color-text, #e8e8e8); }
-      .m-label-muted { font-family: ui-sans-serif, system-ui, sans-serif; font-size: 11px; fill: var(--color-text-muted, #9a9a9a); }
-      .m-label-tag { font-family: ui-sans-serif, system-ui, sans-serif; font-size: 9px; font-weight: 600; letter-spacing: 0.05em; fill: var(--color-text-muted, #9a9a9a); }
-      .m-label-accent { font-family: ui-sans-serif, system-ui, sans-serif; font-size: 9px; font-weight: 600; letter-spacing: 0.05em; fill: var(--color-accent, #c97b48); }
+      .m-label { font-family: ui-sans-serif, system-ui, sans-serif; font-size: 14px; fill: var(--color-text, #e8e8e8); }
+      .m-label-strong { font-family: ui-sans-serif, system-ui, sans-serif; font-size: 16px; font-weight: 600; fill: var(--color-text, #e8e8e8); }
+      .m-label-muted { font-family: ui-sans-serif, system-ui, sans-serif; font-size: 13px; fill: var(--color-text-muted, #9a9a9a); }
+      .m-label-tag { font-family: ui-sans-serif, system-ui, sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.05em; fill: var(--color-text-muted, #9a9a9a); }
+      .m-label-accent { font-family: ui-sans-serif, system-ui, sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.05em; fill: var(--color-accent, #c97b48); }
       .m-box { fill: var(--color-surface, #1a1a1a); stroke: var(--color-border, #2e2e2e); stroke-width: 1; }
       .m-box-accent { fill: var(--color-surface-accent, #1f1f1f); stroke: var(--color-accent, #c97b48); stroke-width: 1.5; }
       .m-box-dim { fill: var(--color-surface, #1a1a1a); stroke: var(--color-border, #2e2e2e); stroke-width: 1; opacity: 0.6; }
     </style>
   </defs>
   <!-- Column headers -->
-  <text class="m-label-tag" x="200" y="16" text-anchor="middle">LAYER</text>
-  <text class="m-label-tag" x="430" y="16" text-anchor="middle">SCOPE</text>
-  <text class="m-label-tag" x="620" y="16" text-anchor="middle">PERSISTENCE</text>
-  <!-- Layer 1: Current message (narrowest) -->
-  <rect class="m-box" x="10" y="26" width="370" height="40" rx="4" />
-  <text class="m-label-strong" x="26" y="44">Current message</text>
-  <text class="m-label-muted" x="26" y="59">just this turn</text>
-  <text class="m-label-muted" x="430" y="50" text-anchor="middle">this prompt only</text>
-  <text class="m-label-tag" x="620" y="50" text-anchor="middle">GONE AFTER REPLY</text>
-  <!-- Layer 2: Conversation -->
-  <rect class="m-box" x="10" y="76" width="370" height="40" rx="4" />
-  <text class="m-label-strong" x="26" y="94">Conversation</text>
-  <text class="m-label-muted" x="26" y="109">this chat session</text>
-  <text class="m-label-muted" x="430" y="100" text-anchor="middle">this chat only</text>
-  <text class="m-label-tag" x="620" y="100" text-anchor="middle">LOST WHEN CHAT ENDS</text>
-  <!-- Layer 3: Project knowledge -->
-  <rect class="m-box" x="10" y="126" width="370" height="40" rx="4" />
-  <text class="m-label-strong" x="26" y="144">Project knowledge</text>
-  <text class="m-label-muted" x="26" y="159">files and context inside a project</text>
-  <text class="m-label-muted" x="430" y="150" text-anchor="middle">one project</text>
-  <text class="m-label-tag" x="620" y="150" text-anchor="middle">DURABLE, SCOPED</text>
-  <!-- Layer 4: Memory (accent — highlighted) -->
-  <rect class="m-box-accent" x="10" y="176" width="370" height="40" rx="4" />
-  <text class="m-label-strong" x="26" y="194">Memory</text>
-  <text class="m-label-muted" x="26" y="209">derived facts and preferences about you</text>
-  <text class="m-label-muted" x="430" y="200" text-anchor="middle">all chats (global or per-project)</text>
-  <text class="m-label-accent" x="620" y="200" text-anchor="middle">FOLLOWS YOU EVERYWHERE</text>
-  <!-- Layer 5: Search past chats -->
-  <rect class="m-box" x="10" y="226" width="370" height="40" rx="4" />
-  <text class="m-label-strong" x="26" y="244">Search past chats</text>
-  <text class="m-label-muted" x="26" y="259">explicit lookup of prior conversations</text>
-  <text class="m-label-muted" x="430" y="250" text-anchor="middle">any past chat, on demand</text>
-  <text class="m-label-tag" x="620" y="250" text-anchor="middle">ON REQUEST ONLY</text>
-  <!-- Layer 6: Model training (broadest, dimmed) -->
-  <rect class="m-box-dim" x="10" y="276" width="370" height="40" rx="4" />
-  <text class="m-label-strong" x="26" y="294">Model training</text>
-  <text class="m-label-muted" x="26" y="309">baseline knowledge baked in at training time</text>
-  <text class="m-label-muted" x="430" y="300" text-anchor="middle">everything (fixed)</text>
-  <text class="m-label-tag" x="620" y="300" text-anchor="middle">STATIC</text>
+  <text class="m-label-tag" x="225" y="20" text-anchor="middle">LAYER</text>
+  <text class="m-label-tag" x="550" y="20" text-anchor="middle">SCOPE</text>
+  <text class="m-label-tag" x="730" y="20" text-anchor="middle">PERSISTENCE</text>
+  <!-- Layer 1: Current message — row y=30, box h=55, title y=50, subtitle y=68, col y=62 -->
+  <rect class="m-box" x="10" y="30" width="430" height="55" rx="4" />
+  <text class="m-label-strong" x="26" y="50">Current message</text>
+  <text class="m-label-muted" x="26" y="68">just this turn</text>
+  <text class="m-label-muted" x="550" y="62" text-anchor="middle">this prompt only</text>
+  <text class="m-label-tag" x="730" y="62" text-anchor="middle">GONE AFTER REPLY</text>
+  <!-- Layer 2: Conversation — row y=95 -->
+  <rect class="m-box" x="10" y="95" width="430" height="55" rx="4" />
+  <text class="m-label-strong" x="26" y="115">Conversation</text>
+  <text class="m-label-muted" x="26" y="133">this chat session</text>
+  <text class="m-label-muted" x="550" y="127" text-anchor="middle">this chat only</text>
+  <text class="m-label-tag" x="730" y="127" text-anchor="middle">LOST WHEN CHAT ENDS</text>
+  <!-- Layer 3: Project knowledge — row y=160 -->
+  <rect class="m-box" x="10" y="160" width="430" height="55" rx="4" />
+  <text class="m-label-strong" x="26" y="180">Project knowledge</text>
+  <text class="m-label-muted" x="26" y="198">files and context inside a project</text>
+  <text class="m-label-muted" x="550" y="192" text-anchor="middle">one project</text>
+  <text class="m-label-tag" x="730" y="192" text-anchor="middle">DURABLE, SCOPED</text>
+  <!-- Layer 4: Memory (accent — highlighted) — row y=225 -->
+  <rect class="m-box-accent" x="10" y="225" width="430" height="55" rx="4" />
+  <text class="m-label-strong" x="26" y="245">Memory</text>
+  <text class="m-label-muted" x="26" y="263">derived facts and preferences about you</text>
+  <text class="m-label-muted" x="550" y="257" text-anchor="middle">all chats (global or per-project)</text>
+  <text class="m-label-accent" x="730" y="257" text-anchor="middle">FOLLOWS YOU EVERYWHERE</text>
+  <!-- Layer 5: Search past chats — row y=290 -->
+  <rect class="m-box" x="10" y="290" width="430" height="55" rx="4" />
+  <text class="m-label-strong" x="26" y="310">Search past chats</text>
+  <text class="m-label-muted" x="26" y="328">explicit lookup of prior conversations</text>
+  <text class="m-label-muted" x="550" y="322" text-anchor="middle">any past chat, on demand</text>
+  <text class="m-label-tag" x="730" y="322" text-anchor="middle">ON REQUEST ONLY</text>
+  <!-- Layer 6: Model training — row y=355 -->
+  <rect class="m-box-dim" x="10" y="355" width="430" height="55" rx="4" />
+  <text class="m-label-strong" x="26" y="375">Model training</text>
+  <text class="m-label-muted" x="26" y="393">baseline knowledge baked in at training time</text>
+  <text class="m-label-muted" x="550" y="387" text-anchor="middle">everything (fixed)</text>
+  <text class="m-label-tag" x="730" y="387" text-anchor="middle">STATIC</text>
   <!-- Vertical scope annotation on right -->
-  <line stroke="var(--color-border-strong, #555)" stroke-width="1" x1="692" y1="26" x2="692" y2="316" />
-  <line stroke="var(--color-border-strong, #555)" stroke-width="1" x1="688" y1="26" x2="696" y2="26" />
-  <line stroke="var(--color-border-strong, #555)" stroke-width="1" x1="688" y1="316" x2="696" y2="316" />
-  <text class="m-label-tag" x="699" y="175" text-anchor="start" transform="rotate(90 699 175)">NARROWER → BROADER</text>
+  <line stroke="var(--color-border-strong, #555)" stroke-width="1" x1="812" y1="30" x2="812" y2="410" />
+  <line stroke="var(--color-border-strong, #555)" stroke-width="1" x1="808" y1="30" x2="816" y2="30" />
+  <line stroke="var(--color-border-strong, #555)" stroke-width="1" x1="808" y1="410" x2="816" y2="410" />
+  <text class="m-label-tag" x="819" y="220" text-anchor="start" transform="rotate(90 819 220)">NARROWER → BROADER</text>
 </svg>
 
 ## What to actually put in your memory

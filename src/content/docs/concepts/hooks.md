@@ -20,38 +20,38 @@ A hook has three parts:
 
 Events fire at specific points in the agent loop. There are roughly 21 events as of March 2026, but six carry most of the weight.
 
-<svg viewBox="0 0 800 580" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Claude Code hook lifecycle showing where each hook event fires during a session, turn, and tool call" style="max-width: 100%; height: auto; margin: 2rem 0;">
+<svg viewBox="0 0 800 640" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Claude Code hook lifecycle showing where each hook event fires during a session, turn, and tool call">
   <defs>
     <style>
       .frame-outer { fill: none; stroke: #d97706; stroke-width: 1.5; opacity: 0.7; }
       .frame { fill: none; stroke: currentColor; stroke-width: 1; opacity: 0.35; }
-      .frame-label { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; opacity: 0.5; }
-      .frame-label-accent { fill: #d97706; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; }
-      .hook-name { fill: currentColor; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; opacity: 0.95; font-weight: 600; }
-      .hook-desc { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 12px; opacity: 0.65; }
-      .action { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 12px; opacity: 0.5; }
+      .frame-label { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; opacity: 0.5; }
+      .frame-label-accent { fill: #d97706; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; }
+      .hook-name { fill: currentColor; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 15px; opacity: 0.95; font-weight: 600; }
+      .hook-desc { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 14px; opacity: 0.65; }
+      .action { fill: currentColor; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 14px; opacity: 0.5; }
     </style>
   </defs>
-  <rect x="20" y="20" width="760" height="540" rx="10" class="frame-outer"/>
-  <text x="40" y="45" class="frame-label-accent">SESSION  ·  PER-SESSION EVENTS FIRE ONCE</text>
-  <text x="60" y="85" class="hook-name">▶ SessionStart</text>
-  <text x="200" y="85" class="hook-desc">Inject context: git branch, recent TODOs, env state, any setup</text>
-  <rect x="50" y="105" width="700" height="380" rx="8" class="frame"/>
-  <text x="70" y="128" class="frame-label">TURN  ·  FIRES PER USER MESSAGE</text>
-  <text x="90" y="160" class="hook-name">▶ UserPromptSubmit</text>
-  <text x="240" y="160" class="hook-desc">Validate or enrich the prompt before Claude reads it</text>
-  <rect x="80" y="180" width="640" height="225" rx="6" class="frame"/>
-  <text x="100" y="203" class="frame-label">TOOL CALL  ·  LOOPS, ONCE PER TOOL</text>
-  <text x="120" y="235" class="hook-name">▶ PreToolUse</text>
-  <text x="240" y="235" class="hook-desc">Allow, deny, or modify tool input. Block dangerous commands here.</text>
-  <text x="120" y="275" class="action">↓ Tool executes  ·  Bash, Write, Edit, Read, WebFetch, MCP tools</text>
-  <text x="120" y="315" class="hook-name">▶ PostToolUse</text>
-  <text x="240" y="315" class="hook-desc">Format, lint, log, or inject feedback back to Claude as context</text>
-  <text x="120" y="365" class="action">↻ Loops until Claude is done with the task</text>
-  <text x="90" y="445" class="hook-name">▶ Stop</text>
-  <text x="160" y="445" class="hook-desc">Block to force continuation (this is what /loop uses), or run cleanup</text>
-  <text x="60" y="525" class="hook-name">▶ SessionEnd</text>
-  <text x="190" y="525" class="hook-desc">Cleanup, persist state, append to audit logs</text>
+  <rect x="20" y="20" width="760" height="600" rx="10" class="frame-outer"/>
+  <text x="40" y="48" class="frame-label-accent">SESSION  ·  PER-SESSION EVENTS FIRE ONCE</text>
+  <text x="60" y="92" class="hook-name">▶ SessionStart</text>
+  <text x="210" y="92" class="hook-desc">Inject context: git branch, recent TODOs, env state, any setup</text>
+  <rect x="50" y="115" width="700" height="420" rx="8" class="frame"/>
+  <text x="70" y="140" class="frame-label">TURN  ·  FIRES PER USER MESSAGE</text>
+  <text x="90" y="176" class="hook-name">▶ UserPromptSubmit</text>
+  <text x="258" y="176" class="hook-desc">Validate or enrich the prompt before Claude reads it</text>
+  <rect x="80" y="198" width="640" height="255" rx="6" class="frame"/>
+  <text x="100" y="224" class="frame-label">TOOL CALL  ·  LOOPS, ONCE PER TOOL</text>
+  <text x="120" y="260" class="hook-name">▶ PreToolUse</text>
+  <text x="248" y="260" class="hook-desc">Allow, deny, or modify tool input. Block dangerous commands here.</text>
+  <text x="120" y="304" class="action">↓ Tool executes  ·  Bash, Write, Edit, Read, WebFetch, MCP tools</text>
+  <text x="120" y="348" class="hook-name">▶ PostToolUse</text>
+  <text x="248" y="348" class="hook-desc">Format, lint, log, or inject feedback back to Claude as context</text>
+  <text x="120" y="402" class="action">↻ Loops until Claude is done with the task</text>
+  <text x="90" y="480" class="hook-name">▶ Stop</text>
+  <text x="168" y="480" class="hook-desc">Block to force continuation (this is what /loop uses), or run cleanup</text>
+  <text x="60" y="568" class="hook-name">▶ SessionEnd</text>
+  <text x="200" y="568" class="hook-desc">Cleanup, persist state, append to audit logs</text>
 </svg>
 
 The handler receives JSON about the event on stdin. It can return its own JSON to control what happens next, or just exit with a code. Exit code 2 is special: from a PreToolUse hook it blocks the action, from a Stop hook it forces Claude to keep working.

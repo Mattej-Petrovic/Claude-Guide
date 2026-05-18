@@ -48,7 +48,7 @@ When you authorize a connector, three things happen:
 
 The token is what makes "check X on Vercel" work without you re-authenticating each time. It also means a connector you've enabled can do things on your account whenever Claude decides a tool call is appropriate. Worth thinking about.
 
-<svg viewBox="0 0 800 440" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram showing how a connector handles authorization once and then routes Claude's tool calls to a service via the stored OAuth token" style="width:100%;height:auto;color:currentColor;font-family:ui-sans-serif,system-ui,sans-serif">
+<svg viewBox="0 0 860 440" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram showing how a connector handles authorization once and then routes Claude's tool calls to a service via the stored OAuth token" class="svg-wide" style="height:auto;color:currentColor;font-family:ui-sans-serif,system-ui,sans-serif">
   <style>
     .panel { fill: none; stroke: currentColor; stroke-opacity: 0.25; stroke-width: 1; }
     .panel-accent { fill: none; stroke: #d97706; stroke-width: 1.5; }
@@ -62,66 +62,65 @@ The token is what makes "check X on Vercel" work without you re-authenticating e
     .step-num { fill: #d97706; font-size: 11px; font-weight: 700; }
     .divider { stroke: currentColor; stroke-opacity: 0.15; stroke-width: 1; stroke-dasharray: 4 4; }
   </style>
-  <!-- One-time auth row -->
-  <text class="accent" x="40" y="36">ONE-TIME AUTHORIZATION</text>
-  <rect class="panel" x="40" y="56" width="160" height="60" rx="6"/>
-  <text class="label" x="56" y="80">You</text>
-  <text class="sub" x="56" y="98">Click "Connect Vercel"</text>
-  <path class="arrow" d="M 200 86 L 240 86" marker-end="url(#arrLight)"/>
-  <text class="step-num" x="206" y="78">1</text>
-  <rect class="panel" x="240" y="56" width="160" height="60" rx="6"/>
-  <text class="label" x="256" y="80">Vercel OAuth</text>
-  <text class="sub" x="256" y="98">"Allow Claude access?"</text>
-  <path class="arrow" d="M 400 86 L 440 86" marker-end="url(#arrLight)"/>
-  <text class="step-num" x="406" y="78">2</text>
-  <rect class="panel" x="440" y="56" width="160" height="60" rx="6"/>
+  <!-- One-time auth row: 4 boxes × 180px + 3 gaps × 30px = 810, start x=20 -->
+  <text class="accent" x="20" y="36">ONE-TIME AUTHORIZATION</text>
+  <rect class="panel" x="20" y="56" width="180" height="60" rx="6"/>
+  <text class="label" x="36" y="80">You</text>
+  <text class="sub" x="36" y="98">Click "Connect Vercel"</text>
+  <path class="arrow" d="M 200 86 L 230 86" marker-end="url(#arrLight)"/>
+  <text class="step-num" x="208" y="78">1</text>
+  <rect class="panel" x="230" y="56" width="180" height="60" rx="6"/>
+  <text class="label" x="246" y="80">Vercel OAuth</text>
+  <text class="sub" x="246" y="98">"Allow Claude access?"</text>
+  <path class="arrow" d="M 410 86 L 440 86" marker-end="url(#arrLight)"/>
+  <text class="step-num" x="418" y="78">2</text>
+  <rect class="panel" x="440" y="56" width="190" height="60" rx="6"/>
   <text class="label" x="456" y="80">Anthropic</text>
   <text class="sub" x="456" y="98">Stores token to your account</text>
-  <path class="arrow" d="M 600 86 L 640 86" marker-end="url(#arrLight)"/>
-  <text class="step-num" x="606" y="78">3</text>
-  <rect class="panel" x="640" y="56" width="120" height="60" rx="6"/>
-  <text class="label" x="656" y="80">Done</text>
-  <text class="sub" x="656" y="98">Persists across</text>
-  <text class="sub" x="656" y="111">chats</text>
+  <path class="arrow" d="M 630 86 L 660 86" marker-end="url(#arrLight)"/>
+  <text class="step-num" x="638" y="78">3</text>
+  <rect class="panel" x="660" y="56" width="180" height="60" rx="6"/>
+  <text class="label" x="676" y="80">Done</text>
+  <text class="sub" x="676" y="98">Persists across chats</text>
   <!-- Divider -->
-  <line class="divider" x1="40" y1="160" x2="760" y2="160"/>
-  <!-- Per-request flow -->
-  <text class="accent" x="40" y="194">PER REQUEST</text>
-  <rect class="panel-accent" x="40" y="214" width="160" height="60" rx="6"/>
-  <text class="label" x="56" y="238">You</text>
-  <text class="sub" x="56" y="256">"Why did the latest</text>
-  <text class="sub" x="56" y="269">deploy fail?"</text>
-  <path class="arrow-accent" d="M 200 244 L 240 244" marker-end="url(#arrAccent)"/>
-  <rect class="panel-accent" x="240" y="214" width="160" height="60" rx="6"/>
-  <text class="label" x="256" y="238">Claude</text>
-  <text class="sub" x="256" y="256">Picks vercel.list_deploys</text>
-  <text class="sub" x="256" y="269">+ vercel.get_logs</text>
-  <path class="arrow-accent" d="M 400 244 L 440 244" marker-end="url(#arrAccent)"/>
-  <rect class="panel-accent" x="440" y="214" width="160" height="60" rx="6"/>
+  <line class="divider" x1="20" y1="160" x2="840" y2="160"/>
+  <!-- Per-request flow: same 4-column layout -->
+  <text class="accent" x="20" y="194">PER REQUEST</text>
+  <rect class="panel-accent" x="20" y="214" width="180" height="60" rx="6"/>
+  <text class="label" x="36" y="238">You</text>
+  <text class="sub" x="36" y="256">"Why did the latest</text>
+  <text class="sub" x="36" y="269">deploy fail?"</text>
+  <path class="arrow-accent" d="M 200 244 L 230 244" marker-end="url(#arrAccent)"/>
+  <rect class="panel-accent" x="230" y="214" width="180" height="60" rx="6"/>
+  <text class="label" x="246" y="238">Claude</text>
+  <text class="sub" x="246" y="256">Picks vercel.list_deploys</text>
+  <text class="sub" x="246" y="269">+ vercel.get_logs</text>
+  <path class="arrow-accent" d="M 410 244 L 440 244" marker-end="url(#arrAccent)"/>
+  <rect class="panel-accent" x="440" y="214" width="190" height="60" rx="6"/>
   <text class="label" x="456" y="238">Connector</text>
   <text class="sub" x="456" y="256">Calls Vercel API</text>
   <text class="sub" x="456" y="269">with your token</text>
-  <path class="arrow-accent" d="M 600 244 L 640 244" marker-end="url(#arrAccent)"/>
-  <rect class="panel-accent" x="640" y="214" width="120" height="60" rx="6"/>
-  <text class="label" x="656" y="238">Vercel</text>
-  <text class="sub" x="656" y="256">Returns deploy</text>
-  <text class="sub" x="656" y="269">+ logs</text>
+  <path class="arrow-accent" d="M 630 244 L 660 244" marker-end="url(#arrAccent)"/>
+  <rect class="panel-accent" x="660" y="214" width="180" height="60" rx="6"/>
+  <text class="label" x="676" y="238">Vercel</text>
+  <text class="sub" x="676" y="256">Returns deploy</text>
+  <text class="sub" x="676" y="269">+ logs</text>
   <!-- Return path -->
-  <path class="arrow-accent" d="M 700 274 L 700 320 L 120 320 L 120 274" marker-end="url(#arrAccent)"/>
-  <text class="sub" x="320" y="312">Result flows back; Claude reasons over it and answers</text>
-  <!-- Compose row -->
-  <text class="accent" x="40" y="368">CHAIN MULTIPLE CONNECTORS</text>
-  <rect class="panel" x="40" y="384" width="170" height="40" rx="4"/>
-  <text class="file" x="56" y="408">Vercel: get failing deploy</text>
-  <path class="arrow" d="M 210 404 L 240 404" marker-end="url(#arrLight)"/>
-  <rect class="panel" x="240" y="384" width="170" height="40" rx="4"/>
-  <text class="file" x="256" y="408">GitHub: find the commit</text>
-  <path class="arrow" d="M 410 404 L 440 404" marker-end="url(#arrLight)"/>
-  <rect class="panel" x="440" y="384" width="160" height="40" rx="4"/>
-  <text class="file" x="456" y="408">Linear: check ticket</text>
-  <path class="arrow" d="M 600 404 L 630 404" marker-end="url(#arrLight)"/>
-  <rect class="panel" x="630" y="384" width="130" height="40" rx="4"/>
-  <text class="file" x="646" y="408">Slack: notify team</text>
+  <path class="arrow-accent" d="M 750 274 L 750 320 L 110 320 L 110 274" marker-end="url(#arrAccent)"/>
+  <text class="sub" x="340" y="312">Result flows back; Claude reasons over it and answers</text>
+  <!-- Compose row: 4 boxes evenly spaced -->
+  <text class="accent" x="20" y="368">CHAIN MULTIPLE CONNECTORS</text>
+  <rect class="panel" x="20" y="384" width="200" height="40" rx="4"/>
+  <text class="file" x="36" y="408">Vercel: get failing deploy</text>
+  <path class="arrow" d="M 220 404 L 238 404" marker-end="url(#arrLight)"/>
+  <rect class="panel" x="238" y="384" width="178" height="40" rx="4"/>
+  <text class="file" x="241" y="408">GitHub: find the commit</text>
+  <path class="arrow" d="M 410 404 L 430 404" marker-end="url(#arrLight)"/>
+  <rect class="panel" x="430" y="384" width="185" height="40" rx="4"/>
+  <text class="file" x="446" y="408">Linear: check ticket</text>
+  <path class="arrow" d="M 615 404 L 635 404" marker-end="url(#arrLight)"/>
+  <rect class="panel" x="635" y="384" width="185" height="40" rx="4"/>
+  <text class="file" x="651" y="408">Slack: notify team</text>
   <defs>
     <marker id="arrLight" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor" fill-opacity="0.55"/>

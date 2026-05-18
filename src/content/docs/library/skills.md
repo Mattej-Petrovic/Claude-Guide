@@ -42,174 +42,139 @@ These ship with every Claude Code install. Invoke with `/skill-name` or let Clau
 
 ### Token & Context Management
 
----
+<div class="skill-card">
+  <div class="skill-card__header">
+    <span class="skill-card__name">Caveman</span>
+    <span class="skill-card__tag">Output token compression</span>
+  </div>
+  <p class="skill-card__desc">Cuts Claude's output tokens by ~65% by forcing minimal, fragment-style responses with six intensity levels — from <code>lite</code> (removes hedging only) to <code>ultra</code> (maximum terse) — while preserving technical accuracy, code blocks, and security warnings.</p>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Install (Claude Code — recommended, includes hooks and auto-activation)</span>
+    <pre><code>claude plugin marketplace add JuliusBrussee/caveman
+claude plugin install caveman@caveman</code></pre>
+  </div>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Or skill only (any agent via npx)</span>
+    <pre><code>npx skills add juliusbrussee/caveman --skill caveman</code></pre>
+  </div>
+  <a class="skill-card__link" href="https://github.com/JuliusBrussee/caveman" target="_blank" rel="noopener">github.com/JuliusBrussee/caveman →</a>
+</div>
 
-**Caveman** -- Output token compression
-
-Cuts Claude's output tokens by ~65% by forcing minimal, fragment-style responses while preserving full technical accuracy. Drops articles, filler words, and pleasantries. Keeps exact technical terms, code blocks, and caveats intact. Has six intensity levels: `lite` (removes hedging only), `full` (fragment style, the practical default), `ultra` (maximum terse), and three `wenyan` modes using classical Chinese compression patterns. Automatically backs off to normal language for security warnings and destructive operations where clarity matters more than brevity. Includes a companion `caveman-compress` sub-skill that rewrites your CLAUDE.md and other memory files into compressed format to reduce input tokens, not just output ones.
-
-Note: caveman only affects output tokens. In a typical long session, prose responses are a small fraction of total token usage -- the real win is faster responses and less noise, not dramatic cost reduction.
-
-**Install (Claude Code -- recommended, includes hooks and auto-activation):**
-```
-claude plugin marketplace add JuliusBrussee/caveman
-claude plugin install caveman@caveman
-```
-
-**Or skill only (any agent via npx):**
-```
-npx skills add juliusbrussee/caveman --skill caveman
-```
-
-Restart Claude Code after installing. Trigger with `/caveman`, `/caveman lite`, `/caveman ultra`, or natural language: "caveman mode", "less tokens".
-
-→ [github.com/JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman)
-
----
-
-**code-review-graph** -- Codebase knowledge graph for token-efficient reviews
-
-Builds a persistent structural map of your codebase using Tree-sitter, stores it as a graph of functions, classes, and imports in SQLite, and exposes it to Claude via MCP. When you run a review, instead of Claude reading entire files, it queries the graph for the minimal set of files actually relevant to what changed -- their callers, dependents, and test coverage. Initial build takes ~10 seconds for a 500-file project; the graph updates automatically on every file edit and git commit via hooks. Supports 23+ languages including TypeScript, Python, Go, Rust, Java, Kotlin, Swift, Vue, Solidity, and Jupyter notebooks.
-
-Benchmarked at 6.8x fewer tokens on code reviews and up to 49x on daily coding tasks across real open-source repositories.
-
-Note: this is technically an MCP server that also installs skills and hooks. The MCP server does the graph querying; the skills (`/review-delta`, `/review-pr`, `/build-graph`) give Claude structured instructions for using it.
-
-**Install (requires Python 3.10+):**
-```
-pip install code-review-graph
-code-review-graph install           # auto-detects Claude Code and other platforms
-code-review-graph build             # parse your codebase (run once in your repo)
-```
-
-Or Claude Code only:
-```
-code-review-graph install --platform claude-code
-```
-
-→ [github.com/tirth8205/code-review-graph](https://github.com/tirth8205/code-review-graph)
-
----
+<div class="skill-card">
+  <div class="skill-card__header">
+    <span class="skill-card__name">code-review-graph</span>
+    <span class="skill-card__tag">Codebase knowledge graph for token-efficient reviews</span>
+  </div>
+  <p class="skill-card__desc">Builds a persistent structural map of your codebase using Tree-sitter and SQLite, then queries only the files actually relevant to a change — benchmarked at 6.8x fewer tokens on code reviews across 23+ languages. Technically an MCP server that also installs skills (<code>/review-delta</code>, <code>/review-pr</code>, <code>/build-graph</code>) and hooks.</p>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Install (requires Python 3.10+)</span>
+    <pre><code>pip install code-review-graph
+code-review-graph install
+code-review-graph build</code></pre>
+  </div>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Or Claude Code only</span>
+    <pre><code>code-review-graph install --platform claude-code</code></pre>
+  </div>
+  <a class="skill-card__link" href="https://github.com/tirth8205/code-review-graph" target="_blank" rel="noopener">github.com/tirth8205/code-review-graph →</a>
+</div>
 
 ### Behavior Shaping
 
----
+<div class="skill-card">
+  <div class="skill-card__header">
+    <span class="skill-card__name">andrej-karpathy-skills</span>
+    <span class="skill-card__tag">Anti-assumption CLAUDE.md guidelines</span>
+  </div>
+  <p class="skill-card__desc">A <code>CLAUDE.md</code> file encoding four behavioral principles derived from Karpathy's January 2026 observations: state assumptions explicitly, present multiple interpretations rather than picking silently, write the simplest code that works, and only change what the task requires. Biases toward caution over speed.</p>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Install (current project)</span>
+    <pre><code>curl -o CLAUDE.md https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/CLAUDE.md</code></pre>
+  </div>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Or append to existing CLAUDE.md</span>
+    <pre><code>echo "" >> CLAUDE.md && curl https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/CLAUDE.md >> CLAUDE.md</code></pre>
+  </div>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Or install globally (all projects via plugin)</span>
+    <pre><code>/plugin marketplace add forrestchang/andrej-karpathy-skills
+/plugin install andrej-karpathy-skills@karpathy-skills</code></pre>
+  </div>
+  <a class="skill-card__link" href="https://github.com/forrestchang/andrej-karpathy-skills" target="_blank" rel="noopener">github.com/forrestchang/andrej-karpathy-skills →</a>
+</div>
 
-**andrej-karpathy-skills** -- Anti-assumption CLAUDE.md guidelines
-
-A single `CLAUDE.md` file derived from Andrej Karpathy's January 2026 observations on LLM coding failure modes, built by Forrest Chang. Addresses three specific patterns Karpathy named: models making wrong assumptions silently without surfacing them, overcomplicated code and bloated abstractions, and unwanted side-effect changes to code the model doesn't fully understand. The file encodes four behavioral principles: state assumptions explicitly before coding, present multiple interpretations rather than picking silently, write the simplest code that works, and only change what the task requires.
-
-These are behavioral guidelines, not enforceable rules -- there is no mechanism to verify a principle fired on any given request. The file biases toward caution over speed. For high-volume simple tasks like batch typo fixes, the clarification behavior it generates may add friction rather than value.
-
-Note: Karpathy did not write this file and has not publicly endorsed it. Chang authored it, inspired by Karpathy's post.
-
-**Install for current project only:**
-```
-curl -o CLAUDE.md https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/CLAUDE.md
-```
-
-Or append to an existing CLAUDE.md:
-```
-echo "" >> CLAUDE.md && curl https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/CLAUDE.md >> CLAUDE.md
-```
-
-**Install globally (all projects via plugin):**
-```
-/plugin marketplace add forrestchang/andrej-karpathy-skills
-/plugin install andrej-karpathy-skills@karpathy-skills
-```
-
-→ [github.com/forrestchang/andrej-karpathy-skills](https://github.com/forrestchang/andrej-karpathy-skills)
-
----
-
-**everything-claude-code (ECC)** -- Full agent harness
-
-A complete performance optimization system for Claude Code: skills, behavioral rules, hooks, memory optimization, security scanning, and agent configurations -- built over 10+ months of daily use building real products. Includes 150+ skills organized by language (TypeScript, Python, Go, PHP, Swift, web) and domain (TDD workflow, security review, search-first development), production-ready hooks for PreToolUse/PostToolUse/SessionStart events, an instinct system that learns your patterns and promotes them into skills automatically, and AgentShield for scanning against prompt injection and supply-chain attacks. Requires Claude Code CLI v2.1.0+.
-
-The plugin install loads skills, commands, and hooks. Rules (language-specific coding standards) must be installed separately -- the plugin system cannot distribute them automatically.
-
-**Install (plugin -- recommended):**
-```
-/plugin marketplace add affaan-m/everything-claude-code
-/plugin install ecc@ecc
-```
-
-Then install rules for your stack manually:
-```
-git clone https://github.com/affaan-m/everything-claude-code.git
+<div class="skill-card">
+  <div class="skill-card__header">
+    <span class="skill-card__name">everything-claude-code (ECC)</span>
+    <span class="skill-card__tag">Full agent harness</span>
+  </div>
+  <p class="skill-card__desc">150+ skills by language and domain, production-ready hooks, an instinct system that learns your patterns and promotes them into skills automatically, and AgentShield for prompt injection scanning — built over 10+ months of daily use. Rules (language-specific coding standards) must be installed separately after the plugin.</p>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Install (plugin)</span>
+    <pre><code>/plugin marketplace add affaan-m/everything-claude-code
+/plugin install ecc@ecc</code></pre>
+  </div>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Then install rules for your stack manually</span>
+    <pre><code>git clone https://github.com/affaan-m/everything-claude-code.git
 cp -r everything-claude-code/rules/common ~/.claude/rules/ecc/
-cp -r everything-claude-code/rules/typescript ~/.claude/rules/ecc/   # or python, golang, php, etc.
-```
-
-Do not run the full manual installer (`./install.sh`) after a plugin install -- it will duplicate skills and hooks.
-
-→ [github.com/affaan-m/everything-claude-code](https://github.com/affaan-m/everything-claude-code)
-
----
+cp -r everything-claude-code/rules/typescript ~/.claude/rules/ecc/</code></pre>
+  </div>
+  <a class="skill-card__link" href="https://github.com/affaan-m/everything-claude-code" target="_blank" rel="noopener">github.com/affaan-m/everything-claude-code →</a>
+</div>
 
 ### Dev Workflow
 
----
+<div class="skill-card">
+  <div class="skill-card__header">
+    <span class="skill-card__name">security-review</span>
+    <span class="skill-card__tag">Security-focused code review &mdash; Anthropic official</span>
+  </div>
+  <p class="skill-card__desc">Reviews pending changes on the current branch for injection vectors, authentication bypass risks, secrets in code, and data exposure. Built-in — no install required; listed here because it functions as a skill.</p>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Usage</span>
+    <pre><code>/security-review</code></pre>
+  </div>
+  <a class="skill-card__link" href="/library/commands">See /library/commands →</a>
+</div>
 
-**security-review (Anthropic official)** -- Security-focused code review
+<div class="skill-card">
+  <div class="skill-card__header">
+    <span class="skill-card__name">code-review</span>
+    <span class="skill-card__tag">Structured code review &mdash; Anthropic official plugin</span>
+  </div>
+  <p class="skill-card__desc">Structured review of changed files covering logic errors, edge cases, security vulnerabilities, and style violations. Replaced the deprecated <code>/review</code> built-in.</p>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Install</span>
+    <pre><code>claude plugin install code-review@claude-plugins-official</code></pre>
+  </div>
+</div>
 
-Reviews pending changes on the current branch for security vulnerabilities. Analyzes the git diff and flags injection vectors, authentication bypass risks, secrets in code, and data exposure issues. More thorough than a general code review because it focuses exclusively on security concerns rather than style or coverage.
-
-This is a built-in command (`/security-review`) -- no install required. It's listed here because it functions as a skill: it hands a detailed analysis prompt to Claude rather than executing fixed logic.
-
-**Usage:**
-```
-/security-review
-```
-
-→ See [/library/commands](/library/commands)
-
----
-
-**code-review (Anthropic official plugin)** -- Structured code review
-
-Replaced the deprecated `/review` built-in command. Provides structured code review of changed files: logic errors, edge cases, security vulnerabilities, and style violations. Available as an installable plugin.
-
-**Install:**
-```
-claude plugin install code-review@claude-plugins-official
-```
-
-If you don't have the official marketplace added:
-```
-claude plugin marketplace add https://github.com/anthropics/claude-plugins-official
-claude plugin install code-review@claude-plugins-official
-```
-
----
-
-**compact-trigger** -- Strategic context compaction
-
-A pattern skill, not a package -- you write it yourself and it takes about 5 minutes. Creates a skill that watches context usage and recommends or automatically triggers `/compact` with focused instructions before Claude hits the limit mid-task. Prevents the jarring experience of running out of context during a long refactor.
-
-Minimal starting template to drop at `~/.claude/skills/compact-trigger/SKILL.md`:
-
-```markdown
----
+<div class="skill-card">
+  <div class="skill-card__header">
+    <span class="skill-card__name">compact-trigger</span>
+    <span class="skill-card__tag">Strategic context compaction</span>
+  </div>
+  <p class="skill-card__desc">A pattern skill you write yourself in ~5 minutes: watches context usage and triggers <code>/compact</code> with focused preservation instructions before Claude hits the limit mid-task. Template below — drop it at <code>~/.claude/skills/compact-trigger/SKILL.md</code>.</p>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Template</span>
+    <pre><code>---
 description: Compact context when usage is high. Use when context is above 70%, before starting a large task, or when the user asks to save context.
 ---
 
-Check current context usage with /context. If above 70%, run /compact with these instructions: preserve the current task goal, key decisions made, and any code we have not yet committed. Summarize what has been done and what still needs to happen.
-```
+Check current context usage with /context. If above 70%, run /compact with these instructions: preserve the current task goal, key decisions made, and any code we have not yet committed. Summarize what has been done and what still needs to happen.</code></pre>
+  </div>
+</div>
 
-Invoke manually with `/compact-trigger` or let Claude trigger it when you say "we're getting low on context" or "save context before we continue."
-
----
-
-**explain-codebase** -- Codebase architecture walkthrough
-
-A pattern skill you write once per project and reuse. Gives Claude (and new team members) a structured walkthrough of how the codebase is organized: entry points, key modules, data flow, and conventions. Useful at the start of any session on an unfamiliar project, or when onboarding contributors.
-
-Template to drop at `.claude/skills/explain-codebase/SKILL.md` (project-level):
-
-```markdown
----
+<div class="skill-card">
+  <div class="skill-card__header">
+    <span class="skill-card__name">explain-codebase</span>
+    <span class="skill-card__tag">Codebase architecture walkthrough</span>
+  </div>
+  <p class="skill-card__desc">A pattern skill you write once per project: gives Claude a structured walkthrough of entry points, key modules, data flow, and conventions — useful at session start on unfamiliar projects or when onboarding contributors. Drop the template at <code>.claude/skills/explain-codebase/SKILL.md</code>.</p>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Template</span>
+    <pre><code>---
 description: Explain the architecture and structure of this codebase. Use when a new session starts, when asked "how does this work", or when onboarding a new contributor.
 ---
 
@@ -220,19 +185,19 @@ Walk through the codebase architecture:
 4. Conventions -- naming, testing patterns, config management
 5. Known complexity -- anything non-obvious worth flagging
 
-Read the README first. Then explore the top-level structure before going deeper.
-```
+Read the README first. Then explore the top-level structure before going deeper.</code></pre>
+  </div>
+</div>
 
----
-
-**incident-response** -- Ops incident workflow
-
-A pattern skill for teams running production systems. When something breaks, triggers a structured investigation: pull recent logs, check monitoring dashboards if accessible, identify the likely failure point, and suggest fixes with rollback options. Reduces the frantic "where do I start" phase of an incident.
-
-Template to drop at `.claude/skills/incident-response/SKILL.md`:
-
-```markdown
----
+<div class="skill-card">
+  <div class="skill-card__header">
+    <span class="skill-card__name">incident-response</span>
+    <span class="skill-card__tag">Ops incident workflow</span>
+  </div>
+  <p class="skill-card__desc">A pattern skill for production teams: triggers a structured investigation when something breaks — pull logs, identify the failure point, suggest the fastest fix to restore service and the proper fix for root cause, list rollback options. Drop the template at <code>.claude/skills/incident-response/SKILL.md</code>.</p>
+  <div class="skill-card__install">
+    <span class="skill-card__install-label">Template</span>
+    <pre><code>---
 description: Help investigate and resolve a production incident. Use when something is broken in production, when asked to debug an outage, or when logs show errors.
 ---
 
@@ -244,8 +209,9 @@ When an incident is reported:
 5. Suggest the proper fix that addresses root cause
 6. List rollback options if the fix makes things worse
 
-Be direct. In an incident, speed matters more than completeness.
-```
+Be direct. In an incident, speed matters more than completeness.</code></pre>
+  </div>
+</div>
 
 ---
 

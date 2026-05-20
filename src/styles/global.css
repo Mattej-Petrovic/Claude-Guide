@@ -1,7 +1,7 @@
 /* ============================================================
    FONTS
    ============================================================ */
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@500;600&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap');
 
 /* ============================================================
    DESIGN TOKENS
@@ -33,6 +33,7 @@
 
   /* Typography */
   --font-sans:  'Outfit', system-ui, sans-serif;
+  --font-body:  'Inter', system-ui, sans-serif;
   --font-mono:  'JetBrains Mono', 'Fira Code', monospace;
 
   /* Spacing scale */
@@ -96,10 +97,10 @@ html {
 body {
   background-color: var(--bg-base);
   color: var(--text-primary);
-  font-family: var(--font-sans);
+  font-family: var(--font-body);
   font-size: 1rem;
   font-weight: 400;
-  line-height: 1.7;
+  line-height: 1.75;
   min-height: 100dvh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -125,7 +126,7 @@ h4 { font-size: 1rem; font-weight: 500; margin-top: var(--space-6); margin-botto
 p {
   color: var(--text-secondary);
   max-width: 65ch;
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-5);
 }
 
 a {

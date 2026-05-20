@@ -1,60 +1,64 @@
 ---
 title: What breaks in production
-lede: The honest list of failure modes. Most of them don't trip alarms, which is why they make it to production.
+lede: Five failure modes, one root cause. The system trusted the agent's report instead of checking the work — and the report said everything was fine.
 section: systems
 ---
 
-A demo system fails loudly — an exception, a bad output, an obvious mistake. A production system fails quietly. The dashboard stays green, the API keeps returning 200, the agent reports success, and somewhere downstream the work has been wrong for three weeks. The hardest failures in delegated systems are not the ones that crash. They are the ones that keep running.
+A demo system fails loudly — an exception, a bad output, an obvious mistake. A production system fails quietly. The dashboard stays green, the API keeps returning 200, the agent reports success, and somewhere downstream the work has been wrong for three weeks.
 
-This page is the honest list of what goes wrong, with brief mitigation directions for each. Not full solutions — those depend on the system. The goal here is pattern recognition. If you have seen one of these in your own work, you have seen the others coming.
+There is a single reason this keeps happening, and it is worth stating before the failure modes themselves, because all five are the same mistake wearing different clothes. **A delegated system fails in production when it trusts the agent's report of its own work instead of checking the work independently.** The agent says the task is done. The agent says the lead was low-intent. The agent says the record was updated. The system believes it, because believing it is the path of least resistance, and the belief is wrong often enough to matter.
+
+This is not a model problem. A more capable model still produces a report, and the report is still the agent's account of its own behaviour, and an account is not a verification. The fix is never "a better agent." The fix is always an independent check — something other than the agent that confirms the work was actually done, actually correct, actually in scope. The five failure modes below are five places that check is missing.
 
 ## Silent failures
 
 The system runs but stops doing what it was supposed to. Nothing fires. Nothing alerts. The agent keeps responding, the cron keeps firing, the dashboard keeps showing green. The output has quietly gone wrong, and you find out from a downstream consequence — a customer complaint, a dipping metric, a manual spot-check that catches something off.
 
-The reason this happens so often is structural. Traditional software fails on errors; AI agents fail on *quality*. A 200 OK response is not evidence of correct work. An agent that reports task completion is not evidence the task was completed. A run that exits cleanly is not evidence anything useful happened. The standard monitoring stack watches for the signals software typically emits when it breaks — exceptions, error codes, timeouts — and an agent failing silently emits none of them.
+This is the root cause in its purest form. Traditional software fails on errors; an agent fails on *quality*, and quality is invisible to the monitoring stack. A 200 OK is not evidence of correct work. A clean exit is not evidence anything useful happened. An agent reporting "task complete" is reporting its own belief, and the monitoring layer — built to watch for exceptions, error codes, timeouts — sees a system that looks healthy because none of the signals it knows how to read are firing.
 
-The compounding makes it worse. A delegated system often chains steps. If each step is 95% accurate, a ten-step workflow succeeds only 60% of the time. At 85% per-step accuracy, it succeeds 20% of the time. The math is brutal and largely invisible, because nobody is grading individual steps.
+The compounding makes it worse. A delegated system often chains steps. If each step is 95% accurate, a ten-step workflow succeeds about 60% of the time. At 85% per step, about 20%. The math is brutal and entirely invisible, because nobody is grading individual steps — the only thing being graded is the final report, and the final report says fine.
 
-*Mitigation direction.* Build verification into the system itself, not on top of it. Validate the *shape* of outputs at every handoff — schema, type, value ranges — not just whether the call returned. Set quality assertions that fire when an output looks structurally wrong, even if the agent thinks the work succeeded. Treat any tool error, even one the agent recovered from, as a signal worth logging. The principle is that silence is not evidence of success; the system has to actively produce evidence of success, and the evidence has to be something other than the agent's own report.
+*The missing check.* Verification has to be built into the system and it has to produce evidence that is not the agent's word. Validate the *shape* of every output at every handoff — schema, type, value ranges. Set assertions that fire when an output looks structurally wrong even though the agent thinks it succeeded. Treat any tool error, even a recovered one, as a signal worth logging. Silence is not evidence of success; the system has to actively produce evidence of success, and that evidence has to come from somewhere other than the agent.
 
 ## Hallucinated tool calls
 
-The agent calls a real tool with plausible-looking but wrong arguments. It reads a CRM record correctly and writes back to a different one. It calls an API with a field name that sounds right but does not exist in your schema. It fabricates an ID, queries a database with it, gets zero rows back, and reports "no results found" as the answer.
+The agent calls a real tool with plausible but wrong arguments. It reads a CRM record correctly and writes back to a different one. It calls an API with a field name that sounds right and does not exist. It fabricates an ID, queries a database with it, gets zero rows, and reports "no results found" as the answer.
 
-This is one of the most common production failures and one of the hardest to catch, because the tool call itself succeeds. The API returns 200. The database query runs without errors. The schema-validation layer, if there even is one, only checks that the input was well-formed, not that it was correct. The agent confidently reports the result of an operation that did the wrong thing.
+The root cause again: the tool call *succeeds*, so the system trusts it. The API returns 200. The query runs without error. A schema-validation layer, if one exists, confirms the input was well-formed — not that it was correct. The agent confidently reports the result of an operation that did the wrong thing, and every layer between the agent and the dashboard nods it through, because the only thing any of them checked was that the call did not crash.
 
-The pattern is worse with self-generated identifiers. An agent that needs to update "the customer who emailed yesterday" and is given fuzzy lookup tools will invent an ID that *looks* like a customer ID. Sometimes it points to a real but wrong customer. Sometimes it points to nothing. Either way, the agent has no way to tell the difference between a correct lookup and a confident guess.
+Self-generated identifiers are where this turns dangerous. An agent told to update "the customer who emailed yesterday," holding fuzzy lookup tools, will produce something that *looks* like a customer ID. Sometimes it points at a real but wrong customer. Sometimes at nothing. The agent cannot tell a correct lookup from a confident guess, because both return a value and neither raises an error.
 
-*Mitigation direction.* Two layers. First, constrain what the agent can touch — narrower tools with explicit input schemas beat broad tools with permissive arguments. An agent that can only update records by their actual ID, fetched from a real lookup, cannot make up IDs. Second, verify side effects against the original input. If the agent claims it updated customer X, the system should be able to confirm that the customer it actually wrote to matches X. Source-grounded re-verification at terminal stages — checking the final action against the original input rather than against intermediate agent outputs — catches a class of these failures that nothing else does.
+*The missing check.* Two layers. Constrain what the agent can touch — narrow tools with explicit input schemas beat broad tools with permissive arguments; an agent that can only update records by an ID returned from a real lookup cannot invent one. Then verify side effects against the original input: if the agent claims it updated customer X, something other than the agent should confirm the record it actually wrote to *is* X. Checking the final action against the original input — not against the agent's intermediate outputs — catches a class of these that nothing else does.
 
 ## Cost runaway
 
-The system was supposed to make a small number of calls per invocation. It made ten thousand instead. A retry loop never resolved. A context window grew unbounded over a long session. An agent designed to handle one ticket at a time started chewing through every ticket in the queue. You find out from the invoice, not the logs.
+The system was meant to make a few calls per invocation. It made ten thousand. A retry loop never resolved. A context window grew unbounded across a long session. An agent built to handle one ticket started chewing through the whole queue. You find out from the invoice, not the logs.
 
-This is the failure mode that produces the "I left an agent running overnight and spent $40,000" stories. The triggers are predictable: a loop that should converge but does not because the failure mode is not one the agent can fix. A tool that returns paginated results the agent tries to read all of. A planning agent that decides the work is more complex than expected and recursively decomposes it into sub-tasks until token budget runs out. None of these involve the agent doing anything overtly wrong; they involve the agent doing what it was asked to do, longer than anyone expected.
+The root cause has a particular shape here: the system trusted the agent's judgment about *when to stop*. The agent decided the work needed another iteration, another sub-task, another page of results — and nothing independent was holding a limit. None of these involve the agent doing anything overtly wrong. The agent is doing what it was asked, longer than anyone expected, because the only thing deciding how long was the agent.
 
-*Mitigation direction.* Set hard budgets at every level: tokens per run, dollars per day, iterations per loop, time-to-completion per invocation. Treat budget breaches as alerts that page someone, not as silent caps that just stop the work. The principle is structural: the best error handling is the error that is structurally impossible. An agent with a hard token ceiling cannot spend $180 in a retry loop, because the loop dies at $5. An agent with a maximum iteration count cannot recurse forever. The cap is the fix.
+This is the failure mode behind the "I left an agent running overnight and spent a fortune" stories. A loop that should converge but cannot, because the failure it keeps hitting is not one it can fix. A planner that recursively decomposes a task until the budget is gone. A tool returning paginated results the agent reads all of.
+
+*The missing check.* Hard budgets at every level — tokens per run, dollars per day, iterations per loop, wall-clock per invocation — enforced by something other than the agent. Treat a budget breach as an alert that pages a human, not a silent cap that quietly stops the work. The principle is structural: the best error handling is the error made impossible. An agent with a hard token ceiling cannot burn a fortune in a retry loop, because the loop dies first. The cap is the check.
 
 ## Scope drift
 
-The system slowly starts handling things it was not designed for. A support triage agent begins replying to sales leads it happens to find in the same inbox. An SDR agent starts answering product questions it was never given the context for. A code agent that was supposed to fix lint errors starts refactoring whole modules.
+The system slowly starts handling things it was not designed for. A support triage agent begins answering sales leads that landed in the same inbox. An SDR agent starts fielding product questions it has no context for. A code agent told to fix lint errors starts refactoring whole modules.
 
-Scope drift is one of the most common ways a working system stops working, and it is almost always caused by permissive prompts. "Help the user" is a wish; the agent will generalize that into helping with whatever shows up. The agent's eagerness to be useful in adjacent directions is not a bug in the model. It is the model behaving consistently. The system has just given it too much room.
+The root cause: nothing independent was checking that the work stayed *in scope*, so the only thing defining scope was the agent's judgment of what was worth doing — and the agent's judgment is permissive. "Help the user" is a wish. Claude will generalise it into helping with whatever shows up, because being useful in adjacent directions is the model behaving consistently, not the model malfunctioning. The system simply left the boundary to the agent and the agent did what agents do.
 
-The damage shows up as quality degradation, not as visible errors. The agent is now doing two jobs and is worse at the one you actually designed for. The escalation patterns you tuned for the original scope start looking weird. The customer-facing replies feel slightly off. The metrics drift, slowly, and a month later the system is doing something subtly different from what you designed.
+The damage shows up as quality degradation, not visible error. The agent is now doing two jobs and is worse at the one you designed for. Escalation patterns tuned for the original scope start looking strange. Customer-facing replies feel slightly off. The metrics drift, slowly, and a month later the system is doing something subtly different from what anyone designed.
 
-*Mitigation direction.* Define the boundary explicitly in the prompt and in the tools. Tell the agent what it should *not* handle, not just what it should. Wire refusal paths into the tool layer: a support agent without access to sales tools cannot handle a sales lead even if it wants to. Watch the distribution of what the system is doing over time — if the shape of the work is changing without you changing the design, the scope is drifting.
+*The missing check.* The boundary has to live somewhere other than the agent's discretion. Define what the agent must *not* handle, in the prompt and — more reliably — in the tools: a support agent with no access to sales tools cannot work a sales lead even when it wants to. Then watch the distribution of what the system actually does over time. If the shape of the work is changing and you did not change the design, the scope is drifting and nothing told you.
 
 ## World-changed-and-nobody-noticed
 
-The system was designed against last quarter's input distribution. The world has moved on. New product features the agent does not know about. New customer segments with new shapes of questions. A new regulatory environment. A new pricing model the agent's prompts still reference the old version of.
+The system was designed against last quarter's inputs. The world moved on. New product features the agent has never heard of. New customer segments with new shapes of question. A renamed CRM field. A pricing model whose old version the prompts still describe.
 
-The system is not broken. It is operating against a model of the world that no longer matches the world. Misclassifications creep in because the categories the agent is choosing between were designed for inputs that no longer dominate. Replies get subtly wrong because the agent is citing facts that are no longer current. Lead scoring drifts because the ICP shifted and the prompt did not.
+The root cause is the same one seen from a different angle. The system trusted that the world it was built for is the world it is still running in — and nothing independent was checking that assumption. The agent is doing exactly what it was designed to do. The design was right when it was made and is wrong now. This failure mode is barely the agent's fault at all; it is the system having no check on its own staleness.
 
-This failure mode is unusual in that it is not really the agent's fault. The agent is doing exactly what it was designed to do. The design was correct when it was made and is no longer correct now. The dashboard does not catch this because the dashboard tracks metrics, not assumptions.
+The dashboard does not catch it because the dashboard tracks metrics, not assumptions. Misclassifications creep in because the categories the agent chooses between were drawn for inputs that no longer dominate. Replies go subtly wrong because the facts the agent cites are no longer current. Lead scoring drifts because the ICP moved and the prompt did not.
 
-*Mitigation direction.* Schedule the audit. Quarterly is a reasonable starting cadence — pull a sample of recent outputs, compare against current ground truth, ask whether the system's worldview still matches. Watch for distribution shift directly: cluster recent inputs and notice when new clusters appear that the system was not designed for. Treat schema drift in external systems (a CRM field renamed, an API contract changed, a vendor's response format updated) as a first-class risk. Real production incidents — credentials silently rotating, automated cert renewal failing for three months, vendor schema changes breaking tool calls overnight — almost always come from this category.
+*The missing check.* Schedule the audit that nobody will run unprompted — quarterly is a reasonable start. Pull a sample of recent outputs, compare against current ground truth, ask whether the system's model of the world still matches the world. Watch for distribution shift directly: cluster recent inputs and notice when new clusters appear that the system was never designed for. Treat schema changes in external systems — a renamed field, an altered API contract, a vendor's new response format — as a first-class risk, because the most expensive incidents in this category come from exactly that and arrive with no warning at all.
 
 ## Reference
 
@@ -63,7 +67,7 @@ This failure mode is unusual in that it is not really the agent's fault. The age
   <rect x="0" y="0" width="720" height="36" fill="#d97706" fill-opacity="0.12"/>
   <text x="12" y="23" fill="#d97706" font-family="ui-sans-serif, system-ui, sans-serif" font-size="11" font-weight="700" letter-spacing="0.5">FAILURE MODE</text>
   <text x="220" y="23" fill="#d97706" font-family="ui-sans-serif, system-ui, sans-serif" font-size="11" font-weight="700" letter-spacing="0.5">EARLY WARNING SIGN</text>
-  <text x="460" y="23" fill="#d97706" font-family="ui-sans-serif, system-ui, sans-serif" font-size="11" font-weight="700" letter-spacing="0.5">MITIGATION DIRECTION</text>
+  <text x="460" y="23" fill="#d97706" font-family="ui-sans-serif, system-ui, sans-serif" font-size="11" font-weight="700" letter-spacing="0.5">THE MISSING CHECK</text>
   <!-- column dividers -->
   <line x1="215" y1="0" x2="215" y2="310" stroke="currentColor" stroke-width="1" stroke-opacity="0.2"/>
   <line x1="455" y1="0" x2="455" y2="310" stroke="currentColor" stroke-width="1" stroke-opacity="0.2"/>
@@ -73,47 +77,46 @@ This failure mode is unusual in that it is not really the agent's fault. The age
   <text x="220" y="52" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">Output volume normal but</text>
   <text x="220" y="65" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">downstream metric drifts;</text>
   <text x="220" y="78" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">no errors logged</text>
-  <text x="460" y="52" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">Output-shape assertions, not just</text>
-  <text x="460" y="65" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">error catches; verification must</text>
-  <text x="460" y="78" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">produce evidence beyond agent's report</text>
+  <text x="460" y="52" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">Output-shape assertions; evidence</text>
+  <text x="460" y="65" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">of success from something other</text>
+  <text x="460" y="78" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">than the agent's report</text>
   <!-- row 2 -->
   <rect x="0" y="88" width="720" height="52" fill="currentColor" fill-opacity="0"/>
   <text x="12" y="107" fill="currentColor" font-family="ui-monospace, monospace" font-size="10" font-weight="600" opacity="0.9">Hallucinated tool calls</text>
   <text x="220" y="104" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">Tool calls succeed but side effects</text>
   <text x="220" y="117" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">don't match input; "no results"</text>
   <text x="220" y="130" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">answers that feel suspicious</text>
-  <text x="460" y="104" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">Narrower tools with explicit schemas;</text>
+  <text x="460" y="104" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">Narrow tools with explicit schemas;</text>
   <text x="460" y="117" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">verify side effects against</text>
-  <text x="460" y="130" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">original input, not agent output</text>
+  <text x="460" y="130" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">the original input</text>
   <!-- row 3 -->
   <rect x="0" y="140" width="720" height="52" fill="currentColor" fill-opacity="0.03"/>
   <text x="12" y="159" fill="currentColor" font-family="ui-monospace, monospace" font-size="10" font-weight="600" opacity="0.9">Cost runaway</text>
   <text x="220" y="156" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">Token usage growing per run;</text>
   <text x="220" y="169" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">retry counts climbing;</text>
   <text x="220" y="182" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">invoice surprises</text>
-  <text x="460" y="156" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">Hard budgets at every level --</text>
-  <text x="460" y="169" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">tokens, dollars, iterations, time;</text>
-  <text x="460" y="182" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">structural caps, not soft limits</text>
+  <text x="460" y="156" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">Hard budgets on tokens, dollars,</text>
+  <text x="460" y="169" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">iterations, time — enforced</text>
+  <text x="460" y="182" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">outside the agent</text>
   <!-- row 4 -->
   <rect x="0" y="192" width="720" height="52" fill="currentColor" fill-opacity="0"/>
   <text x="12" y="211" fill="currentColor" font-family="ui-monospace, monospace" font-size="10" font-weight="600" opacity="0.9">Scope drift</text>
   <text x="220" y="208" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">System handling inputs outside</text>
   <text x="220" y="221" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">original design; quality drops</text>
   <text x="220" y="234" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">on core scope</text>
-  <text x="460" y="208" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">Explicit boundaries in prompts AND</text>
-  <text x="460" y="221" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">tools; refusal paths wired into</text>
-  <text x="460" y="234" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">the tool layer</text>
+  <text x="460" y="208" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">Boundaries in prompts and tools;</text>
+  <text x="460" y="221" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">watch the distribution of work</text>
+  <text x="460" y="234" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">over time</text>
   <!-- row 5 -->
   <rect x="0" y="244" width="720" height="66" fill="currentColor" fill-opacity="0.03"/>
   <text x="12" y="263" fill="currentColor" font-family="ui-monospace, monospace" font-size="10" font-weight="600" opacity="0.9">World-changed-and-</text>
   <text x="12" y="276" fill="currentColor" font-family="ui-monospace, monospace" font-size="10" font-weight="600" opacity="0.9">nobody-noticed</text>
   <text x="220" y="260" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">Misclassifications creep up over</text>
-  <text x="220" y="273" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">weeks; replies cite outdated facts;</text>
-  <text x="220" y="286" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">external schema drift breaks calls</text>
-  <text x="460" y="260" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">Scheduled audits; cluster recent</text>
-  <text x="460" y="273" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">inputs to surface new categories;</text>
-  <text x="460" y="286" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">treat external schema changes as</text>
-  <text x="460" y="299" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">first-class risk</text>
+  <text x="220" y="273" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">weeks; replies cite facts that</text>
+  <text x="220" y="286" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">are no longer true</text>
+  <text x="460" y="260" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">Scheduled audits against current</text>
+  <text x="460" y="273" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">ground truth; treat external</text>
+  <text x="460" y="286" fill="currentColor" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" opacity="0.7">schema changes as a risk</text>
   <!-- outer border -->
   <rect x="0" y="0" width="720" height="310" fill="none" stroke="currentColor" stroke-width="1" stroke-opacity="0.2"/>
   <!-- row dividers -->
@@ -124,8 +127,10 @@ This failure mode is unusual in that it is not really the agent's fault. The age
   <line x1="0" y1="244" x2="720" y2="244" stroke="currentColor" stroke-width="1" stroke-opacity="0.2"/>
 </svg>
 
-## The unifying principle
+## The one check
 
-Read these five together and the pattern is clear. The system has to produce evidence of correctness that is not the agent's own claim, the dashboard has to track quality and not just liveness, and the budgets have to be structural rather than advisory. The agent is not the problem. The system around the agent is the problem, and the failure modes show up wherever the system was relying on the agent's self-report instead of an independent check.
+Five failure modes, one root cause, one fix repeated five times: put something other than the agent in charge of confirming the work.
 
-The next page is about the work that still requires you regardless of how good your system is — the line that has not moved yet, and why.
+That is the whole page. The agent's report is not a verification — not because the agent is dishonest, but because a report of one's own work is structurally not a check on it. Every failure mode here is a place where the system accepted the report. Every fix is an independent check installed where the report used to be trusted. When you design a system, the question to ask of every step is not "will the agent do this correctly" — it is "if the agent does this wrong, what catches it." If the answer is nothing, you have found the next thing that will break.
+
+The next page is about the work that no check makes safe to delegate — where the line still is in 2026, and why.

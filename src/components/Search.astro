@@ -122,18 +122,28 @@
 
     results.innerHTML = deduped.map((d: any) => {
       const title = d.meta?.title ?? 'Untitled';
-      // Build breadcrumb from URL: /concepts/memory → Concepts
-      // Drop the last segment — the title already shows the page name
       const parts = d.url.replace(/^\/|\/$/g, '').split('/');
-      const crumbParts = parts.slice(0, -1);
-      const breadcrumb = crumbParts.map((p: string) =>
-        p.charAt(0).toUpperCase() + p.slice(1).replace(/-/g, ' ')
-      ).join(' · ');
+      const section = parts.length > 1
+        ? parts[0].charAt(0).toUpperCase() + parts[0].slice(1).replace(/-/g, ' ')
+        : '';
+      // Strip code blocks and markdown noise from excerpt
+      const rawExcerpt = (d.excerpt ?? '')
+        .replace(/<[^>]+>/g, ' ')       // strip any HTML tags except mark
+        .replace(/[`#|\\]/g, '')        // strip markdown symbols
+        .replace(/\s{2,}/g, ' ')        // collapse whitespace
+        .trim();
+      // Re-inject mark tags (pagefind uses them for highlights)
+      const excerpt = (d.excerpt ?? '').replace(/<(?!\/?mark)[^>]+>/g, ' ').replace(/\s{2,}/g, ' ').trim();
       return `
         <li class="sr-item">
           <a href="${d.url}" class="sr-link">
-            <span class="sr-crumb">${breadcrumb}</span>
-            <span class="sr-title">${title}</span>
+            <span class="sr-meta">
+              ${section ? `<span class="sr-tag">${section}</span>` : ''}
+            </span>
+            <span class="sr-main">
+              <span class="sr-title">${title}</span>
+              ${excerpt ? `<span class="sr-excerpt">${excerpt}</span>` : ''}
+            </span>
           </a>
         </li>
       `;
@@ -147,10 +157,9 @@
     position: fixed;
     inset: 0;
     z-index: 1000;
-    background: rgba(10, 8, 6, 0.85);
+    background: rgba(8, 10, 11, 0.88);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
-    /* Centre the search panel horizontally, start from top */
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
@@ -163,11 +172,11 @@
   #search-box {
     position: relative;
     width: 100%;
-    max-width: 560px;
+    max-width: 580px;
     display: flex;
     align-items: center;
-    background: #1a1815;
-    border: 1px solid rgba(255,255,255,0.18);
+    background: #1c1f20;
+    border: 1px solid rgba(255,255,255,0.15);
     border-radius: 8px;
     padding: 0 0.75rem;
   }
@@ -176,8 +185,8 @@
     width: 16px;
     height: 16px;
     flex-shrink: 0;
-    opacity: 0.5;
-    color: #e8e3db;
+    opacity: 0.45;
+    color: #e4e8e6;
   }
 
   #search-input {
@@ -185,74 +194,117 @@
     background: transparent;
     border: none;
     outline: none;
-    color: #e8e3db;
+    color: #e4e8e6;
     font-family: 'Outfit', system-ui, sans-serif;
     font-size: 1rem;
     padding: 0.9rem 0.5rem;
     width: 100%;
   }
-  #search-input::placeholder { color: rgba(232,227,219,0.35); }
+  #search-input::placeholder { color: rgba(228,232,230,0.3); }
 
   #search-close {
     background: none;
     border: none;
-    color: rgba(232,227,219,0.45);
+    color: rgba(228,232,230,0.4);
     cursor: pointer;
     font-size: 0.85rem;
     padding: 0.25rem;
     line-height: 1;
   }
-  #search-close:hover { color: #e8e3db; }
+  #search-close:hover { color: #e4e8e6; }
 
   #search-results {
     list-style: none;
     margin: 0;
-    padding: 0;
+    padding: 0.375rem 0;
     width: 100%;
-    max-width: 560px;
+    max-width: 580px;
     max-height: 55vh;
     overflow-y: auto;
-    background: #1a1815;
+    background: #1c1f20;
     border: 1px solid rgba(255,255,255,0.1);
     border-top: none;
     border-radius: 0 0 8px 8px;
   }
   #search-results:empty { display: none; }
 
-  .sr-item { border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .sr-msg {
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+    color: rgba(228,232,230,0.4);
+  }
+  .sr-msg strong { color: rgba(228,232,230,0.7); font-weight: 500; }
+</style>
+
+<!-- is:global so these apply to innerHTML-injected elements -->
+<style is:global>
+  .sr-item {
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
   .sr-item:last-child { border-bottom: none; }
 
   .sr-link {
-    display: flex;
-    align-items: baseline;
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    align-items: start;
     gap: 0.75rem;
     padding: 0.65rem 1rem;
     text-decoration: none;
     color: inherit;
   }
-  .sr-link:hover, .sr-link:focus { background: rgba(255,255,255,0.05); outline: none; }
+  .sr-link:hover, .sr-link:focus {
+    background: rgba(255,255,255,0.04);
+    outline: none;
+  }
 
-  .sr-crumb {
-    font-size: 0.7rem;
-    color: #c9a96e;
-    opacity: 0.75;
+  .sr-meta {
+    display: flex;
+    align-items: flex-start;
+    padding-top: 3px;
+  }
+
+  .sr-tag {
+    font-size: 0.62rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #7eb89a;
+    background: rgba(126,184,154,0.10);
+    border: 1px solid rgba(126,184,154,0.18);
+    border-radius: 3px;
+    padding: 2px 6px;
     white-space: nowrap;
-    flex-shrink: 0;
+    line-height: 1.4;
+  }
+
+  .sr-main {
+    display: flex;
+    flex-direction: column;
+    gap: 0.18rem;
+    min-width: 0;
   }
 
   .sr-title {
     font-size: 0.88rem;
     font-weight: 500;
-    color: #e8e3db;
+    color: #e4e8e6;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
-  .sr-msg {
-    padding: 0.75rem 1rem;
-    font-size: 0.85rem;
-    color: rgba(232,227,219,0.4);
+  .sr-excerpt {
+    font-size: 0.74rem;
+    color: rgba(228,232,230,0.38);
+    line-height: 1.45;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
-  .sr-msg strong { color: rgba(232,227,219,0.7); font-weight: 500; }
+  .sr-excerpt mark {
+    background: transparent;
+    color: rgba(228,232,230,0.72);
+    font-weight: 500;
+  }
 </style>

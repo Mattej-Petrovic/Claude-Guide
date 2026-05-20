@@ -7,29 +7,29 @@
    DESIGN TOKENS
    Taste-skill baseline: DESIGN_VARIANCE=4, MOTION_INTENSITY=5, VISUAL_DENSITY=5
    Dark-only. Off-black base, warm-dim tones.
-   Single accent: desaturated amber (#c9a96e).
+   Single accent: desaturated sage green (#7eb89a).
    ============================================================ */
 :root {
   /* Background layers */
-  --bg-base:        #141210;
-  --bg-surface:     #1a1815;
-  --bg-elevated:    #211f1c;
-  --bg-subtle:      #272420;
+  --bg-base:        #111314;
+  --bg-surface:     #161819;
+  --bg-elevated:    #1c1f20;
+  --bg-subtle:      #222527;
 
   /* Borders */
   --border-default: rgba(255, 255, 255, 0.07);
   --border-strong:  rgba(255, 255, 255, 0.13);
 
   /* Text */
-  --text-primary:   #e8e3db;
-  --text-secondary: #9c9489;
-  --text-muted:     #5c5750;
-  --text-code:      #d4b896;
+  --text-primary:   #e4e8e6;
+  --text-secondary: #8f9996;
+  --text-muted:     #525a57;
+  --text-code:      #9ecfb5;
 
-  /* Accent — desaturated amber, <80% saturation */
-  --accent:         #c9a96e;
-  --accent-dim:     rgba(201, 169, 110, 0.15);
-  --accent-border:  rgba(201, 169, 110, 0.25);
+  /* Accent — desaturated sage green */
+  --accent:         #7eb89a;
+  --accent-dim:     rgba(126, 184, 154, 0.12);
+  --accent-border:  rgba(126, 184, 154, 0.22);
 
   /* Typography */
   --font-sans:  'Outfit', system-ui, sans-serif;
@@ -270,10 +270,10 @@ tbody tr:hover td { background: var(--bg-surface); }
 .model-table tbody tr:hover td { background: var(--bg-surface); }
 
 .model-table td.model-table__recommended {
-  background: rgba(201, 169, 110, 0.04);
+  background: rgba(126, 184, 154, 0.04);
 }
 .model-table tbody tr:hover td.model-table__recommended {
-  background: rgba(201, 169, 110, 0.08);
+  background: rgba(126, 184, 154, 0.08);
 }
 .model-table__label {
   color: var(--text-muted);
@@ -330,7 +330,7 @@ tbody tr:hover td { background: var(--bg-surface); }
     gap: var(--space-3);
   }
   .model-card--recommended .model-card__header {
-    background: rgba(201, 169, 110, 0.08);
+    background: rgba(126, 184, 154, 0.08);
     color: var(--accent);
   }
   .model-card__badge {
@@ -545,7 +545,7 @@ tbody tr:hover td { background: var(--bg-surface); }
   left: 0;
   right: 0;
   height: var(--topnav-height);
-  background: rgba(20, 18, 16, 0.92);
+  background: rgba(17, 19, 20, 0.92);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border-default);

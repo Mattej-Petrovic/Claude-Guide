@@ -30,16 +30,22 @@ const sections = [
     num: '05',
     name: 'Workflows',
     href: '/workflows/claude-code',
-    desc: 'Real patterns for Claude Code, Cowork, token optimization, and more.',
+    desc: 'Real patterns for Claude Code, Cowork, token optimization, and prompting.',
   },
   {
     num: '06',
+    name: 'Systems',
+    href: '/systems/the-shift',
+    desc: 'Designing Claude to do work without you — delegation, failure modes, and tools like Obsidian and Graphify.',
+  },
+  {
+    num: '07',
     name: 'Library',
     href: '/library/commands',
     desc: 'Reference lists of commands, skills, plugins, and MCP servers.',
   },
   {
-    num: '07',
+    num: '08',
     name: 'Settings',
     href: '/settings/walkthrough',
     desc: 'Walkthrough every setting, customize behavior, understand usage.',
@@ -75,7 +81,7 @@ const sections = [
     </section>
 
     <section class="landing__sections">
-      <p class="landing__sections-label">Seven sections</p>
+      <p class="landing__sections-label">Eight sections</p>
       <div class="sections-grid stagger-children">
         {sections.map((s) => (
           <a href={s.href} class="section-card">

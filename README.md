@@ -6,13 +6,14 @@ Built as a personal project to go beyond Anthropic's official documentation. Whe
 
 ## What's inside
 
-**7 sections, ~40 pages of original content:**
+**8 sections, ~45 pages of original content:**
 
 - **Foundations** — How the Claude ecosystem fits together: the model family, every product, and how to choose between them
 - **Products** — Deep coverage of Claude.ai, Claude Code, Cowork, Claude in Chrome, Claude Design, Dispatch, and Phone
 - **Concepts** — The mental models that matter: prompting, memory, projects, artifacts, subagents, hooks, permissions, and more
 - **Extending** — Skills, MCP servers, connectors, plugins, and slash commands — what each is, when to use it, and how to compose them
-- **Workflows** — Practical guides for Claude Code, Cowork, token optimization, prompting patterns, and Obsidian integration
+- **Workflows** — Practical guides for Claude Code, Cowork, token optimization, and prompting patterns
+- **Systems** — Designing Claude to do work without you: delegation patterns, failure modes, human checkpoints, and tools like Obsidian and Graphify
 - **Library** — Reference catalogs for built-in commands, available skills, MCP servers, and plugins
 - **Settings** — A full walkthrough of every Claude setting across web and desktop, with recommendations
 
@@ -39,4 +40,4 @@ Search requires the built output — it won't work on the dev server (`npm run d
 
 ## Status
 
-Content is complete across all 40 pages. Actively maintained as the Claude ecosystem evolves.
+Content is complete across most pages. Actively maintained as the Claude ecosystem evolves.

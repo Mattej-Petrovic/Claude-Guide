@@ -1,7 +1,7 @@
 ---
 title: Obsidian and Graphify
 lede: "External structured memory for Claude Code. Obsidian as a knowledge vault, Graphify as a code knowledge graph, and the underlying pattern they share: precompute the structure once instead of regenerating it every session."
-section: workflows
+section: systems
 ---
 
 The default Claude Code session starts from nothing. You open a terminal, Claude reads `CLAUDE.md`, you re-explain the rest of the context, and the conversation history starts accumulating. Across many sessions and many projects, this gets old. The patterns on this page are about precomputing structured external memory so Claude doesn't have to rebuild context from scratch every time.

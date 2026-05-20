@@ -11,10 +11,10 @@
    ============================================================ */
 :root {
   /* Background layers */
-  --bg-base:        #111314;
-  --bg-surface:     #161819;
-  --bg-elevated:    #1c1f20;
-  --bg-subtle:      #222527;
+  --bg-base:        #171a1c;
+  --bg-surface:     #1d2022;
+  --bg-elevated:    #232729;
+  --bg-subtle:      #292e30;
 
   /* Borders */
   --border-default: rgba(255, 255, 255, 0.07);
@@ -22,7 +22,7 @@
 
   /* Text */
   --text-primary:   #e4e8e6;
-  --text-secondary: #a8b2ae;
+  --text-secondary: #b8c2be;
   --text-muted:     #525a57;
   --text-code:      #9ecfb5;
 
@@ -546,7 +546,7 @@ tbody tr:hover td { background: var(--bg-surface); }
   left: 0;
   right: 0;
   height: var(--topnav-height);
-  background: rgba(17, 19, 20, 0.92);
+  background: rgba(23, 26, 28, 0.92);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border-default);

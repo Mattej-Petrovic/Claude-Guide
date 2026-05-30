@@ -24,7 +24,7 @@ Past the basics, three features carry most of the leverage:
 
 There is also a permission mode called "Ask before acting." Claude builds a plan, you approve it, then it runs the whole thing autonomously inside that plan. It only stops for high-risk actions or when something falls outside the plan.
 
-Model availability depends on plan. Pro is locked to Haiku 4.5. Max, Team, and Enterprise can pick Haiku, Sonnet, or Opus 4.7 per task.
+Model availability depends on plan. Pro is locked to Haiku 4.5. Max, Team, and Enterprise can pick Haiku, Sonnet, or Opus 4.8 per task.
 
 <svg viewBox="0 0 700 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Automation progression in Claude in Chrome: from manual prompting every time, to record once, to save as a shortcut, to schedule the shortcut. Each stage reduces human effort.">
   <defs>

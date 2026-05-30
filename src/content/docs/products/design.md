@@ -6,7 +6,7 @@ section: products
 
 A visual workspace for making prototypes, slide decks, microsites, and other design work by talking to Claude. It lives at claude.ai/design as a separate surface from regular chat. It is currently a research preview from Anthropic Labs (Anthropic's experimental product team), available on Pro, Max, Team, and Enterprise plans, and off by default for Enterprise admins until they enable it.
 
-The core idea: you describe what you want, Claude builds a first version on a live canvas, then you refine it through conversation, inline comments, direct edits, and sliders that Claude generates for the specific design you are working on. It runs on Claude Opus 4.7, the most capable vision model in the family.
+The core idea: you describe what you want, Claude builds a first version on a live canvas, then you refine it through conversation, inline comments, direct edits, and sliders that Claude generates for the specific design you are working on. It runs on Claude Opus 4.8, the most capable vision model in the family.
 
 A few things to know up front. Claude Design is not a Figma replacement; collaboration is basic and there is no plugin ecosystem. It is also not Canva; for polished marketing assets you will often still finish in Canva (there is an official handoff for that). What it actually is: the early-stage exploration surface, and more importantly, the front of a pipeline that ends with [Claude Code](/products/claude-code) building the thing.
 

@@ -32,7 +32,7 @@ So: Sonnet 4.6 has both, Opus 4.8 has adaptive only, Haiku 4.5 has extended only
 
 ## Choosing an effort level
 
-Adaptive thinking decides *whether* the model thinks; **effort** sets *how hard* it works before it answers. It's a broader lever than thinking — it shapes the whole response: how many tool calls the model makes, how much it explores, how much it explains. There are five levels, lowest to highest spend: **low, medium, high, xhigh, max.** The default everywhere is `high`.
+Adaptive thinking decides *whether* the model thinks; **effort** sets *how hard* it works before it answers. It's a broader lever than thinking — it shapes the whole response: how many tool calls the model makes, how much it explores, how much it explains. There are five spend levels, lowest to highest: **low, medium, high, xhigh, max** — plus a sixth entry in the menu, **ultracode**, that isn't really a spend level at all (it sets `xhigh` and turns on dynamic workflows; covered below). The default everywhere is `high`.
 
 Two things to know before the per-level guidance: effort is a control on Opus and Sonnet but **not Haiku** — Haiku has one speed and you take it as-is — and **`xhigh` is Opus-only.** Sonnet tops out at `max`.
 
@@ -43,14 +43,25 @@ What each level is for:
 - **high** — the default. Complex reasoning and difficult coding where quality matters more than speed or cost. On Opus this is the floor for anything intelligence-sensitive, and often the sweet spot.
 - **xhigh** *(Opus only)* — extended exploration for long-horizon coding and agentic runs: repeated tool calls, deep search, tasks that run for tens of minutes. The recommended *starting* point for serious coding on Opus. Expect meaningfully more tokens than `high`.
 - **max** — no ceiling on spend. Reserve it for genuinely frontier problems. On most work it adds cost for small gains, and on structured or simpler tasks it can tip into overthinking.
+- **ultracode** *(Opus only, session-only)* — not a spend level but a mode. It sends `xhigh` to the model *and* has Claude orchestrate [dynamic workflows](/concepts/dynamic-workflows) — writing a background script that runs many subagents — for substantive tasks. Reach for it on large, broad work (migrations, audits, codebase-wide sweeps) where you want Claude to fan out automatically instead of working turn by turn. It lasts the session and resets when you start a new one; step back to `high` for routine work.
 
 By model:
 
-- **Opus 4.8** — start at **xhigh** for coding and agentic work; keep **high** as the minimum for other hard reasoning. Step down to **medium** when cost matters, **low** for short scoped tasks and subagents. Save **max** for the rare problem where your own testing shows `xhigh` leaving something on the table. If Opus feels shallow, raise effort before you reach for a longer prompt.
+- **Opus 4.8** — start at **xhigh** for coding and agentic work; keep **high** as the minimum for other hard reasoning. Step down to **medium** when cost matters, **low** for short scoped tasks and subagents. Save **max** for the rare problem where your own testing shows `xhigh` leaving something on the table. For large, fan-out work — migrations, codebase audits — **ultracode** turns `xhigh` into automatic [dynamic-workflow](/concepts/dynamic-workflows) orchestration. If Opus feels shallow, raise effort before you reach for a longer prompt.
 - **Sonnet 4.6** — **medium** is the everyday recommendation: the best speed/cost/quality balance for most apps. Drop to **low** for chat and high-volume or latency-sensitive work; go to **high** when a task genuinely needs the depth, and **max** for the rare hardest cases. No `xhigh` — that's an Opus lever.
 - **Haiku 4.5** — no effort control. It's the fast tier; run it as-is and move the job to Sonnet or Opus when it needs tuning.
 
 In the Claude apps, effort is a selector next to the model picker, so you can move between these levels per conversation without touching the API. The same rule of thumb holds everywhere: start one level higher than you think you need, then come down once you've seen the model handle the task.
+
+## Fast mode
+
+Effort and thinking change *how much* the model does. Fast mode changes *how fast* it does it. It's a high-speed configuration for Opus — toggled with `/fast` in Claude Code — that returns output up to **2.5× faster** (measured in output tokens per second) at a higher price per token. The speedup is in generation, not in the time to the first token.
+
+The thing to get right: **fast mode is not a smaller or dumber model.** It's the same Opus, with the same quality and capabilities, run on inference tuned for speed instead of cost. You don't trade intelligence for latency the way you do when you drop the effort level — you trade money for it. The two levers are independent, and they stack: fast mode plus a low effort level is about as fast as Opus gets on a straightforward task.
+
+It's Opus-only — fast mode runs on Opus 4.8, 4.7, and 4.6, not on Sonnet or Haiku — and turning it on switches you to Opus if you were on something else. On Opus 4.8 it's priced at $10 / $50 per million input/output tokens, against $5 / $25 standard, so roughly double the token cost for the speed. On subscription plans it draws from usage credits rather than your included usage, and Team or Enterprise admins have to enable it first.
+
+Reach for it when latency is the bottleneck and you're at the keyboard: rapid iteration, live debugging, anything where you're sitting there waiting on output. Leave it off for long autonomous runs, batch jobs, and cost-sensitive work, where the wait is cheaper than the premium. It's a research preview, so the pricing and the details may still move.
 
 ## Mythos Preview
 

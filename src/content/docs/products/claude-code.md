@@ -108,6 +108,8 @@ A workable default: **Sonnet for execution, Opus for the hard parts.** Sonnet ha
 
 Plan in Claude.ai with Opus, code in Claude Code with Sonnet, escalate to Opus when needed. That's a workflow that holds up.
 
+Model is only half the dial. The other half is **effort** — how hard the model works before it answers — and on Opus 4.8 it's worth setting on purpose. For serious coding, start at `xhigh` (the default is `high`); it's the level tuned for long, multi-file, tool-heavy runs. For big, broad work — a migration across hundreds of files, a codebase-wide audit — `/effort ultracode` goes further: it keeps `xhigh` reasoning and lets Claude spin up [dynamic workflows](/concepts/dynamic-workflows), background scripts that orchestrate dozens of subagents at once. Reach for it when a task is too big for one conversation to coordinate, and drop back to `high` for routine work. Full effort guidance is on the [Models](/foundations/models) page.
+
 ### Use plan mode before anything destructive
 
 Plan mode (`/plan`, or Shift+Tab to cycle modes) puts the agent in read-only mode. It explores, reads, thinks, and produces a plan you can review and edit before it touches a single file. For anything non-trivial, this is worth the extra round trip. The cost of letting Claude Code execute a wrong plan against your codebase is much higher than the cost of one extra planning loop.

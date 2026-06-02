@@ -161,6 +161,8 @@ Settings specific to Claude Code. Affects both local desktop sessions and the cl
 
 **Autofix pull requests.** Claude monitors a PR for CI failures and review comments and responds proactively, posting comments on your behalf. Useful for long-running PRs, but the behaviour can be embarrassing if Claude gets something wrong. Leave off until you trust the workflow.
 
+**Dynamic workflows.** Whether Claude can write a background JavaScript script that orchestrates many subagents at once, instead of working a large task turn by turn. Research preview, on by default on paid plans (Claude Code v2.1.154+). This is the toggle behind the `ultracode` keyword and `/effort ultracode`; with it off, those stop triggering runs and `ultracode` disappears from the `/effort` menu. The control lives in Claude Code's `/config` (the Dynamic workflows row), not in this web panel — on Pro that's where you switch it on. Organisations can disable it for everyone from the Claude Code admin settings page, or with `"disableWorkflows": true` in managed settings. Leave it on unless you specifically want to keep large tasks single-threaded. See [/concepts/dynamic-workflows](/concepts/dynamic-workflows) for what it actually does and when it earns its cost.
+
 **Auto-archive after PR merge or close.** Automatically archives the desktop session when its PR gets merged or closed. On. Keeps the session list clean.
 
 **Authorization tokens.** OAuth tokens for Claude Code applications you've authorised. Worth reviewing every few months. Revoke anything you don't recognise or no longer use. This is the kind of cleanup that prevents small problems from turning into bigger ones.

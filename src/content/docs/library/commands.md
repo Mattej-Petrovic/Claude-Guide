@@ -79,9 +79,9 @@ Some commands are only available in certain contexts. `/desktop` shows on macOS 
 | Command | What it does |
 |---|---|
 | `/model [model]` | Switch the active model. Use arrow keys to adjust effort level for models that support it. Takes effect immediately. |
-| `/fast [on\|off]` | Toggle fast mode on or off. |
+| `/fast` | Toggle fast mode: up to 2.5x faster Opus output at the same quality, for a higher per-token cost. Opus-only (4.8 / 4.7 / 4.6); enabling it switches you to Opus. On subscription plans it bills from usage credits. |
 | `/plan [description]` | Enter plan mode. Pass an optional description to start immediately: `/plan fix the auth bug`. |
-| `/effort [low\|medium\|high\|max\|auto]` | Set model effort level. `low/medium/high` persist across sessions. `max` applies to the current session only and requires Opus 4.6. `auto` resets to default. |
+| `/effort [low\|medium\|high\|xhigh\|max\|ultracode\|auto]` | Set the model's effort level. `low/medium/high/xhigh` persist across sessions; `xhigh` is Opus-only (4.8 / 4.7). `max` is the deepest level and applies to the current session only. `ultracode` is session-only and Opus-only: it sets `xhigh` and has Claude orchestrate dynamic workflows for substantive tasks. `auto` resets to the model default (`high` on Opus 4.8). |
 | `/output-style` | Change output style (configured via `/config`). |
 | `/voice` | Toggle push-to-talk voice dictation. Requires a Claude.ai account. |
 

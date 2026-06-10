@@ -1,33 +1,53 @@
 ---
-title: Mythos
-lede: The Claude model that isn't publicly available, and why.
+title: Mythos & Fable
+lede: The models at the frontier of what Anthropic ships, and why they're handled differently.
 section: foundations
 ---
 
-Mythos is the Claude model you can't use yet. Probably won't be able to use for a while. It's listed here because you'll see it referenced and the lineup makes more sense if you know what it is.
+Most Claude models follow a predictable release cadence: announce, general availability, use it in your app. Fable 5 and Mythos 5 are different. They sit at the capability frontier and they were released with a posture that no previous Claude model has had.
 
-## What it is
+## Fable 5
 
-A general-purpose model from Anthropic that turned out to be unusually capable at offensive cybersecurity (finding software vulnerabilities and writing working exploits for them) to a degree that made Anthropic decide not to release it to the public.
+Claude Fable 5 is Anthropic's most capable widely released model. It's not an Opus. It's a new tier name that breaks from the Opus/Sonnet/Haiku structure, positioned above the Claude 4 generation for the most demanding reasoning and long-horizon agentic work.
 
-Anthropic announced it in April 2026 as **Claude Mythos Preview** and shipped it not as a product but as the engine behind **Project Glasswing**, a defensive cybersecurity coalition. Launch partners include AWS, Apple, Google, Microsoft, Cisco, CrowdStrike, NVIDIA, Palo Alto Networks, the Linux Foundation, and JPMorgan Chase, plus around 40 additional organizations that build or maintain critical software infrastructure. Total program is roughly 50 organizations, backed by $100M in usage credits.
+Released June 9, 2026. Generally available on the Claude API, Amazon Bedrock, Vertex AI, Microsoft Foundry, and Claude Platform on AWS. Priced at $10 per million input tokens and $50 per million output tokens.
 
-What they did with it: pointed it at the world's most important software and let it find bugs. Anthropic reports thousands of zero-day vulnerabilities discovered across every major operating system and browser, with patches landing on a rolling basis.
+**What it does differently.** Adaptive thinking is always on and cannot be disabled. The model decides its own reasoning depth on every turn. The raw chain of thought is never exposed — set `display: "summarized"` in the API to receive readable thinking summaries. Extended thinking, which is available on Sonnet 4.6 and Haiku 4.5, is not supported on Fable 5.
 
-## Why you can't have it
+**Safety classifiers.** Fable 5 ships with a classifier layer that can decline certain requests. When this happens, the Messages API returns `stop_reason: "refusal"` as a normal HTTP 200 response — not an error — and identifies which classifier triggered. You're not billed for requests refused before any output is generated. A refused request can usually be retried on another Claude model using the `fallbacks` parameter or SDK middleware.
 
-Anthropic's stated position: the model's cyber capabilities are too dangerous to make broadly available until critical software is in a much stronger state. There is no waitlist, no application form, no self-serve sign-up. The model is reachable through normal Anthropic platforms (API, Bedrock, Vertex AI, Microsoft Foundry) but only after partner approval, which means in practice only if your organization is already on the list.
+**When to reach for it.** After Opus 4.8 on `xhigh` still leaves something on the table. Sustained coherence over very long agentic runs, the hardest reasoning tasks, work that genuinely requires more than Opus can give — those are the cases. It's not a default upgrade from Opus. It's the ceiling you move to when you've actually hit the one below it.
 
-Pricing for partners is $25 / $125 per million input/output tokens, in line with what you'd expect for a tier above Opus.
+## Mythos 5
 
-## What it means for everyone else
+Claude Mythos 5 was released the same day as Fable 5. It shares the same architecture and capabilities. The difference is one thing: no safety classifiers.
 
-Two things, both worth keeping in mind even though you can't run the model yourself.
+This isn't a product choice. It's a deliberate capability decision tied to a specific program. Mythos 5 is available only through **Project Glasswing**, Anthropic's invitation-only defensive cybersecurity initiative. Access requires partner approval — there is no self-serve sign-up, no waitlist, and no application form. Contact your Anthropic, AWS, or Google Cloud account team if your organization is working on critical infrastructure security.
 
-First, the bug fixes are landing in software you use. Most operating systems, browsers, and major tools have been getting patched on the back of Mythos findings. Update your stuff.
+Mythos 5 is priced at $10 per million input tokens and $50 per million output tokens, the same as Fable 5.
 
-Second, the existence of this model is a signal about where the frontier is going. Anthropic has said it plans to release the safeguards developed for Mythos with an upcoming Opus model, meaning a future generally-available model will inherit some of the safety architecture, even if not the underlying capability. The capability itself is presumably reachable to attackers as well, eventually, by some other model.
+## Project Glasswing
 
-## When more comes
+Glasswing launched April 2026 with Claude Mythos Preview — the first model in the Mythos line — and has since expanded with the Mythos 5 release.
 
-This page will get longer when Anthropic ships a Mythos-class model with general-availability safeguards, or when concrete details emerge about what Glasswing partners are doing day-to-day with it. Until then, this is what's on the public record. For the most current Anthropic-side material, see [anthropic.com/glasswing](https://www.anthropic.com/glasswing).
+The program's premise: the capabilities that make Mythos dangerous (finding software vulnerabilities and writing working exploits) are exactly the capabilities needed to secure critical infrastructure before attackers get there. So Anthropic made those capabilities available to a vetted set of organizations and pointed them at the world's most important software.
+
+Founding partners include AWS, Apple, Google, Microsoft, Cisco, CrowdStrike, NVIDIA, Palo Alto Networks, JPMorgan Chase, the Linux Foundation, and Broadcom. Over 40 additional organizations maintaining critical software infrastructure were granted access. The program is backed by $100M in usage credits from Anthropic, plus additional funding to the Apache Software Foundation and OpenSSF.
+
+Within weeks of launch, Mythos Preview had identified thousands of zero-day vulnerabilities across every major operating system and browser, with patches rolling out on an ongoing basis.
+
+**The benchmark numbers.** At Glasswing launch, Anthropic published performance figures for Mythos Preview: 83.1% on CyberGym vulnerability reproduction (versus 66.6% for Opus 4.6) and 77.8% on SWE-bench Pro coding tasks (versus 53.4%). These are the numbers that explain why the program exists. A model that can reproduce known vulnerabilities at that rate can find new ones.
+
+## What it means if you're not a partner
+
+Two things worth keeping in mind:
+
+The bug fixes are already reaching your software. Most operating systems, browsers, and major open-source tools have been receiving patches on the back of Glasswing findings since spring 2026. Update your software.
+
+The safety architecture Fable 5 ships with was developed in response to what Mythos demonstrated. Future generally available models will inherit parts of that work. The frontier capability and the safeguards that accompany it are developing together — that's the dynamic to watch as Anthropic continues releasing.
+
+## Official sources
+
+For the current state of the program and partner list: [anthropic.com/glasswing](https://www.anthropic.com/glasswing).
+
+For model specs and API details: [platform.claude.com/docs/en/about-claude/models/overview](https://platform.claude.com/docs/en/about-claude/models/overview).

@@ -78,6 +78,10 @@ const sections = [
       <p class="landing__meta">
         Not sure where to start? <a href="/guide">How to use this guide</a>
       </p>
+      <p class="landing__updated">
+        <span class="updated-dot" aria-hidden="true"></span>
+        Updated June 10, 2026
+      </p>
     </section>
 
     <section class="landing__sections">
@@ -99,3 +103,32 @@ const sections = [
     </footer>
   </main>
 </BaseLayout>
+
+<style>
+  .landing__updated {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+
+  .updated-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 0 rgba(126, 184, 154, 0.5);
+    animation: pulse-dot 2.4s ease-out infinite;
+    flex-shrink: 0;
+  }
+
+  @keyframes pulse-dot {
+    0%   { box-shadow: 0 0 0 0 rgba(126, 184, 154, 0.55); }
+    60%  { box-shadow: 0 0 0 7px rgba(126, 184, 154, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(126, 184, 154, 0); }
+  }
+</style>

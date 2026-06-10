@@ -1,5 +1,6 @@
 ---
 // Model comparison table with mobile card fallback.
+// Fable 5 is the top-tier column with a gold accent — it sits above Opus.
 // Sonnet 4.6 column header gets a subtle accent — it's the recommended default.
 // Numeric cells (pricing, context, output) are right-aligned.
 // API model ID row renders in monospace.
@@ -11,6 +12,7 @@
     <thead>
       <tr>
         <th class="model-table__feature-col">Feature</th>
+        <th class="model-table__fable">Fable 5</th>
         <th>Opus 4.8</th>
         <th class="model-table__recommended">Sonnet 4.6</th>
         <th>Haiku 4.5</th>
@@ -19,60 +21,63 @@
     <tbody>
       <tr>
         <td class="model-table__label">Tier</td>
-        <td>Most capable</td>
+        <td class="model-table__fable">Most capable</td>
+        <td>Complex &amp; agentic</td>
         <td class="model-table__recommended">Daily driver</td>
         <td>Fast &amp; cheap</td>
       </tr>
       <tr>
         <td class="model-table__label">Released</td>
+        <td class="model-table__fable">June 2026</td>
         <td>May 2026</td>
         <td class="model-table__recommended">February 2026</td>
         <td>October 2025</td>
       </tr>
       <tr>
         <td class="model-table__label">Pricing<br/><span class="model-table__sublabel">per 1M tokens</span></td>
+        <td class="model-table__numeric model-table__fable">$10 in / $50 out</td>
         <td class="model-table__numeric">$5 in / $25 out</td>
         <td class="model-table__numeric model-table__recommended">$3 in / $15 out</td>
         <td class="model-table__numeric">$1 in / $5 out</td>
       </tr>
       <tr>
         <td class="model-table__label">Context window</td>
+        <td class="model-table__numeric model-table__fable">1M tokens</td>
         <td class="model-table__numeric">1M tokens</td>
         <td class="model-table__numeric model-table__recommended">1M tokens</td>
         <td class="model-table__numeric">200K tokens</td>
       </tr>
       <tr>
         <td class="model-table__label">Max output</td>
+        <td class="model-table__numeric model-table__fable">128K tokens</td>
         <td class="model-table__numeric">128K tokens</td>
         <td class="model-table__numeric model-table__recommended">64K tokens</td>
         <td class="model-table__numeric">64K tokens</td>
       </tr>
       <tr>
         <td class="model-table__label">Extended thinking</td>
+        <td class="model-table__fable">No</td>
         <td>No</td>
         <td class="model-table__recommended">Yes</td>
         <td>Yes</td>
       </tr>
       <tr>
         <td class="model-table__label">Adaptive thinking</td>
+        <td class="model-table__fable">Yes (always on)</td>
         <td>Yes</td>
         <td class="model-table__recommended">Yes</td>
         <td>No</td>
       </tr>
       <tr>
         <td class="model-table__label">Latency</td>
+        <td class="model-table__fable">Moderate</td>
         <td>Moderate</td>
         <td class="model-table__recommended">Fast</td>
         <td>Fastest</td>
       </tr>
       <tr>
-        <td class="model-table__label">Knowledge cutoff</td>
-        <td>Jan 2026</td>
-        <td class="model-table__recommended">Aug 2025</td>
-        <td>Feb 2025</td>
-      </tr>
-      <tr>
         <td class="model-table__label">API model ID</td>
+        <td class="model-table__mono model-table__fable">claude-fable-5</td>
         <td class="model-table__mono">claude-opus-4-8</td>
         <td class="model-table__mono model-table__recommended">claude-sonnet-4-6</td>
         <td class="model-table__mono">claude-haiku-4-5-20251001</td>
@@ -83,10 +88,25 @@
 
 <!-- Mobile: one card per model, same data -->
 <div class="model-cards">
+  <div class="model-card model-card--fable">
+    <div class="model-card__header">Fable 5 <span class="model-card__badge model-card__badge--fable">most capable</span></div>
+    <dl class="model-card__data">
+      <dt>Tier</dt><dd>Most capable</dd>
+      <dt>Released</dt><dd>June 2026</dd>
+      <dt>Pricing</dt><dd class="model-card__numeric">$10 in / $50 out per 1M tokens</dd>
+      <dt>Context window</dt><dd class="model-card__numeric">1M tokens</dd>
+      <dt>Max output</dt><dd class="model-card__numeric">128K tokens</dd>
+      <dt>Extended thinking</dt><dd>No</dd>
+      <dt>Adaptive thinking</dt><dd>Yes (always on)</dd>
+      <dt>Latency</dt><dd>Moderate</dd>
+      <dt>API model ID</dt><dd class="model-card__mono">claude-fable-5</dd>
+    </dl>
+  </div>
+
   <div class="model-card">
     <div class="model-card__header">Opus 4.8</div>
     <dl class="model-card__data">
-      <dt>Tier</dt><dd>Most capable</dd>
+      <dt>Tier</dt><dd>Complex &amp; agentic</dd>
       <dt>Released</dt><dd>May 2026</dd>
       <dt>Pricing</dt><dd class="model-card__numeric">$5 in / $25 out per 1M tokens</dd>
       <dt>Context window</dt><dd class="model-card__numeric">1M tokens</dd>
@@ -94,7 +114,6 @@
       <dt>Extended thinking</dt><dd>No</dd>
       <dt>Adaptive thinking</dt><dd>Yes</dd>
       <dt>Latency</dt><dd>Moderate</dd>
-      <dt>Knowledge cutoff</dt><dd>Jan 2026</dd>
       <dt>API model ID</dt><dd class="model-card__mono">claude-opus-4-8</dd>
     </dl>
   </div>
@@ -110,7 +129,6 @@
       <dt>Extended thinking</dt><dd>Yes</dd>
       <dt>Adaptive thinking</dt><dd>Yes</dd>
       <dt>Latency</dt><dd>Fast</dd>
-      <dt>Knowledge cutoff</dt><dd>Aug 2025</dd>
       <dt>API model ID</dt><dd class="model-card__mono">claude-sonnet-4-6</dd>
     </dl>
   </div>
@@ -126,8 +144,189 @@
       <dt>Extended thinking</dt><dd>Yes</dd>
       <dt>Adaptive thinking</dt><dd>No</dd>
       <dt>Latency</dt><dd>Fastest</dd>
-      <dt>Knowledge cutoff</dt><dd>Feb 2025</dd>
       <dt>API model ID</dt><dd class="model-card__mono">claude-haiku-4-5-20251001</dd>
     </dl>
   </div>
 </div>
+
+<style>
+  /* Wide table: break out of content column */
+  .model-table-wrap {
+    width: min(100vw - 2rem, 1100px);
+    margin-left: calc(50% - min(50vw - 1rem, 550px));
+    overflow-x: auto;
+    margin-bottom: var(--space-8);
+  }
+
+  .model-table {
+    width: 100%;
+    min-width: 700px;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+  }
+
+  .model-table thead th {
+    text-align: left;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.03em;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-strong);
+    padding: var(--space-3) var(--space-4);
+    white-space: nowrap;
+  }
+
+  .model-table__feature-col {
+    width: 160px;
+  }
+
+  .model-table tbody td {
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--border-default);
+    color: var(--text-secondary);
+    vertical-align: middle;
+  }
+
+  .model-table tbody tr:last-child td { border-bottom: none; }
+
+  .model-table__label {
+    font-weight: 500;
+    color: var(--text-muted) !important;
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .model-table__sublabel {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  .model-table__numeric {
+    text-align: left;
+    font-variant-numeric: tabular-nums;
+    font-size: 0.85rem;
+  }
+
+  .model-table__mono {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-code);
+  }
+
+  /* Fable 5 column — gold accent */
+  .model-table__fable {
+    background: rgba(217, 183, 70, 0.04);
+    border-left: 1px solid rgba(217, 183, 70, 0.15);
+    border-right: 1px solid rgba(217, 183, 70, 0.15);
+  }
+
+  thead .model-table__fable {
+    color: #c9a84c !important;
+    border-bottom: 1px solid rgba(217, 183, 70, 0.3);
+  }
+
+  /* Sonnet recommended column */
+  .model-table__recommended {
+    background: rgba(126, 184, 154, 0.04);
+    border-left: 1px solid rgba(126, 184, 154, 0.12);
+    border-right: 1px solid rgba(126, 184, 154, 0.12);
+  }
+
+  thead .model-table__recommended {
+    color: var(--accent) !important;
+    border-bottom: 1px solid var(--accent-border);
+  }
+
+  /* Mobile cards */
+  .model-cards {
+    display: none;
+  }
+
+  .model-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-md);
+    padding: var(--space-5);
+    margin-bottom: var(--space-4);
+  }
+
+  .model-card--fable {
+    border-color: rgba(217, 183, 70, 0.25);
+    background: rgba(217, 183, 70, 0.03);
+  }
+
+  .model-card--recommended {
+    border-color: var(--accent-border);
+    background: var(--accent-dim);
+  }
+
+  .model-card__header {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--text-primary);
+    margin-bottom: var(--space-4);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .model-card__badge {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    background: var(--accent-dim);
+    color: var(--accent);
+    border: 1px solid var(--accent-border);
+    border-radius: 999px;
+    padding: 0.1em 0.6em;
+  }
+
+  .model-card__badge--fable {
+    background: rgba(217, 183, 70, 0.1);
+    color: #c9a84c;
+    border-color: rgba(217, 183, 70, 0.25);
+  }
+
+  .model-card__data {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-2) var(--space-4);
+  }
+
+  .model-card__data dt {
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding-top: 0.1em;
+  }
+
+  .model-card__data dd {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+  }
+
+  .model-card__numeric {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .model-card__mono {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-code);
+  }
+
+  @media (max-width: 800px) {
+    .model-table-wrap { display: none; }
+    .model-cards { display: block; }
+  }
+</style>

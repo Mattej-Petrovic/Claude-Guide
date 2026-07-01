@@ -56,5 +56,10 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://claude-g
         observer.observe(el);
       });
     </script>
+
+    <script>
+      import { inject } from '@vercel/analytics';
+      inject();
+    </script>
   </body>
 </html>

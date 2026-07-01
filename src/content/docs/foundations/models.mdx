@@ -6,9 +6,9 @@ section: foundations
 
 import ModelTable from '../../../components/ModelTable.astro';
 
-Anthropic's model lineup has two layers. The first is the **Claude 4 generation**: three sizes — Opus, Sonnet, Haiku — each tuned for different tradeoffs of capability, speed, and cost. The second, newer layer is **Fable 5**: a model above the standard tier structure, released June 2026, for the most demanding work where Opus isn't enough.
+Anthropic's lineup no longer moves on a single version number. The daily driver, Sonnet, is on **5**. The heavyweight, Opus, is on **4.8**. The fast tier, Haiku, is on **4.5**. Above all three sits a separate frontier tier, **Fable 5**, released June 2026 for the most demanding work where Opus is not enough. It is easier to hold the lineup by what each model is for than by what generation it belongs to, because the generations no longer line up.
 
-For most people, most of the time, that top layer doesn't change the answer. **Sonnet 4.6 is the default for most work.** It handles 90%+ of what used to require Opus, at a fifth of the price. Reach for Opus 4.8 when the job is genuinely hard or long-horizon. Reach for Haiku when speed and cost matter more than the last 5% of quality. Reach for Fable 5 only when you've pushed Opus to its limits.
+For most people, most of the time, the frontier tier does not change the answer. **Sonnet 5 is the default for most work.** It is the most agentic Sonnet yet and closes much of the gap to Opus 4.8, at a lower price. Reach for Opus 4.8 when the job is genuinely hard or long-horizon. Reach for Haiku when speed and cost matter more than the last few percent of quality. Reach for Fable 5 only when you've pushed Opus to its limits.
 
 <ModelTable />
 
@@ -18,7 +18,7 @@ For most people, most of the time, that top layer doesn't change the answer. **S
 
 **Opus 4.8** — released May 2026. The most capable model in the Claude 4 generation. Built for long-horizon agentic coding, deep reasoning, and tasks where a model needs to stay coherent for hours. The step-change over Opus 4.7 is in long-horizon agentic coding specifically: it handles long context better, compacts less often, and recovers more cleanly when it does, so it stays on task across long autonomous runs instead of drifting. It's also less likely to skip a tool call the task needed, and it's the strongest computer-use and browser-agent model in the Claude 4 family. Use it when Sonnet wasn't enough, not as a default.
 
-**Sonnet 4.6** — released February 2026. The workhorse. The pattern Anthropic has held across generations is that each new Sonnet matches or beats the previous generation's Opus, and 4.6 is the clearest case of this so far: it handles 90%+ of what people previously reached for Opus to do, at a fifth of the price. It also got a meaningful jump in computer use (browsers, forms, software navigation), which matters if you're using Claude Code, Chrome, or Cowork in agentic modes.
+**Sonnet 5** — released June 30, 2026. The workhorse, and the clearest case yet of a pattern Anthropic has held across generations: each new Sonnet matches or beats the previous generation's Opus. Sonnet 5 is built to be the most agentic Sonnet so far, with its largest gains over Sonnet 4.6 in coding and agentic tool use, and its performance now sits close to Opus 4.8 at a lower price. Two things are worth knowing before you switch. It ships with a new tokenizer, so the same text produces roughly 30% more tokens than on Sonnet 4.6, which changes anything you measure or budget in tokens even though the per-token price is unchanged. And it is the first Sonnet with real-time cybersecurity safeguards, so some high-risk security requests come back refused as a normal response rather than an error. Standard pricing is the same $3/$15 per MTok as Sonnet 4.6, with an introductory $2/$10 in effect through August 31, 2026.
 
 **Haiku 4.5** — released October 2025. The fast-and-cheap tier, but with real intelligence. The reason Haiku matters more than it used to is that 4.5 is the first Haiku that's genuinely useful for non-trivial reasoning, not just classification and extraction. Good for high-volume work, real-time apps, and as a subagent inside more complex workflows where Opus or Sonnet is orchestrating.
 
@@ -26,11 +26,13 @@ For most people, most of the time, that top layer doesn't change the answer. **S
 
 Two related but different features:
 
-**Extended thinking.** The model produces visible reasoning steps before answering. Available on Sonnet 4.6 and Haiku 4.5. Not available on Opus 4.8 or Fable 5. Useful when you want to see the model's chain of reasoning, or when a problem benefits from explicit step-by-step deliberation.
+**Extended thinking.** The model produces visible reasoning steps before answering, driven by a thinking budget you set. Among current models it is available only on Haiku 4.5. Sonnet dropped it with the move to Sonnet 5, which removed the manual budget mode entirely, and it was never offered on Opus 4.8 or Fable 5. Useful when you want to see the model's chain of reasoning, or when a problem benefits from explicit step-by-step deliberation.
 
-**Adaptive thinking.** The model decides on its own whether a turn needs reasoning and how much. Available on Opus 4.8, Sonnet 4.6, and Fable 5 (always on, no opt-out). Not on Haiku. In practice this is what you want for most agentic work: you don't tune the depth turn by turn, the model handles it. You still set the ceiling with the **effort** control — low, medium, high, or xhigh — which tells the model how hard to work before it answers. On Opus 4.8 effort defaults to high. In the Claude apps (claude.ai and desktop) this is no longer buried in the API: there's a thinking toggle and an effort selector right next to the model picker, so you can turn reasoning on and dial the depth without leaving the chat.
+**Adaptive thinking.** The model decides on its own whether a turn needs reasoning and how much. Available on Opus 4.8, Sonnet 5, and Fable 5. On Fable 5 it is always on with no opt-out; on Sonnet 5 it is on by default but you can turn it off; Haiku does not have it. In practice this is what you want for most agentic work: you don't tune the depth turn by turn, the model handles it. You still set the ceiling with the **effort** control (low, medium, high, xhigh), which tells the model how hard to work before it answers. On Opus 4.8 effort defaults to high. In the Claude apps (claude.ai and desktop) this is no longer buried in the API: there's a thinking toggle and an effort selector right next to the model picker.
 
-So: Fable 5 has adaptive thinking always on. Sonnet 4.6 has both. Opus 4.8 has adaptive only. Haiku 4.5 has extended only. This is one of the more confusing parts of the lineup and worth re-reading once.
+Here is the part that trips people up, and it is worth being precise about. When you flip the thinking toggle on for Sonnet 5, you are turning adaptive thinking on, not the old extended thinking. The toggle only gates whether the model may think. It does not hand you the depth dial that extended thinking used to; the model still decides the depth per turn, bounded by your effort setting. Turning it on yourself does not make it extended thinking. The two features differ by who controls the depth once thinking is running, not by who flips the switch.
+
+So: Fable 5 has adaptive thinking always on. Opus 4.8 and Sonnet 5 have adaptive only, with Sonnet 5's toggleable. Haiku 4.5 is now the one model left with extended thinking. This is one of the more confusing parts of the lineup and worth re-reading once.
 
 ## Choosing an effort level
 
@@ -51,7 +53,7 @@ By model:
 
 - **Fable 5.** Same effort levels as Opus, including `xhigh`. Start at **high** or **xhigh** for demanding reasoning and long-horizon agentic work. Because Fable 5 runs adaptive thinking always-on and the model decides its own reasoning depth, the effort lever shapes how hard it works overall rather than switching reasoning on or off. Don't default to `max` — the model is already at the frontier; raise effort only if you see it underperforming on a specific task.
 - **Opus 4.8.** Start at **xhigh** for coding and agentic work; keep **high** as the minimum for other hard reasoning. Step down to **medium** when cost matters, **low** for short scoped tasks and subagents. Save **max** for the rare problem where your own testing shows `xhigh` leaving something on the table. For large, fan-out work (migrations, codebase audits), **ultracode** turns `xhigh` into automatic [dynamic-workflow](/concepts/dynamic-workflows) orchestration. If Opus feels shallow, raise effort before you reach for a longer prompt.
-- **Sonnet 4.6.** **medium** is the everyday recommendation: the best speed/cost/quality balance for most apps. Drop to **low** for chat and high-volume or latency-sensitive work; go to **high** when a task genuinely needs the depth, and **max** for the rare hardest cases. No `xhigh` — that's an Opus and Fable lever.
+- **Sonnet 5.** **medium** is the everyday recommendation: the best speed/cost/quality balance for most apps. Because adaptive thinking is on by default, effort is your main lever for how hard it works. Drop to **low** for chat and high-volume or latency-sensitive work; go to **high** when a task genuinely needs the depth, and **max** for the rare hardest cases. There is no `xhigh`, which stays an Opus and Fable lever.
 - **Haiku 4.5.** No effort control. It's the fast tier; run it as-is and move the job to Sonnet or Opus when it needs tuning.
 
 In the Claude apps, effort is a selector next to the model picker, so you can move between these levels per conversation without touching the API. The same rule of thumb holds everywhere: start one level higher than you think you need, then come down once you've seen the model handle the task.
@@ -76,7 +78,7 @@ You won't encounter it in normal work. It's mentioned here so the lineup makes s
 
 Most of the official guidance frames this as a tradeoff between capability, speed, and cost. In practice, the decision is usually simpler than that:
 
-- Default to **Sonnet 4.6**. Run it until it fails you on something specific.
+- Default to **Sonnet 5**. Run it until it fails you on something specific.
 - If it's failing on reasoning depth or long-horizon coherence, move that workflow to **Opus 4.8**. Don't move everything. Just the part that needs it.
 - Before you switch models, try turning the **effort** control up. A lot of "Sonnet wasn't deep enough" cases are really "Sonnet on default effort wasn't deep enough" — raising effort (or toggling thinking on in the apps) is cheaper than reaching for Opus and often closes the gap.
 - If you're hitting volume or latency walls and the task is well-defined, move that workflow to **Haiku 4.5**. Test it; modern Haiku is more capable than its reputation.
@@ -87,8 +89,10 @@ The common mistake is defaulting to the highest tier available because "more cap
 
 ## The naming shift
 
-Fable 5 marks a change in how Anthropic names models. The previous pattern was size-based tiers within generations: Opus (hardest), Sonnet (middle), Haiku (fastest), each versioned by generation. Fable 5 breaks out of that structure. It's not an Opus. It's a new tier name entirely. The working assumption is that future frontier models may follow this pattern: named releases above the standard Opus/Sonnet/Haiku ladder, available when a model's capabilities require a different release posture — the safety classifiers Fable 5 ships with are part of what makes this release different.
+The lineup is drifting in two directions at once, and both break the old mental model. The first is Fable 5, a named tier that sits above the Opus/Sonnet/Haiku ladder rather than inside it. It is not an Opus. It is a new tier name entirely, and the working assumption is that future frontier models may follow the same pattern: named releases above the standard ladder, shipped when a model's capabilities call for a different release posture, such as the safety classifiers Fable 5 carries.
+
+The second shift is quieter but just as real. The three ladder tiers no longer share a generation number. Sonnet has moved to 5 while Opus sits at 4.8 and Haiku at 4.5, so a higher number on one tier no longer tells you anything about the others. This is why the rest of this page leans on what each model is for rather than what generation it belongs to. Read the tier, not the version.
 
 ## What's next
 
-The pattern to watch is whether a future Sonnet-equivalent matches Opus 4.8. That's been the through-line across generations and it's the most reliable signal of how to move workflows down-tier. Fable 5 and Mythos 5 shipped June 9, 2026 as the current frontier. For the most current model list and official specs, Anthropic's models overview is the source of truth: [platform.claude.com/docs/en/about-claude/models/overview](https://platform.claude.com/docs/en/about-claude/models/overview).
+The pattern to watch has been whether a new Sonnet catches the previous Opus, because that is the most reliable signal of when to move a workflow down a tier and save money without losing quality. With Sonnet 5 closing much of the gap to Opus 4.8, that is exactly what has just happened, so the live question now is which Opus-only work you can safely hand back to Sonnet. Fable 5 and Mythos 5 remain the frontier above all of it. For the most current model list and official specs, Anthropic's models overview is the source of truth: [platform.claude.com/docs/en/about-claude/models/overview](https://platform.claude.com/docs/en/about-claude/models/overview).

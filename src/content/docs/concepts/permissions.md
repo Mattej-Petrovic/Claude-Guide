@@ -78,7 +78,7 @@ Rules live in `permissions.allow`, `permissions.deny`, and `permissions.ask` arr
 
 **plan**. Read-only. Claude can analyze and propose a plan but cannot modify anything. Used for "look at this codebase and tell me how to migrate it" before you commit to changes. Switch out of plan mode when you are ready to execute.
 
-**auto**. Released March 2026 for Team and Enterprise. A Sonnet 4.6 classifier evaluates each tool call before it runs. Safe-looking actions auto-approve, risky-looking ones get blocked. The classifier is reasoning-blind by design (it sees user messages and tool calls, not Claude's own messages or tool results), and a separate prompt-injection probe scans tool outputs before they reach Claude. This is the closest thing to "no prompts but still safe." Currently unavailable on Pro/Max plans.
+**auto**. Released March 2026 for Team and Enterprise. A Sonnet-based classifier evaluates each tool call before it runs. Safe-looking actions auto-approve, risky-looking ones get blocked. The classifier is reasoning-blind by design (it sees user messages and tool calls, not Claude's own messages or tool results), and a separate prompt-injection probe scans tool outputs before they reach Claude. This is the closest thing to "no prompts but still safe." Currently unavailable on Pro/Max plans.
 
 **bypassPermissions**. The "YOLO mode," activated with `--dangerously-skip-permissions`. No prompts, no classifier, full speed. Reserved for isolated environments (containers, VMs, dev sandboxes without internet) where Claude cannot damage anything that matters. Anthropic chose the word "dangerously" deliberately. Note that even bypass respects deny rules, but everything else gets approved.
 

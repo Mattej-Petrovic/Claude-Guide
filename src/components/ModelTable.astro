@@ -1,7 +1,7 @@
 ---
 // Model comparison table with mobile card fallback.
 // Fable 5 is the top-tier column with a gold accent — it sits above Opus.
-// Sonnet 4.6 column header gets a subtle accent — it's the recommended default.
+// Sonnet 5 column header gets a subtle accent — it's the recommended default.
 // Numeric cells (pricing, context, output) are right-aligned.
 // API model ID row renders in monospace.
 // On narrow viewports the table hides and per-model cards are shown instead.
@@ -14,7 +14,7 @@
         <th class="model-table__feature-col">Feature</th>
         <th class="model-table__fable">Fable 5</th>
         <th>Opus 4.8</th>
-        <th class="model-table__recommended">Sonnet 4.6</th>
+        <th class="model-table__recommended">Sonnet 5</th>
         <th>Haiku 4.5</th>
       </tr>
     </thead>
@@ -30,7 +30,7 @@
         <td class="model-table__label">Released</td>
         <td class="model-table__fable">June 2026</td>
         <td>May 2026</td>
-        <td class="model-table__recommended">February 2026</td>
+        <td class="model-table__recommended">June 2026</td>
         <td>October 2025</td>
       </tr>
       <tr>
@@ -51,14 +51,14 @@
         <td class="model-table__label">Max output</td>
         <td class="model-table__numeric model-table__fable">128K tokens</td>
         <td class="model-table__numeric">128K tokens</td>
-        <td class="model-table__numeric model-table__recommended">64K tokens</td>
+        <td class="model-table__numeric model-table__recommended">128K tokens</td>
         <td class="model-table__numeric">64K tokens</td>
       </tr>
       <tr>
         <td class="model-table__label">Extended thinking</td>
         <td class="model-table__fable">No</td>
         <td>No</td>
-        <td class="model-table__recommended">Yes</td>
+        <td class="model-table__recommended">No</td>
         <td>Yes</td>
       </tr>
       <tr>
@@ -79,7 +79,7 @@
         <td class="model-table__label">API model ID</td>
         <td class="model-table__mono model-table__fable">claude-fable-5</td>
         <td class="model-table__mono">claude-opus-4-8</td>
-        <td class="model-table__mono model-table__recommended">claude-sonnet-4-6</td>
+        <td class="model-table__mono model-table__recommended">claude-sonnet-5</td>
         <td class="model-table__mono">claude-haiku-4-5-20251001</td>
       </tr>
     </tbody>
@@ -119,17 +119,17 @@
   </div>
 
   <div class="model-card model-card--recommended">
-    <div class="model-card__header">Sonnet 4.6 <span class="model-card__badge">recommended</span></div>
+    <div class="model-card__header">Sonnet 5 <span class="model-card__badge">recommended</span></div>
     <dl class="model-card__data">
       <dt>Tier</dt><dd>Daily driver</dd>
-      <dt>Released</dt><dd>February 2026</dd>
+      <dt>Released</dt><dd>June 2026</dd>
       <dt>Pricing</dt><dd class="model-card__numeric">$3 in / $15 out per 1M tokens</dd>
       <dt>Context window</dt><dd class="model-card__numeric">1M tokens</dd>
-      <dt>Max output</dt><dd class="model-card__numeric">64K tokens</dd>
-      <dt>Extended thinking</dt><dd>Yes</dd>
+      <dt>Max output</dt><dd class="model-card__numeric">128K tokens</dd>
+      <dt>Extended thinking</dt><dd>No</dd>
       <dt>Adaptive thinking</dt><dd>Yes</dd>
       <dt>Latency</dt><dd>Fast</dd>
-      <dt>API model ID</dt><dd class="model-card__mono">claude-sonnet-4-6</dd>
+      <dt>API model ID</dt><dd class="model-card__mono">claude-sonnet-5</dd>
     </dl>
   </div>
 

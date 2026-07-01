@@ -12,7 +12,7 @@ Claude Fable 5 is Anthropic's most capable widely released model. It's not an Op
 
 Released June 9, 2026. Generally available on the Claude API, Amazon Bedrock, Vertex AI, Microsoft Foundry, and Claude Platform on AWS. Priced at $10 per million input tokens and $50 per million output tokens.
 
-**What it does differently.** Adaptive thinking is always on and cannot be disabled. The model decides its own reasoning depth on every turn. The raw chain of thought is never exposed — set `display: "summarized"` in the API to receive readable thinking summaries. Extended thinking, which is available on Sonnet 4.6 and Haiku 4.5, is not supported on Fable 5.
+**What it does differently.** Adaptive thinking is always on and cannot be disabled. The model decides its own reasoning depth on every turn. The raw chain of thought is never exposed — set `display: "summarized"` in the API to receive readable thinking summaries. Extended thinking, which among current models is available only on Haiku 4.5, is not supported on Fable 5.
 
 **Safety classifiers.** Fable 5 ships with a classifier layer that can decline certain requests. When this happens, the Messages API returns `stop_reason: "refusal"` as a normal HTTP 200 response — not an error — and identifies which classifier triggered. You're not billed for requests refused before any output is generated. A refused request can usually be retried on another Claude model using the `fallbacks` parameter or SDK middleware.
 
